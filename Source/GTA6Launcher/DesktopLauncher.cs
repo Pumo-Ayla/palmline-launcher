@@ -555,6 +555,7 @@ internal sealed partial class DesktopLauncher
         Find<Button>("Play").IsEnabled = false;
         window.Closed += delegate {
             componentScan?.Cancel();
+            notices?.Dispose();
             EndAchievementSession();
             historyTimer.Stop();
             closed=true;
@@ -787,6 +788,7 @@ internal sealed partial class DesktopLauncher
         return playing || launchButton.State==LaunchState.GameFailed ? LaunchState.GameFailed : LaunchState.WarmupFailed;
     }
     void FailLaunch(LaunchState state,string reason) {
+        notices?.ResetSession();
         launchButton.FailureReason=string.IsNullOrWhiteSpace(reason) ? Ui.Text("启动失败，请查看实时日志") : reason.Trim();
         Append("Launch failure: "+Ui.EnglishStatus(launchButton.FailureReason));
         SetLaunchState(state);
@@ -844,6 +846,7 @@ internal sealed partial class DesktopLauncher
     string nextShaderAction="", shaderActionGame, shaderActionProject;
     void Schedule(string shaderAction="",bool launchWhenReady=false) {
         if (playing || updates.Required) return;
+        notices?.ResetSession();
         launchAfterWarmup=launchWhenReady;
         nextShaderAction=shaderAction;
         shaderActionGame=activeGame?.Id;
@@ -883,6 +886,19 @@ internal sealed partial class DesktopLauncher
         return si;
     }
     AchievementToast.Session achievementSession;
+    AchievementToast.LauncherNotices notices;
+    void Notify(LauncherNoticeKind kind,int gamePid=0) {
+        if(closed) return;
+        try {
+            if(notices==null) notices=new AchievementToast.LauncherNotices(new System.Windows.Interop.WindowInteropHelper(window).Handle,Append);
+            var gameWindow=IntPtr.Zero;
+            if(gamePid>0) {
+                try { using(var game=Process.GetProcessById(gamePid)) gameWindow=game.MainWindowHandle; }
+                catch(ArgumentException) {} catch(InvalidOperationException) {}
+            }
+            notices.Show(kind,gameWindow);
+        } catch(Exception ex) { Append("Launcher notification: "+ex.Message); }
+    }
     void EndAchievementSession() { achievementSession?.Dispose(); achievementSession=null; }
     void Begin() {
         if (closed || updates.Required) return;
@@ -986,6 +1002,10 @@ internal sealed partial class DesktopLauncher
         if (kind == "LOG") { achievementSession?.Observe(msg); return; }
         if (kind == "RUN") { logDirectory = msg; return; }
         if(launchButton.Failed) return;
+        if(kind=="PRELOADING") {
+            if(!updates.Required && launchButton.State==LaunchState.Warming) Notify(LauncherNoticeKind.Preloading);
+            return;
+        }
         if (kind == "READY") {
             if(playing || restart) return;
             if(running=="victory-nvidia") {
@@ -1000,7 +1020,9 @@ internal sealed partial class DesktopLauncher
                 }
             }
             workerShaderAction="";
+            bool newlyReady=launchButton.State==LaunchState.Warming;
             SetLaunchState(LaunchState.Ready);
+            if(newlyReady && !updates.Required) Notify(LauncherNoticeKind.Ready);
             if(launchAfterWarmup) { launchAfterWarmup=false; StartPreparedGame(); }
             return;
         }
@@ -1029,8 +1051,15 @@ internal sealed partial class DesktopLauncher
             return;
         }
         if (kind == "PLAYING" && launchButton.State==LaunchState.Stopping) return;
-        if (kind == "PLAYING") { if(int.TryParse(msg,out int gamePid)) achievementSession?.Attach(gamePid); SetLaunchState(LaunchState.Playing); return; }
+        if (kind == "PLAYING") {
+            if(launchButton.State==LaunchState.Playing) return;
+            if(int.TryParse(msg,out int gamePid)) achievementSession?.Attach(gamePid);
+            SetLaunchState(LaunchState.Playing);
+            Notify(LauncherNoticeKind.Started,gamePid);
+            return;
+        }
         if (kind == "EXIT") {
+            notices?.ResetSession();
             EndAchievementSession();
             if(msg!="0") { FailLaunch(LaunchState.GameFailed,Ui.Format("游戏退出码 {0}",msg)); return; }
             if(launchButton.State==LaunchState.Starting || launchButton.State==LaunchState.Rendering) {

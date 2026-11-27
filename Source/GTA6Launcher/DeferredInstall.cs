@@ -144,6 +144,7 @@ internal sealed partial class DesktopLauncher {
             ready.Emulator=ready.Compatible.Contains(game.Emulator) ? game.Emulator : ready.Compatible.First();
             WriteLibrary(games.Select(g=>g==game ? ready : g),game.Id);
             games[games.IndexOf(game)]=ready; RefreshGameTile(ready); ActivateGame(ready,false); installMessage="";
+            Notify(LauncherNoticeKind.Installed);
         } catch(Exception ex) {
             installMessage=ex is OperationCanceledException ? Ui.Text("下载已取消") : ex.Message; Append(installMessage);
         } finally {

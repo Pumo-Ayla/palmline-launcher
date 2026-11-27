@@ -44,6 +44,10 @@ internal sealed class ProjectHoverCard
         var benchmark=project.Element("performance");
         return benchmark?.Attribute("source")!=null || (string)benchmark?.Attribute("revision")==(string)project.Attribute("commit") ? benchmark : null;
     }
+    static bool SupportsAchievements(XElement project) {
+        string id=(string)project.Attribute("id");
+        return id=="cgbj" || id=="victory-nvidia";
+    }
     public void Register(RadioButton tile, XElement project) {
         tile.DataContext=project;
         tile.MouseEnter+=delegate { Schedule(tile); };
@@ -60,7 +64,7 @@ internal sealed class ProjectHoverCard
     public void UpdateHelp(RadioButton tile) {
         var project=(XElement)tile.DataContext;
         var benchmark=Benchmark(project);
-        string details=Ui.Text((string)project.Attribute("platform"));
+        string details=Ui.Text("是否支持成就")+" · "+Ui.Text(SupportsAchievements(project) ? "支持" : "不支持");
         string stop=Ui.Language=="en-US" || Ui.Language=="ko-KR" ? ". " : "。";
         if(settings.ShowFps && benchmark!=null) details+=stop+Ui.Text((string)benchmark.Attribute("rate"))+" · "+Ui.Text(benchmark.Value);
         string credit=(string)project.Attribute("credit");
@@ -96,8 +100,8 @@ internal sealed class ProjectHoverCard
         Find<TextBlock>("CardName").Text=(string)project.Attribute("name");
         string credit=(string)project.Attribute("credit");
         Find<TextBlock>("CardRepo").Text=credit==null ? repo : repo+"\n"+Ui.Text(credit);
-        var platform=Find<TextBlock>("CardPlatform");
-        platform.Text=(string)project.Attribute("vendor") ?? Ui.Text("待核实");
+        bool supportsAchievements=SupportsAchievements(project);
+        Find<TextBlock>("CardAchievementStatus").Text=Ui.Text(supportsAchievements ? "支持" : "不支持");
         Find<TextBlock>("CardAverage").Text=Ui.Text((string)benchmark?.Attribute("rate") ?? "未公布");
         Find<TextBlock>("CardFpsLabel").Text=Ui.Text((string)benchmark?.Attribute("source")=="群友反馈" ? "游戏内" : "游戏内 FPS");
         Find<TextBlock>("CardStability").Text=Ui.Text((string)benchmark?.Attribute("stability") ?? "暂无长期记录");
@@ -112,10 +116,9 @@ internal sealed class ProjectHoverCard
         string versionLabel=(string)project.Attribute("distribution")=="portable" ? "SHA-256  /  " : Ui.Text("开源仓库")+"  ·  GitHub  /  ";
         Find<TextBlock>("CardRevision").Text=versionLabel+revision.Substring(0,Math.Min(8,revision.Length));
         Find<TextBlock>("CardFetched").Text=(string)project.Attribute("distribution")=="portable" ? Ui.Text("兼容启动器本机存档") : ProjectDisplaySettings.FormatPullTime((string)project.Attribute("fetched"));
-        string id=(string)project.Attribute("id");
         var achievement=Find<StackPanel>("CardAchievementSupport");
         Find<TextBlock>("CardAchievementSystem").Text=AchievementToast.Session.SystemName;
-        achievement.Visibility=id=="victory-nvidia" ? Visibility.Visible : Visibility.Collapsed;
+        achievement.Visibility=supportsAchievements ? Visibility.Visible : Visibility.Collapsed;
         card.Visibility=Visibility.Visible;
         Place();
     }

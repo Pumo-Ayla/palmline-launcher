@@ -885,6 +885,7 @@ def serve_session(key, lifetime, full=False, clear=False):
             view = Path(lifetime.enter_context(tempfile.TemporaryDirectory(prefix="pal-title-", dir=parent)))
         with exclusive(lock), tempfile.TemporaryDirectory(dir=run) as temp:
             phase(run, "prepare")
+            send("PRELOADING", key)
             send("LOG", f'{project["repo"]} @ {project["commit"][:12]}')
             work = Path(temp)
             cancel_event = os.environ.get("PALMLINE_WARMUP_EVENT")

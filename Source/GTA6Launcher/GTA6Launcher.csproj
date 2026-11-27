@@ -5,7 +5,7 @@
     <UseWindowsForms Condition="'$(PortableBuild)'=='true'">true</UseWindowsForms>
     <AppHostRelativeDotNet Condition="'$(PortableBuild)'=='true'">Runtime\DotNet</AppHostRelativeDotNet>
     <AppHostDotNetSearch Condition="'$(PortableBuild)'=='true'">AppRelative</AppHostDotNetSearch>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <ApplicationManifest>Launcher.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\Palmline.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
@@ -41,6 +41,7 @@
     <Reference Condition="'$(PortableBuild)'!='true'" Include="System.IO.Compression.FileSystem" />
     <EmbeddedResource Include="Views\Home.xaml" LogicalName="Main.xaml" />
     <EmbeddedResource Include="Assets\Strings.tsv" LogicalName="Strings.tsv" />
+    <EmbeddedResource Include="Assets\LauncherNotices\*.png" LogicalName="LauncherNotice.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(ComponentCatalogPath)" LogicalName="ComponentIndex.tsv" />
     <Content Include="$(ComponentLibraryPath)" Link="Runtime\Components\Library.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest"/>
     <EmbeddedResource Include="Assets\GtaViChapters.tsv" LogicalName="GtaViChapters.tsv" />

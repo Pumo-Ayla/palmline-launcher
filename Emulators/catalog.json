@@ -1,10 +1,10 @@
 {
-  "version": "1.0.3",
+  "version": "1.0.4",
   "package": {
-    "name": "SR-Emulators-1.0.3.zip",
+    "name": "SR-Emulators-1.0.4.zip",
     "size": 61296211,
-    "sha256": "2581d2c3d8748e6833040e7a4184da1d401e46d9fe0cef3724647c1f3f12fc2b",
-    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.3/SR-Emulators-1.0.3.zip"
+    "sha256": "73ccaf5cfcea834f9795b80de2cfffef23fbb29f9ed1d3104153a2e34120e966",
+    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/SR-Emulators-1.0.4.zip"
   },
   "projects": [
     {

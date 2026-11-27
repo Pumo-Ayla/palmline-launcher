@@ -470,6 +470,7 @@ internal sealed partial class DesktopLauncher
             File.Delete(ManualImportMarker);
         } catch(Exception e) when(IsCardFileError(e)) { Append(e.Message); }
         ActivateGame(game,false);
+        if(game.Pending==null) Notify(LauncherNoticeKind.Installed);
         OpenImport(false);
         DisplayGame(true);
         Schedule();

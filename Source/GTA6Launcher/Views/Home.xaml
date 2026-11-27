@@ -1430,16 +1430,8 @@
             <Border BorderThickness="0,1" BorderBrush="#37333F" Padding="0,10" Margin="0,13,0,10">
               <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="1.12*"/><ColumnDefinition Name="CardFpsColumn" Width="*"/><ColumnDefinition Width="1.23*"/></Grid.ColumnDefinitions>
                 <StackPanel>
-                  <TextBlock Text="{DynamicResource 'ui.适配平台'}" Style="{StaticResource cardCaption}"/>
-                    <TextBlock Name="CardPlatform" FontWeight="ExtraBold">
-                      <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource cardValue}">
-                        <Setter Property="Foreground" Value="#BDBDC7"/>
-                        <Style.Triggers>
-                          <Trigger Property="Text" Value="NVIDIA"><Setter Property="Foreground" Value="#A7DE40"/></Trigger>
-                          <Trigger Property="Text" Value="AMD"><Setter Property="Foreground" Value="#FF7177"/></Trigger>
-                        </Style.Triggers>
-                      </Style></TextBlock.Style>
-                    </TextBlock>
+                  <TextBlock Text="{DynamicResource 'ui.是否支持成就'}" Style="{StaticResource cardCaption}" TextWrapping="Wrap"/>
+                  <TextBlock Name="CardAchievementStatus" FontWeight="ExtraBold" Style="{StaticResource cardValue}" TextWrapping="Wrap"/>
                 </StackPanel>
                 <StackPanel Name="CardFpsGroup" Grid.Column="1"><TextBlock Name="CardFpsLabel" Text="{DynamicResource 'ui.游戏内 FPS'}" Style="{StaticResource cardCaption}"/><TextBlock Name="CardAverage" Foreground="{StaticResource sunsetType}" Style="{StaticResource cardValue}"/></StackPanel>
                 <StackPanel Grid.Column="2"><TextBlock Text="{DynamicResource 'ui.稳定性 · 上游记录'}" Style="{StaticResource cardCaption}"/><TextBlock Name="CardStability" Style="{StaticResource cardValue}"/></StackPanel>

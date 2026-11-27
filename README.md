@@ -1,67 +1,126 @@
-# Series Relay Launcher 用户指南
+# Series Relay Launcher
 
-Series Relay Launcher 是 Windows x64 上的游戏实例启动器。把已有的 Xbox Series 构建导入游戏库后，你可以为每个实例选择运行引擎、配置输入，在大厅查看启动状态、游玩记录和成就。**内置预设适配 CYBERLEEK · v1.0.2.1**。下文的专用键位、HUD 提示和成就目录均以这个构建为准。
+English · [简体中文](docs/GUIDE.zh-CN.md) · [繁體中文](docs/GUIDE.zh-TW.md) · [日本語](docs/GUIDE.ja.md) · [한국어](docs/GUIDE.ko.md)
 
-**[下载 Windows 便携版 v1.0.3](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.3/Launcher-1.0.3.zip)** · [最新发行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新说明](Updates/RELEASE.md) · [开发者指南](docs/DEVELOPMENT.zh-CN.md)
+A portable Windows x64 launcher for managing Xbox Series game instances. Import your own game files, choose a compatibility layer, configure controls, and keep saves, play history and local achievements in your library.
 
-## 第一次启动
+**[Download the complete Windows build · v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [Release notes](Updates/RELEASE.md) · [Developer guide](docs/DEVELOPMENT.md)
 
-1. 将启动器 ZIP 完整解压到可写目录，双击 **`SRLauncher.exe`**。首次界面为英文。点击右上角齿轮，在语言选项里选择「简体中文」。
-2. 点击左侧 **＋**，选择「本地目录导入」或「磁力链接导入」。如果你持有 **CYBERLEEK · v1.0.2.1**，可同时选中下方的同名预设。它会填好实例名称、图标、详情卡和大厅外观。
-3. 选取自己的游戏目录或输入磁力链接，点击「检查」。按页面提示补齐游戏 EXE 或指定其来源。检查结果会留在当前页面，方便你核对。预设流程检查通过后点「完成」，自行配置则点「下一步」编辑详情卡和大厅背景。
-4. 回到大厅，选择实例。下载或解压尚在进行时可以查看安装状态。等待启动按钮显示「启动游戏」后点击。
+## Supported emulators and compatibility layers
 
-| 手头的文件 | 导入时怎么选 |
+| Included layer | Instance profile | Features exposed by this launcher |
+| --- | --- | --- |
+| cool_fox (CGBJ) | Independently optimized | Built-in and custom keyboard/mouse mappings, in-game keycap rendering, shader and pipeline warmup, local achievements |
+| VIctory-NVIDIA | Independently optimized | Native preload, rendering controls, hardware-dependent DLSS or FSR frame generation, local achievements |
+| XCL (Xbox Series X\|S) | General XCL profile | General launch path, XCL shader preparation and native-format save management. Title compatibility depends on the engine. |
+
+The project card shows whether the selected layer supports achievements. Its upstream repository, pinned revision and distribution are listed in the [engine catalog](Emulators/catalog.json).
+
+## Independently optimized titles
+
+| Preset | Target build | What the preset configures |
+| --- | --- | --- |
+| **CYBERLEEK · v1.0.2.1** | Xbox Series build v1.0.2.1, manifest TitleId `7952987A` | Library name, icon, detail card, lobby artwork and access to cool_fox and VIctory-NVIDIA. Supply the matching game data during import. |
+
+## How to load a game
+
+### Open the import wizard
+
+1. Extract the **launcher** ZIP into a writable folder. Keep its subfolders together and double-click **`SRLauncher.exe`**. A fresh installation opens in English. The gear at the top right contains the interface language setting.
+2. Click **＋** near the bottom of the left rail. The three-dot tile represents the new instance while you configure it.
+3. Under **Load game files**, select **Import from folder** for a local installation or a directory of archives, or **Import via magnet link** for a torrent. If your files match **CYBERLEEK · v1.0.2.1**, you can also select that preset below the two source cards. Click **Next**.
+4. Follow the path below that matches your files. Keep the launcher directory, the folder containing your game or source volumes, and the destination for newly extracted files distinct when choosing paths.
+
+![The import screen with a local source and the built-in preset selected](docs/media/import-source.png)
+
+### A. I already have an extracted game folder
+
+1. Open the folder picker and locate **`MicrosoftGame.Config`**. For example, if it is in `D:\Games\Example\GameData\MicrosoftGame.Config`, select `GameData` or its immediate parent `Example`. Selecting an entire drive or a library several levels above the manifest will not locate the game.
+2. Click **Check**. For the optimized build the launcher reads the manifest and the headers of `common.rpf`, `shaders.rpf`, `levels.rpf` and `textures.rpf`. If a file is named in the error, check both its location and whether the download or extraction finished.
+3. When asked whether the game includes its executable, choose **Yes, find it automatically** if it is in the location declared by the manifest. For an external copy choose **Provide the EXE separately**, then browse for **your own EXE** or select the matching item in **Bundled EXE**. The usual executable name for this build is `game_scarlett_master.exe`.
+4. Click **Check** to validate the executable against the data. A successful check leaves the result on screen. With the preset, click **Finish** to add the instance. With a custom presentation, click **Next**, complete the card and lobby steps below, then finish. This instance uses the selected files in place.
+5. Select the new tile in the library. Wait for warmup and click **Play**.
+
+### B. I have a ZIP, 7Z, RAR or multipart archive
+
+1. Choose **Import from folder** and select the directory **containing** the archive. For a multipart set, keep every volume together with its original name. In a set named `Example.part01.exe`, `Example.part02.rar` and `Example.part03.rar`, the first file is the self-extracting archive header. Select the folder in the launcher instead of running that EXE.
+2. Click **Check**. The wizard shows the detected archive and volume count. If several archives are present, choose the intended archive or first volume. Replace missing volumes before continuing.
+3. Answer the executable question. Choose automatic discovery if the archive includes the game program. If you have a data-only archive, supply a separate EXE, a local ZIP/RAR/7Z containing it, or the matching bundled EXE.
+4. Select an extraction mode **and an existing writable destination directory**. **Extract and keep originals** retains the source for a retry. The source-volume deletion option can release a fully consumed RAR volume when the next one opens. A single source archive can be deleted once extraction completes and a game manifest is found. A later failure or interruption can require downloading deleted volumes again. The deletion option requires explicit confirmation.
+5. Finish the source check and add the instance. **Source checked. Install from the library.** means that an installation plan has been saved. Select the new tile and click **Extract and install**. After the extracted files and EXE pass validation, the instance enters warmup. Click **Play** when ready.
+
+### C. I have a magnet link
+
+1. Choose **Import via magnet link**, paste the complete `magnet:?` URI and click **Check**. During source inspection, the launcher retrieves torrent metadata and examines the file list.
+2. A file list containing `MicrosoftGame.Config` takes the loose-file path. A list containing a supported archive without a visible manifest takes the archive path. At this point you may still need to tell the wizard whether the executable is inside.
+3. Choose automatic EXE discovery or provide it separately. The magnet workflow also accepts a second magnet link or an HTTP(S) direct file URL for an EXE or EXE archive. A download landing page is unsuitable as a file source.
+4. Choose the output directory. An archive source also asks for the extraction mode and, for source deletion, consent. Finish adding the instance, return to the library and click **Start download**. An archive torrent downloads its source files to the destination before extraction. Allow space for the archive and the extracted output.
+5. If inspection times out after 60 seconds, check for an online source of metadata. A 90-second data timeout during transfer concerns the requested data. Open the install button's menu to inspect the destination or cancel an active transfer. After installation and warmup, click **Play**.
+
+### Customizing the instance
+
+The built-in preset skips the card and lobby editors. For a custom instance, enter a name and click the icon next to it to choose artwork. The first character of the name supplies the fallback icon. The detail cover and logo accept PNG, JPEG and BMP. Drag the logo to position it or drag its corner to resize it. Switch among the fresh, played and achievements previews to check how much of the cover the data occupies.
+
+Choose the launcher configuration. Under **Independently optimized**, select the actual version row as well as the profile card. Click **Check** to verify the selected runtime files, then **Next**. In the lobby editor you can select background artwork or keep the default. Click **Finish** to save. For pending downloads and archives, continue with the install button in the lobby.
+
+## Keyboard, mouse and in-game prompts
+
+Long-press the **input icon** at the bottom left to switch between controller and keyboard/mouse modes. In keyboard mode, a single click opens mapping. On CGBJ, select the built-in VI profile to use the bindings below, or click **＋** in the slot rail to create your own.
+
+| Built-in context | Controls |
 | --- | --- |
-| 已解压的游戏目录 | 选择游戏资源所在目录。启动器检查清单、必要资源和 EXE。 |
-| 单个压缩包或分卷归档 | 将分卷放在同一目录，让启动器识别主卷，选好解压目标目录。「标准解压」保留原包，可从头重试。 |
-| 磁力链接 | 检查下载源后，根据文件清单区分散装文件和压缩包。归档需要设置解压目录，安装进度会在入库后显示。 |
-| 游戏 EXE 单独存放 | 在 EXE 来源页面指定本地文件或界面支持的压缩包、磁力链接。版本匹配时也可以从内置列表选取。 |
+| On foot | WASD to move, right mouse to aim, left mouse to fire, Shift to sprint, Space to jump. |
+| Driving | F6 switches between on-foot and driving layers. W accelerates, S brakes, A/D steer, Space applies the handbrake. |
+| Menus and shortcuts | Arrow keys navigate, Enter confirms, Backspace goes back, Esc opens pause. Hold Alt for character switching. |
 
-**磁盘空间紧张时**可以选「解压并删除源分卷」。已经删除的卷无法用于重试。中断、断电或校验失败后，可能需要重新下载。只有另有备份或能重新取得源文件时再确认。
+The custom wizard presents 18 controls, including face buttons, triggers, shoulders and stick clicks. Press the keyboard key for the highlighted control, or press the mouse button inside the white capture field. Check the captured value and advance. Click the value to record it again. WASD is reserved for movement. Save the final control, then select your profile. The keyboard view lets you inspect the active bindings.
 
-## 用键盘和鼠标游玩
+![Controller, keyboard and mouse views in the mapping screen](docs/media/keyboard-mapping.png)
 
-在左下角**长按输入图标**切换到键鼠模式，再**单击**打开「键鼠映射」。使用内置键位时，选中带 VI 标识的预设即可。想改键时，点配置槽的 **＋**，跟随手柄上高亮的按钮逐项录入。录入鼠标键时，把指针放在白色输入框内。完成最后一项后保存，可在配置槽之间切换。
+**To change what appears on the game HUD**, select the matching optimized instance, CGBJ, keyboard mode and a complete mapping. Enable **Show bound keys in game** on the mapping page. Wait for key prompt preparation before playing. Supported button artwork becomes a keycap, and supported text prompts use the same action binding. For example, aiming can display RMB. Close the game before changing this option or the active mapping. Each supported resource is prepared in a session copy.
 
-![键鼠映射操作动图，依次展示新建配置、录入 A 键和保存成功](docs/media/keyboard-mapping.gif)
+## Reading the lobby and managing saves
 
-内置键位按步行和驾驶分层。按 **F6** 切换两层，避免同一个按键在错误的场景触发。
-
-| 场景 | 常用操作 |
+| Indicator | Meaning and next action |
 | --- | --- |
-| 步行 | WASD 移动，鼠标右键瞄准，左键射击。 |
-| 驾驶 | W 加速，S 制动，A / D 转向，空格手刹。 |
-| 查看绑定 | 在映射页切换手柄与键盘视图，查看当前方案及按键反馈。 |
+| White rail marker, three dots | Import draft. Continue the wizard or exit to return to the prior instance. |
+| Blue | Download or extraction in progress. The install button shows the active stage. |
+| Yellow | Shader or pipeline preparation. Open the button details for the current count. |
+| Green | Ready to play or currently running. The running instance keeps its marker when you browse another tile. |
+| Red | Currently unavailable. Check the instance, selected engine, files and latest log. |
 
-### 让游戏内提示显示实际键位
+v1.0.4 has separate notifications for installation completion, preload start, preload completion and successful game start. The final notification follows the first reported frame. You can browse the library during play. The launcher permits one active game session.
 
-在此预设下选择 **cool_fox（CGBJ）**，启用键鼠模式并选中一套完整配置。在映射页勾选 **「替换为实际键位」**（英文为 **Show bound keys in game**），等「正在准备键位提示」结束后启动。支持的操作提示会显示实际绑定，例如瞄准显示鼠标右键，跳跃显示空格。改绑后请退出游戏，让启动器按新方案重新准备。
+Open the detail card at the lower left to see story progress, time played and the last launch. For backups, open the save library under the launch options. Exit the game, select the desired slot, then use **Export save** to create a ZIP. **Import save** adds an external slot. XCL uses its own save layout. The selected slot determines the data presented at the next launch.
 
-游戏 HUD 中的手柄按钮会重绘成键帽，帮助文字里的操作标记也会随之替换。处理范围取决于该构建的图标库和文本资源。v1.0.3 通过 CGBJ 引擎应用自定义映射和 HUD 重绘。
+Right-click an instance to remove it. **Remove launcher instance only** keeps the game files and saves. The option to remove the instance together with its files shows the target directory before confirmation. It is disabled for shared game directories and protected locations.
 
-## 查看成就与游玩记录
+### Test a controller and read project benchmarks
 
-展开大厅左下角的游戏详情卡，可以查看游戏进度、游玩时长、上次启动时间和成就记录。**单击成就卡**可展开名称、达成条件以及已记录的首次达成时间。未完成的卡片显示已记录的进度，已完成的卡片带勾。
+In controller mode, click the input icon to open the live input test. Press buttons, move both sticks and squeeze each trigger to check their response. Controllers that report motion sensors can also drive the orientation preview. Enable **Show reported frame rates** in Settings to see the upstream project’s test scene and frame rate on its card. Those measurements belong to the hardware and scene listed by that project.
 
-游玩期间，**SR Achievement Event Monitoring System** 会读取当前实例的本地运行事件。首次观察到更高进度时显示进度提示，达到 100% 时显示完成通知。这个预设的目录共 **55 项**。记录归属于当前启动器实例，显示的是本机观察到的进度。
+## Achievements
 
-![成就浮层动效示例，「仿若天堂」达成后显示完成勾](docs/media/achievement-unlock.webp)
+**SR Achievement Event Monitoring System** records supported events for the current instance. The optimized catalog contains **55 entries**. Click a card to expand its condition and recorded completion time. Increasing progress can trigger a notification. Completion adds a check mark. An achievement-service query alone leaves progress unchanged.
 
-## 引擎、预热与故障排查
+The displayed story percentage comes from readable save data, while achievement percentages come from recorded runtime events. Restoring a save or switching instances can give the two views different histories.
 
-| 你看到的情况 | 可以做什么 |
-| --- | --- |
-| 想切换运行引擎 | 从大厅的「启动选项」选择当前实例提供的引擎。CYBERLEEK 预设对应 cool_fox 和 VIctory-NVIDIA，通用配置使用 XCL。发行包所用的具体提交见[模拟器清单](Emulators/catalog.json)。 |
-| 启动按钮显示「管线预热」 | 查看按钮的预热详情。「缓存中的着色器」是着色器数量，「已处理管线」是本轮已经处理和待处理的渲染管线数。二者计数对象不同。重复启动仍可能有管线准备阶段，请以本次进度为准。 |
-| 想调整画质或插帧 | 打开所选引擎的渲染设置。可用的超分辨率、帧生成和倍率由引擎版本与显卡共同决定。项目首页记录了各代硬件的限制，仓库内的引擎版本由发行清单固定。[VIctory-NVIDIA 上游说明](https://github.com/trustno1-coder/VIctory-NVIDIA) |
-| 启动器提示缺少运行组件 | 打开「设置 → 运行环境 → 检测」。启动器按内置组件索引校验文件，并尝试从本地组件库恢复缺失或损坏的组件。若仍有错误，点右上角终端图标查看实时日志。 |
-| 反馈黑屏、卡在预热或成就未记录 | 在实时日志里选择「导出当前日志」。附上启动器版本、实例预设、引擎、显卡、出错步骤和时间。预热问题可同时附同一轮的 `prewarm.log`。分享前可遮去个人路径和账号信息。 |
+![An achievement notification entering its completed state](docs/media/achievement-unlock.webp)
 
-## 下载与更新
+## Rendering, warmup and troubleshooting
 
-通常只需下载启动器全量包。需要单独部署引擎时，可下载[同版本模拟器包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.3/SR-Emulators-1.0.3.zip)。启动器会统计从本机版本到最新版本之间的**每一项**更新。全为普通更新时可以跳过，途中只要有关键更新，就会提示安装最新全量包。例如从 1.0.1 升级到 1.0.3，会同时识别 1.0.2 的关键更新与 1.0.3 的普通更新。[版本历史](Updates/history.json) · [旧版离线升级方法](docs/DEVELOPMENT.zh-CN.md#旧版离线升级)
+- **Choosing an engine.** Open the menu beside Play and choose an engine offered for the instance. Hover over its project card for achievement support and available upstream measurements. Report the engine and revision when comparing results.
+- **Understanding warmup.** Cached shaders count shader programs. Processed pipelines count combinations of shaders and rendering state on this run's worklist. A nonzero shader cache and a fresh pipeline counter can appear together. VIctory-NVIDIA starts its native preload with the selected rendering settings. Check the stage and `prewarm.log` before deciding to clear a cache.
+- **Upscaling and frame generation.** The VIctory-NVIDIA settings expose the console profile, DLSS mode and frame generation choices according to the detected capabilities. Changing one can reduce the permitted multiplier. Generated display frames and native game frames are different measurements. The pinned engine version is in the [catalog](Emulators/catalog.json).
+- **Runtime environment.** Open **Settings → Runtime environment → Check**. The launcher verifies indexed components and can restore missing or damaged files from its bundled library. The checks cover the launcher, helper runtimes, transfer engine and selected engine builds. Manage GPU drivers separately.
+- **Collecting a useful report.** Open **Live log** with the terminal icon and export the current log. Include the launcher version, preset, engine, GPU, stage, timestamp and exact error. Include the same run's `prewarm.log` for preload trouble. Remove private paths before sharing.
 
-## 许可
+## Updates and downloads
 
-本项目原创且有权授权的代码和文档采用 [CC BY-NC 4.0](LICENSE)。模拟器、运行库、游戏素材和商标遵循各自权利人的许可。各引擎的来源、提交和随附许可可从[模拟器清单](Emulators/catalog.json)和[上游源码目录](Source/Community)查阅。
+The standard installation and the in-place updater use the **complete launcher ZIP**. The [standalone engine package](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/SR-Emulators-1.0.4.zip) is for separate runtime deployment. A clean install starts in English. Local settings, saves, game files and compiled caches belong to the installation.
+
+The updater counts every release newer than the installed version. From 1.0.3 to 1.0.4 there is one optional update. From 1.0.1 to 1.0.4 the history contains one critical and two ordinary updates, so the critical upgrade prompt applies. Both paths target the same 1.0.4 package. [Version history](Updates/history.json) · [Offline upgrade instructions](docs/DEVELOPMENT.md#offline-upgrade)
+
+## License
+
+Original code and documentation that the project can license are available under [CC BY-NC 4.0](LICENSE). Third-party engines, runtimes, game artwork and trademarks are subject to their respective terms. See the [engine sources and licenses](Source/Community).

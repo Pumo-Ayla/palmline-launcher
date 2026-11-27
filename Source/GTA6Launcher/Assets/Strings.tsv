@@ -69,7 +69,9 @@ Logo 垂直位置	Vertical logo position	Logo 垂直位置	ロゴの垂直位置
 在 GitHub 打开此项目	View project on GitHub	在 GitHub 檢視此專案	GitHub でこのプロジェクトを開く	GitHub에서 이 프로젝트 열기
 打开项目源码	Open source repository	開啟原始碼儲存庫	ソースコードを開く	소스 코드 열기
 优先适配平台	Target platform	優先支援平台	主な対応環境	주요 지원 플랫폼
-适配平台	Target platform	適配平台	対応環境	지원 플랫폼
+是否支持成就	Achievement support	是否支援成就	実績対応	도전 과제 지원 여부
+支持	Supported	支援	対応	지원
+不支持	Unsupported	不支援	非対応	미지원
 平均 FPS	Average FPS	平均 FPS	平均 FPS	평균 FPS
 稳定性 · 上游记录	Reported stability	穩定性 · 上游記錄	安定性 · 開発元の記録	안정성 · 개발자 기록
 推荐配置参考	Recommended hardware	建議硬體配備	推奨環境の目安	권장 사양 참고
@@ -584,3 +586,11 @@ Python · 游戏会话服务	Python · Game sessions	Python · 遊戲工作階�
 检查配置	Check configuration	檢查設定	設定を確認	설정 검사
 待确认	Awaiting consent	待確認	同意待ち	동의 대기
 重新检查	Check again	重新檢查	再確認	다시 검사
+安装完成	Installation complete	安裝完成	インストール完了	설치 완료
+游戏已添加到游戏库	Game added to your library	遊戲已加入收藏庫	ライブラリに追加しました	게임을 라이브러리에 추가했습니다
+开始预载	Preloading	開始預載	プリロード開始	사전 로딩 시작
+正在准备着色器和渲染管线	Preparing shaders and pipelines	正在準備著色器與算繪管線	シェーダーとパイプラインを準備中	셰이더와 렌더링 파이프라인 준비 중
+预载完成	Preload complete	預載完成	プリロード完了	사전 로딩 완료
+现在可以启动游戏	Ready to launch	現在可以啟動遊戲	ゲームを起動できます	이제 게임을 시작할 수 있습니다
+游戏启动成功	Game started	遊戲啟動成功	ゲーム起動完了	게임 시작 완료
+已显示第一帧画面	First frame displayed	已顯示第一個畫格	最初のフレームを表示しました	첫 프레임을 표시했습니다

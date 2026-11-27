@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-sealed class AchievementToast {
+sealed partial class AchievementToast {
     [DllImport("user32.dll")] static extern IntPtr GetForegroundWindow();
     [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr window, out int pid);
     [DllImport("user32.dll")] static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
@@ -38,10 +38,13 @@ sealed class AchievementToast {
             fonts.AddMemoryFont(pin.AddrOfPinnedObject(),bytes.Length);
         }
     }
+    static void EnsureFonts() {
+        if(chineseHeading.Families.Length==0) LoadFont(chineseHeading,"MiSans-Semibold.ttf");
+        if(chineseFont.Families.Length==0) LoadFont(chineseFont,"MiSans-Regular.ttf");
+    }
     internal static void Preload() {
         if(ready) return;
-        LoadFont(chineseHeading,"MiSans-Semibold.ttf");
-        LoadFont(chineseFont,"MiSans-Regular.ttf");
+        EnsureFonts();
         using(var stream=typeof(AchievementToast).Assembly.GetManifestResourceStream("AchievementVI.png"))
         using(var source=new Bitmap(stream)) logo=new Bitmap(source);
         logo.MakeTransparent(logo.GetPixel(0,0));
@@ -252,10 +255,10 @@ sealed class AchievementToast {
         public int Reveal;
         public byte Alpha;
     }
-    static IEnumerable<Row> Rows(int w,int h,double now) {
+    static IEnumerable<Row> Rows(int w,int h,double now,int bottomInset=0) {
         int width=Math.Max(1,(int)Math.Round(w*.184));
         int margin=(int)Math.Round(h*.021);
-        int bottom=h-margin;
+        int bottom=h-margin-bottomInset;
         int gap=Math.Max(2,(int)Math.Round(h*.006));
         int right=w-(int)Math.Round(w*.013);
         foreach(var card in DisplayOrder()) {
@@ -336,7 +339,7 @@ sealed class AchievementToast {
         byte lastAlpha;
         void Prepare(Row row,Size visibleSize,double now) {
             if(visibleSize.IsEmpty) return;
-            bool stationary=card.percent<100 && now-card.born>=.42;
+            bool stationary=(card.noticeKind.HasValue ? card.noticeKind!=LauncherNoticeKind.Preloading : card.percent<100) && now-card.born>=.42;
             if(stationary && stationaryFrame && lastPercent==card.percent && lastSize==visibleSize
                     && surface.Size==row.Bounds.Size && lastAlpha==row.Alpha) return;
             EnsureSurface(row.Bounds.Size);
@@ -393,7 +396,10 @@ sealed class AchievementToast {
     static byte Opacity(AchievementToast card,double now) {
         return card==outgoing ? (byte)Math.Round(255*Math.Max(0,1-(now-fadeStart)/FadeSeconds)) : (byte)255;
     }
-    void PaintRow(Graphics g,float scale,double now) { Card(g,scale,now-born); }
+    void PaintRow(Graphics g,float scale,double now) {
+        if(noticeKind.HasValue) PaintNotice(g,scale,now-born);
+        else Card(g,scale,now-born);
+    }
     static long serial;
     static int Grade(string id) {
         switch(id) {
@@ -528,7 +534,7 @@ sealed class AchievementToast {
                     var previousDpi=SetThreadDpiAwarenessContext(new IntPtr(-4));
                     try {
                         var area=Backdrop.MonitorWorkArea(gameWindow);
-                        if(!area.IsEmpty) Toast.Present(area,Rows(area.Width,area.Height,now).ToArray(),now);
+                        if(!area.IsEmpty) Toast.Present(area,Rows(area.Width,area.Height,now,area==noticeMonitor ? noticeInset : 0).ToArray(),now);
                     } finally {
                         if(previousDpi!=IntPtr.Zero) SetThreadDpiAwarenessContext(previousDpi);
                     }
