@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <AppHostDotNetSearch>AppRelative;Global</AppHostDotNetSearch>
+    <AppHostRelativeDotNet>..\DotNet</AppHostRelativeDotNet>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Relay.Transfer</AssemblyName>
+    <PlatformTarget>x64</PlatformTarget>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoTorrent" Version="3.0.2" />
+    <PackageReference Include="SharpCompress" Version="0.50.12" />
+  </ItemGroup>
+</Project>

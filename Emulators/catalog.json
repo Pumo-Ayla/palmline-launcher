@@ -1,0 +1,29 @@
+{
+  "version": "1.0.3",
+  "package": {
+    "name": "SR-Emulators-1.0.3.zip",
+    "size": 61296211,
+    "sha256": "2581d2c3d8748e6833040e7a4184da1d401e46d9fe0cef3724647c1f3f12fc2b",
+    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.3/SR-Emulators-1.0.3.zip"
+  },
+  "projects": [
+    {
+      "id": "cgbj",
+      "name": "cool_fox",
+      "repo": "codec-d/cool_fox",
+      "commit": "f4b48ad766ddbec1a1867022cd42f7645b0dd55e"
+    },
+    {
+      "id": "victory-nvidia",
+      "name": "VIctory-NVIDIA",
+      "repo": "trustno1-coder/VIctory-NVIDIA",
+      "commit": "29d8dbf7d9892ceb8bec378a9dbc3c4f2931b745"
+    },
+    {
+      "id": "xcl",
+      "name": "Xbox Series X|S",
+      "repo": "xcl-dev/xcl",
+      "commit": "06f90c1986f43698d0405eff3c2ab0af230e1ed9"
+    }
+  ]
+}

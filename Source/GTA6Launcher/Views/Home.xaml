@@ -1,0 +1,1599 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:layout="clr-namespace:Launcher.Layout;assembly=Launcher"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        ResizeMode="CanMinimize" Icon="pack://application:,,,/Launcher;component/Assets/Palmline.ico"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent" Foreground="#FFF7F5"
+        TextOptions.TextFormattingMode="Ideal" UseLayoutRounding="True">
+
+
+  <Window.Resources>
+    <PathGeometry x:Key="controllerOutline" Figures="M8,4 Q11,3 14,5 H21 Q24,3 27,4 Q30,5 31,10 L33,20 Q34,26 29,25 L23,19 H12 L6,25 Q1,26 2,20 L4,10 Q5,5 8,4 Z M8,11 H14 M11,8 V14 M23,10 H24 M26,13 H27"/>
+    <DrawingImage x:Key="placeholderCover">
+      <DrawingImage.Drawing>
+        <GeometryDrawing Geometry="M0,0 H400 V600 H0 Z">
+          <GeometryDrawing.Brush><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#393440"/><GradientStop Color="#25232C" Offset="1"/></LinearGradientBrush></GeometryDrawing.Brush>
+        </GeometryDrawing>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="placeholderLogo">
+      <DrawingImage.Drawing>
+        <GeometryDrawing Geometry="{StaticResource controllerOutline}"><GeometryDrawing.Pen><Pen Brush="#8B7F96" Thickness="1.4" LineJoin="Round" StartLineCap="Round" EndLineCap="Round"/></GeometryDrawing.Pen></GeometryDrawing>
+      </DrawingImage.Drawing>
+    </DrawingImage>
+    <Style x:Key="launchSettingsCard" TargetType="Border">
+      <Setter Property="Width" Value="324"/><Setter Property="Margin" Value="0,0,23,84"/>
+      <Setter Property="Padding" Value="18,15"/><Setter Property="VerticalAlignment" Value="Bottom"/>
+      <Setter Property="HorizontalAlignment" Value="Right"/><Setter Property="CornerRadius" Value="14"/>
+      <Setter Property="Background" Value="#FC29252D"/><Setter Property="BorderBrush" Value="#65675C6D"/>
+      <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style x:Key="renderSegments" TargetType="Border">
+      <Setter Property="Background" Value="#211E25"/><Setter Property="CornerRadius" Value="9"/>
+      <Setter Property="Padding" Value="3"/><Setter Property="Margin" Value="0,4,0,10"/>
+    </Style>
+    <Style x:Key="renderSegment" TargetType="RadioButton" BasedOn="{StaticResource settingsTab}">
+      <Setter Property="Height" Value="29"/><Setter Property="FontSize" Value="12.5"/>
+      <Setter Property="Foreground" Value="#D0C8D5"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
+        <Border x:Name="chip" CornerRadius="6" Padding="7,0" Background="Transparent">
+          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <ControlTemplate.Triggers>
+          <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="chip" Property="Background" Value="#38313E"/></Trigger>
+          <Trigger Property="IsChecked" Value="True">
+            <Setter TargetName="chip" Property="Background" Value="#50425E"/>
+            <Setter Property="Foreground" Value="#FFF7FF"/><Setter Property="FontWeight" Value="SemiBold"/>
+          </Trigger>
+          <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value=".48"/></Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <SolidColorBrush x:Key="panelSurface" Color="#24232C"/>
+    <SolidColorBrush x:Key="previewActive" Color="#795578"/>
+    <SolidColorBrush x:Key="previewTool" Color="#ED302A39"/>
+    <Style x:Key="previewLine" TargetType="Border">
+      <Setter Property="Height" Value="9"/><Setter Property="CornerRadius" Value="4"/><Setter Property="HorizontalAlignment" Value="Left"/>
+      <Setter Property="Background" Value="#E6D7C4DC"/><Setter Property="Margin" Value="0,7,0,5"/>
+    </Style>
+    <Style x:Key="previewAwardTile" TargetType="Border">
+      <Setter Property="Width" Value="{x:Static layout:AchievementTile.CompactWidth}"/><Setter Property="Height" Value="{x:Static layout:AchievementTile.CompactWidth}"/>
+      <Setter Property="CornerRadius" Value="10"/><Setter Property="Margin" Value="1,0,6,0"/><Setter Property="Background" Value="#DB403C46"/>
+    </Style>
+    <LinearGradientBrush x:Key="sunset" StartPoint="0,.5" EndPoint="1,.5">
+      <GradientStop Color="#976BFF"/><GradientStop Color="#DE51BE" Offset=".48"/>
+      <GradientStop Color="#FF448C" Offset=".78"/><GradientStop Color="#FF726D" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="sunsetType" StartPoint="0,.5" EndPoint="1,.5">
+      <GradientStop Color="#D7C4FF"/><GradientStop Color="#FFA6DB" Offset=".6"/><GradientStop Color="#FFB6A8" Offset="1"/>
+    </LinearGradientBrush>
+    <DrawingBrush x:Key="saveIcon" ViewboxUnits="Absolute" Viewbox="0,0,24,24">
+      <DrawingBrush.Drawing><DrawingGroup>
+        <GeometryDrawing Brush="#493B50" Geometry="M0,0 H24 V24 H0 Z"/>
+        <GeometryDrawing Brush="{StaticResource sunsetType}" Geometry="M7,5 H17 V20 L12,16.5 7,20 Z"/>
+      </DrawingGroup></DrawingBrush.Drawing>
+    </DrawingBrush>
+    <Style x:Key="cardCaption" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="#BAB4C5"/><Setter Property="FontSize" Value="11"/>
+    </Style>
+    <Style x:Key="cardValue" TargetType="TextBlock">
+      <Setter Property="FontWeight" Value="SemiBold"/><Setter Property="FontSize" Value="14"/>
+      <Setter Property="Margin" Value="0,4,8,0"/><Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+    <DataTemplate x:Key="achievementTile">
+      <layout:AchievementTile Name="tile" UseLayoutRounding="False" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1,0,6,0" Cursor="Hand" AutomationProperties.Name="{Binding Detail}">
+        <Grid Height="{x:Static layout:AchievementTile.CompactWidth}">
+          <Border Background="{Binding DetailSurface}" CornerRadius="10"/>
+          <Grid Margin="78,0,0,0" ClipToBounds="True">
+            <StackPanel Orientation="Horizontal">
+              <StackPanel MaxWidth="225" Margin="11,0,10,0" VerticalAlignment="Center" TextElement.Foreground="{Binding DetailInk}">
+                <TextBlock Name="detailTitle" Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" Margin="0,0,25,0" TextWrapping="Wrap"/>
+                <TextBlock Name="description" Text="{Binding Description}" FontSize="11" Margin="0,1,25,0" Opacity=".94" TextWrapping="Wrap"/>
+                <TextBlock Name="completion" Text="{Binding Completion}" FontSize="10" Margin="0,2,0,0" Opacity=".86"/>
+              </StackPanel>
+            </StackPanel>
+          </Grid>
+      <Border Name="rim" Width="{x:Static layout:AchievementTile.CompactWidth}" HorizontalAlignment="Left" CornerRadius="10" Padding="3"
+              Background="{Binding Cover.Value}" RenderOptions.BitmapScalingMode="HighQuality"
+              AutomationProperties.Name="{Binding Detail}">
+        <Grid Margin="2,0,1,1" VerticalAlignment="Bottom">
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="19"/></Grid.ColumnDefinitions>
+          <TextBlock Name="title" VerticalAlignment="Center" Text="{Binding Title}" Opacity="{Binding CaptionOpacity,ElementName=tile}" Foreground="#FFF7F5" FontSize="10.5" FontWeight="SemiBold" Margin="0,0,1,0" TextTrimming="CharacterEllipsis"/>
+        </Grid>
+      </Border>
+          <Viewbox Name="badge" Width="19" Height="19" HorizontalAlignment="Right" VerticalAlignment="Top"
+                   Margin="{Binding BadgeMargin,ElementName=tile}" IsHitTestVisible="False">
+            <Grid Width="24" Height="24" UseLayoutRounding="False">
+              <Path Name="ring" Data="M12,1 A11,11 0 1 1 12,23 A11,11 0 1 1 12,1" Stroke="#85808B" StrokeThickness="2" StrokeDashArray="35 37"/>
+              <Path Name="progressArc" Data="{Binding ProgressArc}" Stroke="#F6F3F8" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+              <TextBlock Name="percent" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Status}" Foreground="#F6F3F8" FontSize="9.5" FontWeight="SemiBold"/>
+              <Path Name="check" Visibility="Collapsed" Data="M7.5,12 L10.7,15.3 16.8,8.8" Stroke="{Binding Finish}" StrokeThickness="2.4" StrokeLineJoin="Round" StrokeDashArray="7 9" StrokeDashCap="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+            </Grid>
+          </Viewbox>
+        </Grid>
+      </layout:AchievementTile>
+      <DataTemplate.Triggers><DataTrigger Binding="{Binding Earned}" Value="True">
+        <Setter TargetName="rim" Property="Padding" Value="0"/>
+        <Setter TargetName="rim" Property="BorderThickness" Value="3"/>
+        <Setter TargetName="rim" Property="BorderBrush" Value="{Binding Finish}"/>
+        <Setter TargetName="ring" Property="Stroke" Value="{Binding Finish}"/>
+        <Setter TargetName="percent" Property="Visibility" Value="Collapsed"/>
+        <Setter TargetName="check" Property="Visibility" Value="Visible"/>
+      </DataTrigger>
+      <DataTrigger Binding="{Binding IsExpanded,ElementName=tile}" Value="True">
+        <Setter TargetName="percent" Property="Visibility" Value="Collapsed"/>
+        <Setter TargetName="progressArc" Property="Visibility" Value="Collapsed"/>
+        <Setter TargetName="ring" Property="Stroke" Value="#A7A6AA"/>
+      </DataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Binding="{Binding IsExpanded,ElementName=tile}" Value="True"/>
+          <Condition Binding="{Binding Earned}" Value="True"/>
+        </MultiDataTrigger.Conditions>
+        <Setter TargetName="ring" Property="Stroke" Value="{Binding DetailInk}"/>
+        <Setter TargetName="check" Property="Stroke" Value="{Binding DetailInk}"/>
+      </MultiDataTrigger>
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Binding="{Binding IsExpanded,ElementName=tile}" Value="True"/>
+          <Condition Binding="{Binding Earned}" Value="True"/>
+          <Condition Binding="{Binding Source={x:Static SystemParameters.ClientAreaAnimation}}" Value="True"/>
+        </MultiDataTrigger.Conditions>
+        <MultiDataTrigger.EnterActions><BeginStoryboard Name="drawBadge"><Storyboard>
+          <DoubleAnimation Storyboard.TargetName="ring" Storyboard.TargetProperty="StrokeDashOffset" From="35" To="0" Duration="0:0:0.24" FillBehavior="Stop"/>
+          <DoubleAnimationUsingKeyFrames Storyboard.TargetName="check" Storyboard.TargetProperty="StrokeDashOffset" FillBehavior="Stop">
+            <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="8"/><DiscreteDoubleKeyFrame KeyTime="0:0:0.24" Value="8"/>
+            <SplineDoubleKeyFrame KeyTime="0:0:0.40" Value="0" KeySpline=".2,0,.3,1"/>
+          </DoubleAnimationUsingKeyFrames>
+        </Storyboard></BeginStoryboard></MultiDataTrigger.EnterActions>
+        <MultiDataTrigger.ExitActions><RemoveStoryboard BeginStoryboardName="drawBadge"/></MultiDataTrigger.ExitActions>
+      </MultiDataTrigger></DataTemplate.Triggers>
+    </DataTemplate>
+    <ControlTemplate x:Key="coverToggleFace" TargetType="Button">
+      <Grid>
+        <VisualStateManager.VisualStateGroups>
+          <VisualStateGroup x:Name="CommonStates">
+            <VisualStateGroup.Transitions><VisualTransition GeneratedDuration="0:0:0.15"/></VisualStateGroup.Transitions>
+            <VisualState x:Name="Normal"/>
+            <VisualState x:Name="MouseOver"><Storyboard>
+              <DoubleAnimation Storyboard.TargetName="shine" Storyboard.TargetProperty="Opacity" To=".16" Duration="0"/>
+            </Storyboard></VisualState>
+            <VisualState x:Name="Pressed"><Storyboard>
+              <DoubleAnimation Storyboard.TargetName="shine" Storyboard.TargetProperty="Opacity" To=".24" Duration="0"/>
+            </Storyboard></VisualState>
+            <VisualState x:Name="Disabled"/>
+          </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Ellipse Fill="Transparent"/>
+        <Grid Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="False" IsHitTestVisible="False">
+          <Ellipse x:Name="disc" Fill="{TemplateBinding Background}">
+            <Ellipse.Effect><DropShadowEffect BlurRadius="7" ShadowDepth="3" Direction="270" Opacity=".52" Color="#170E20"/></Ellipse.Effect>
+          </Ellipse>
+          <Ellipse x:Name="shine" Fill="White" Opacity="0"/>
+          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+      </Grid>
+    </ControlTemplate>
+  </Window.Resources>
+  <Viewbox Stretch="Uniform">
+  <Border Name="ShellGlass" Width="1160" Height="680" CornerRadius="23" Padding="11" BorderThickness="1" BorderBrush="#597E757C">
+    <Border.Background>
+      <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#B3A79A9F"/><GradientStop Color="#8E655F68" Offset=".48"/><GradientStop Color="#A4837679" Offset="1"/>
+      </LinearGradientBrush>
+    </Border.Background>
+    <Grid Name="ShellContents">
+    <Grid Name="LauncherContent">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="80"/><ColumnDefinition Width="8"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <Border Name="RailShadow" CornerRadius="16" Background="#FF1E1D20" IsHitTestVisible="False">
+        <Border.Effect><DropShadowEffect Color="#271A1B" BlurRadius="9" ShadowDepth="2" Opacity=".55"/></Border.Effect>
+      </Border>
+      <Grid Name="Rail">
+        <Grid Name="RailContent" Background="#FF1E1D20">
+          <Grid.RowDefinitions><RowDefinition Height="76"/><RowDefinition Height="*"/><RowDefinition Height="66"/></Grid.RowDefinitions>
+          <Ellipse Name="RepositoryGlow" Width="68" Height="68" Margin="0,6,0,0" IsHitTestVisible="False" Visibility="Collapsed">
+            <Ellipse.Fill><RadialGradientBrush>
+              <GradientStop Color="#DC82EEA7" Offset=".65"/><GradientStop Color="#B874EBA0" Offset=".70"/>
+              <GradientStop Color="#5071E397" Offset=".80"/><GradientStop Color="#1671E397" Offset=".91"/>
+              <GradientStop Color="#0071E397" Offset="1"/>
+            </RadialGradientBrush></Ellipse.Fill>
+          </Ellipse>
+          <Button Name="Repository" Width="52" Height="52" Margin="0,6,0,0" Padding="0" Style="{StaticResource railAction}" VerticalAlignment="Center"
+                  shell:WindowChrome.IsHitTestVisibleInChrome="True" ToolTip="{DynamicResource 'ui.启动器仓库 · Pumo-Ayla/series-relay-launcher'}" AutomationProperties.Name="{DynamicResource 'ui.打开启动器的 GitHub 仓库'}">
+            <Button.Template><ControlTemplate TargetType="Button">
+              <Grid Background="Transparent">
+                <Ellipse Width="48" Height="48" Fill="{Binding Background,ElementName=RailContent}"/>
+                <Ellipse x:Name="hover" Width="48" Height="48" Fill="White" Opacity="0"/>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Grid>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hover" Storyboard.TargetProperty="Opacity" To=".10" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.EnterActions>
+                  <Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="hover" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15"/></Storyboard></BeginStoryboard></Trigger.ExitActions>
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate></Button.Template>
+            <Viewbox Width="31" Height="31"><Path Fill="White" Data="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234.763.494 1.28 1.572 1.28 2.807v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"/></Viewbox>
+          </Button>
+          <DockPanel Grid.Row="1" Name="LibraryRail">
+          <Button Name="AddGame" DockPanel.Dock="Bottom" Width="38" Height="38" Margin="0,8,0,8"
+                  Style="{StaticResource railAction}" HorizontalAlignment="Center"
+                  ToolTip="{DynamicResource 'ui.载入游戏本体'}" AutomationProperties.Name="{DynamicResource 'ui.载入游戏本体'}">
+            <Path Data="M1,9 H17 M9,1 V17" Stroke="#DFDAE4" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+          </Button>
+          <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" Focusable="False" VerticalContentAlignment="Center">
+          <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <StackPanel Name="GameList"/>
+            <Grid Name="ImportRailSlot" Grid.Row="1" Width="72" Height="0" Opacity="0" Visibility="Collapsed" IsHitTestVisible="False">
+              <Grid Name="ImportRailIcon" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin=".5,.5"
+                    AutomationProperties.Name="{DynamicResource 'ui.等待识别游戏'}">
+                <Grid.RenderTransform><TransformGroup><ScaleTransform x:Name="ImportRailScale"/><TranslateTransform Y="-3"/></TransformGroup></Grid.RenderTransform>
+                <Border Width="46" Height="46" CornerRadius="8" Background="#F1EBF4" IsHitTestVisible="False">
+                  <Border.Effect><BlurEffect Radius="5"/></Border.Effect>
+                </Border>
+                <Border Name="DraftRailFace" Width="40" Height="40" CornerRadius="6" Visibility="Collapsed">
+                  <Border.Background><ImageBrush ImageSource="{Binding Source,ElementName=IconPreview}" Stretch="UniformToFill"/></Border.Background>
+                  <TextBlock Text="{Binding Text,ElementName=IconInitial}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White"/>
+                </Border>
+                <StackPanel Name="ImportRailDots" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                  <Ellipse Width="5.5" Height="5.5" Margin="2" Fill="#E8D8F3"/>
+                  <Ellipse Width="5.5" Height="5.5" Margin="2" Fill="#E8D8F3"/>
+                  <Ellipse Width="5.5" Height="5.5" Margin="2" Fill="#E8D8F3"/>
+                </StackPanel>
+              </Grid>
+            </Grid>
+            <Border Name="SelectionMark" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"
+                    Width="6" Height="24" CornerRadius="3" IsHitTestVisible="False">
+              <Border.RenderTransform><TranslateTransform/></Border.RenderTransform>
+            </Border>
+          </Grid>
+          </ScrollViewer>
+          </DockPanel>
+          <Button Grid.Row="2" Name="ControllerArea" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Padding="0" Cursor="Hand" FocusVisualStyle="{StaticResource navFocus}" AutomationProperties.Name="{DynamicResource 'ui.查看 Xbox 手柄'}">
+            <Button.Template><ControlTemplate TargetType="Button">
+              <Border Background="Transparent"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+            </ControlTemplate></Button.Template>
+            <Grid Width="48" Height="48" IsHitTestVisible="False">
+              <Ellipse Name="ModeHover" Width="40" Height="40" Fill="#38373B">
+                <Ellipse.Style><Style TargetType="Ellipse"><Setter Property="Opacity" Value="0"/>
+                  <Style.Triggers><DataTrigger Binding="{Binding IsMouseOver,ElementName=ControllerArea}" Value="True"><Setter Property="Opacity" Value=".42"/></DataTrigger></Style.Triggers>
+                </Style></Ellipse.Style>
+              </Ellipse>
+              <Ellipse Name="ViewerDisc" Width="38" Height="38" Fill="#323236" Opacity="0">
+                <Ellipse.Effect>
+                  <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="11" Opacity=".72"/>
+                </Ellipse.Effect>
+              </Ellipse>
+              <Ellipse Name="ModeRing" Width="42" Height="42" Stroke="#EFDAF6F3" StrokeThickness="1.25" StrokeDashArray="105,105" StrokeDashOffset="105" Visibility="Collapsed" RenderTransformOrigin=".5,.5">
+                <Ellipse.RenderTransform><RotateTransform Angle="-90"/></Ellipse.RenderTransform>
+              </Ellipse>
+              <Viewbox Name="PadGlyph" Width="26" Height="19" RenderTransformOrigin=".5,.5"><Path Stroke="#FAF9F8" StrokeThickness="1.65" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                Data="M6,2 C3,1.5 2,4 1,10 C0,15 2,17 5,14 L8,11.5 H16 L19,14 C22,17 24,15 23,10 C22,4 21,1.5 18,2 Q12,3.5 6,2 Z M5,7 H9 M7,5 V9 M16,7 h.3 M19,5.5 h.3"/></Viewbox>
+              <Grid Name="KeyboardGlyph" Width="24" Height="16" Visibility="Collapsed" RenderTransformOrigin=".5,.5">
+                <Border BorderBrush="#FAF9F8" BorderThickness="1.5" CornerRadius="3"/>
+                <Path Stroke="#FAF9F8" StrokeThickness="1.4" Data="M4,5 H6 M8,5 H10 M12,5 H14 M16,5 H19 M4,8 H6 M8,8 H10 M12,8 H14 M16,8 H19 M7,11 H17"/>
+              </Grid>
+              <Ellipse Name="ControllerLight" Width="6" Height="6" Stroke="#FF252428" StrokeThickness="1" Fill="#AAA5AA"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"><Ellipse.RenderTransform><TranslateTransform X="13" Y="8.5"/></Ellipse.RenderTransform></Ellipse>
+            </Grid>
+          </Button>
+        </Grid>
+        <Border Background="#7508060D" IsHitTestVisible="False" Visibility="{Binding Visibility, ElementName=SettingsPanel}"/>
+      </Grid>
+      <Grid Name="ImportSplit" Grid.Column="2" Width="0" Visibility="Collapsed" ClipToBounds="True">
+        <Grid Name="ImportSurface" Margin="0,0,8,0" VerticalAlignment="Bottom" Height="6" Opacity="0" Background="{StaticResource panelSurface}">
+          <Grid Name="ImportContext" ClipToBounds="True">
+            <Grid Name="DetailCardHost">
+            <Grid Name="PreviewCardFrame" ClipToBounds="True" Visibility="Collapsed">
+            <Grid Name="PreviewArt" ClipToBounds="True">
+            <Image Name="ImportCoverPreview" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+            <Rectangle IsHitTestVisible="False"><Rectangle.Fill>
+              <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#00231A2A" Offset=".48"/><GradientStop Color="#95231A2A" Offset=".62"/><GradientStop Color="#D91E1726" Offset=".76"/><GradientStop Color="#ED1A1423" Offset="1"/></LinearGradientBrush>
+            </Rectangle.Fill></Rectangle>
+            <Canvas Name="PreviewLogoArea" Background="Transparent" ClipToBounds="True">
+              <Image Name="PreviewLogo" Stretch="Uniform" Cursor="SizeAll" ToolTip="{DynamicResource 'ui.拖动 Logo 移动，拖动角点缩放。'}"/>
+              <Border Name="ResizeLogo" Width="12" Height="12" Background="#EEE1F6" BorderBrush="#593B70" BorderThickness="2" CornerRadius="3" Cursor="SizeNWSE"/>
+              <Rectangle Name="SnapVertical" Fill="#B5E8D3" Width="1" Visibility="Collapsed" IsHitTestVisible="False"/>
+              <Rectangle Name="SnapHorizontal" Fill="#B5E8D3" Height="1" Visibility="Collapsed" IsHitTestVisible="False"/>
+            </Canvas>
+            </Grid>
+            <StackPanel Name="PreviewSummary" Margin="18,0,18,18" VerticalAlignment="Bottom" IsHitTestVisible="False">
+              <Grid MinHeight="36" Margin="0,0,46,0">
+                <TextBlock Name="PreviewGameName" Text="{Binding Text,ElementName=ImportName}" VerticalAlignment="Center" FontSize="23" Foreground="#FFF7F5" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+              </Grid>
+              <Grid Margin="1,8,0,0" MinHeight="36">
+                <StackPanel Name="PreviewRecord" Orientation="Horizontal" VerticalAlignment="Center">
+                  <Path Width="10" Height="10" VerticalAlignment="Center" Stretch="Uniform" Fill="{StaticResource sunsetType}" Data="M5,0 C5.7,3.2 6.8,4.3 10,5 C6.8,5.7 5.7,6.8 5,10 C4.3,6.8 3.2,5.7 0,5 C3.2,4.3 4.3,3.2 5,0 Z"/>
+                  <TextBlock Margin="7,0,0,0" Text="{DynamicResource 'ui.崭新出厂'}" Foreground="{StaticResource sunsetType}" FontSize="13" FontWeight="SemiBold"/>
+                </StackPanel>
+                <Grid Name="PreviewStats" Visibility="Collapsed">
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="108"/><ColumnDefinition Width="73"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                  <StackPanel><TextBlock Text="{DynamicResource 'ui.游玩进度'}" Style="{StaticResource cardCaption}"/><Border Width="90" Style="{StaticResource previewLine}"/></StackPanel>
+                  <Border Grid.Column="1" BorderBrush="#48DBCDDA" BorderThickness="1,0,0,0" Padding="12,0"><StackPanel><TextBlock Text="{DynamicResource 'ui.游玩时长'}" Style="{StaticResource cardCaption}"/><Border Width="43" Style="{StaticResource previewLine}"/></StackPanel></Border>
+                  <Border Grid.Column="2" BorderBrush="#48DBCDDA" BorderThickness="1,0,0,0" Padding="12,0,0,0"><StackPanel><TextBlock Text="{DynamicResource 'ui.上次启动'}" Style="{StaticResource cardCaption}"/><Border Width="108" Style="{StaticResource previewLine}"/></StackPanel></Border>
+                </Grid>
+              </Grid>
+              <StackPanel Name="PreviewShelf" Visibility="Collapsed" Margin="0,13,0,0">
+                <DockPanel Margin="0,0,0,9"><Border DockPanel.Dock="Right" Width="95" VerticalAlignment="Center" Style="{StaticResource previewLine}"/><TextBlock Text="{DynamicResource 'ui.成就记录'}" FontWeight="SemiBold" FontSize="15" Foreground="#FFF7F5"/></DockPanel>
+                <StackPanel Orientation="Horizontal"><Border Style="{StaticResource previewAwardTile}" Background="#D45F4163"/><Border Style="{StaticResource previewAwardTile}"/><Border Style="{StaticResource previewAwardTile}"/><Border Style="{StaticResource previewAwardTile}"/></StackPanel>
+              </StackPanel>
+            </StackPanel>
+            </Grid>
+            </Grid>
+            <StackPanel Name="ArtTools" shell:WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="14" Visibility="Collapsed">
+              <Button Name="ChooseCover" Width="32" Height="32" Margin="0,0,0,6" Style="{StaticResource roundAction}" Background="#E52C2834" ToolTip="{DynamicResource 'ui.导入封面'}" AutomationProperties.Name="{DynamicResource 'ui.导入封面'}"><Path Data="M1,1 H19 V16 H1 Z M2,14 L7,8 11,11 14,6 18,13" Stretch="Uniform" Width="16" Height="15" Stroke="#F0EAF6" StrokeThickness="1.4" StrokeLineJoin="Round"/></Button>
+              <Button Name="ChooseLogo" Width="32" Height="32" Margin="0,0,0,6" Style="{StaticResource roundAction}" Background="#E52C2834" ToolTip="{DynamicResource 'ui.导入 Logo（可选）'}" AutomationProperties.Name="{DynamicResource 'ui.导入 Logo（可选）'}"><Path Data="M10,1 L19,6 10,11 1,6 Z M2,10 L10,15 18,10" Stretch="Uniform" Width="16" Height="15" Stroke="#F0EAF6" StrokeThickness="1.4" StrokeLineJoin="Round"/></Button>
+            </StackPanel>
+            <StackPanel Name="StateTools" shell:WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14" Visibility="Collapsed">
+              <Button Name="PreviewFresh" Width="32" Height="32" Margin="0,0,0,6" Style="{StaticResource roundAction}" Background="#E52C2834" ToolTip="{DynamicResource 'ui.崭新出厂'}" AutomationProperties.Name="{DynamicResource 'ui.崭新出厂'}"><Path Data="M2,6 L10,2 18,6 10,10 Z M2,6 V14 L10,18 18,14 V6 M10,10 V18" Stretch="Uniform" Width="16" Height="15" Stroke="#F0EAF6" StrokeThickness="1.4" StrokeLineJoin="Round"/></Button>
+              <Button Name="PreviewPlayed" Width="32" Height="32" Margin="0,0,0,6" Style="{StaticResource roundAction}" Background="#E52C2834" ToolTip="{DynamicResource 'ui.有游玩信息'}" AutomationProperties.Name="{DynamicResource 'ui.有游玩信息'}"><Path Data="M10,1 A8,8 0 1 0 10.1,1 M10,4 V10 L14,12" Stretch="Uniform" Width="16" Height="15" Stroke="#F0EAF6" StrokeThickness="1.4" StrokeLineJoin="Round"/></Button>
+              <Button Name="PreviewAwards" Width="32" Height="32" Margin="0,0,0,6" Style="{StaticResource roundAction}" Background="#E52C2834" ToolTip="{DynamicResource 'ui.有游玩信息和成就'}" AutomationProperties.Name="{DynamicResource 'ui.有游玩信息和成就'}"><Path Data="M5,1 H15 V7 Q15,12 10,13 Q5,12 5,7 Z M5,3 H1 Q1,8 6,8 M15,3 H19 Q19,8 14,8 M10,13 V17 M6,18 H14" Stretch="Uniform" Width="16" Height="15" Stroke="#F0EAF6" StrokeThickness="1.4" StrokeLineJoin="Round"/></Button>
+            </StackPanel>
+            <StackPanel Name="RecognitionDots" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        AutomationProperties.Name="{DynamicResource 'ui.等待识别游戏'}">
+              <Ellipse Width="7" Height="7" Fill="#E8D8F3" Margin="3"/>
+              <Ellipse Width="7" Height="7" Fill="#E8D8F3" Margin="3"/>
+              <Ellipse Width="7" Height="7" Fill="#E8D8F3" Margin="3"/>
+            </StackPanel>
+          </Grid>
+          <Border Background="#7508060D" IsHitTestVisible="False" Visibility="{Binding Visibility, ElementName=SettingsPanel}"/>
+        </Grid>
+      </Grid>
+      <Border Name="HeroShadow" Grid.Column="3" CornerRadius="17" Background="#A63A303E" IsHitTestVisible="False"><Border.Effect><DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity=".52" Color="#241C20"/></Border.Effect></Border>
+      <Grid Grid.Column="3" Name="Hero" Background="#574466">
+        <Grid Name="HeroContent" Background="{StaticResource panelSurface}">
+        <Grid Name="GameHome">
+        <layout:LobbyArtwork x:Name="CustomLobby" Visibility="Collapsed" IsHitTestVisible="False"/>
+        <Grid Name="SceneViewport" ClipToBounds="True" IsHitTestVisible="False">
+          <Image Name="ScenePoster" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+
+
+        </Grid>
+        <Rectangle IsHitTestVisible="False" Opacity="{Binding Opacity, ElementName=CaseBackdrop}">
+          <Rectangle.Fill><LinearGradientBrush StartPoint="0,.5" EndPoint="1,.5">
+            <GradientStop Color="#4C191426"/><GradientStop Color="#38191426" Offset=".40"/><GradientStop Color="#00191426" Offset=".74"/>
+          </LinearGradientBrush></Rectangle.Fill>
+        </Rectangle>
+        <Border VerticalAlignment="Bottom" Height="180" IsHitTestVisible="False">
+          <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#001D1728"/><GradientStop Color="#5D261B2D" Offset="1"/></LinearGradientBrush></Border.Background>
+        </Border>
+        <StackPanel Name="EmptyGame" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Collapsed">
+          <Path Name="EmptyControllerGlyph" Width="48" Height="32" Margin="0,0,0,15" Stretch="Uniform" HorizontalAlignment="Center" Stroke="#BBAACD" StrokeThickness="1.6" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                Data="{StaticResource controllerOutline}">
+            <Path.RenderTransform><TranslateTransform x:Name="EmptyGameFloat"/></Path.RenderTransform>
+          </Path>
+          <TextBlock Name="EmptyCaption" TextAlignment="Center" Text="{DynamicResource 'ui.暂无游戏实例'}" FontSize="18" FontWeight="SemiBold" Foreground="#D8D4E0"/>
+        </StackPanel>
+        <Grid Margin="22">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Grid Name="CardArea" Margin="0,0,12,0">
+          <Grid.RenderTransform><TranslateTransform x:Name="CaseLanding"/></Grid.RenderTransform>
+          <Grid Name="CaseShadow" Margin="0,-22,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="{Binding ActualWidth, ElementName=Dock}" Height="{Binding ActualHeight, ElementName=Dock}" Opacity="{Binding Opacity, ElementName=CaseBackdrop}" RenderTransformOrigin="0,.5" RenderTransform="{Binding RenderTransform, ElementName=Dock}" IsHitTestVisible="False">
+            <Border Margin="1" Background="#221A2B" CornerRadius="12">
+              <Border.Effect><DropShadowEffect Color="#100D1C" BlurRadius="38" ShadowDepth="19" Direction="327" Opacity=".83"/></Border.Effect>
+            </Border>
+            <Border Margin="1" Background="#221A2B" CornerRadius="12">
+              <Border.Effect><DropShadowEffect Color="#100C19" BlurRadius="10" ShadowDepth="4" Direction="315" Opacity=".8"/></Border.Effect>
+            </Border>
+          </Grid>
+          <layout:GameCoverPanel Name="Dock" Margin="0,-22,0,0" MaxWidth="{Binding ActualWidth, ElementName=CardArea}" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0,.5">
+            <Grid.RenderTransform><ScaleTransform/></Grid.RenderTransform>
+            <Rectangle Name="FrostSample" Margin="-9" VerticalAlignment="Bottom" IsHitTestVisible="False"><Rectangle.Effect><BlurEffect Radius="15"/></Rectangle.Effect></Rectangle>
+            <Border Background="#C126202E" BorderBrush="#61DBCDDA" BorderThickness="1" CornerRadius="13"/>
+            <Grid Name="CaseBackdrop" Opacity="0" IsHitTestVisible="False" ClipToBounds="True">
+              <Rectangle Name="CoverPrint"/>
+              <Rectangle>
+                <Rectangle.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                  <GradientStop Color="#00231A2A" Offset=".48"/><GradientStop Color="#95231A2A" Offset=".62"/>
+                  <GradientStop Color="#D91E1726" Offset=".76"/>
+                  <GradientStop Color="#ED1A1423" Offset="1"/>
+                </LinearGradientBrush></Rectangle.Fill>
+              </Rectangle>
+            </Grid>
+            <StackPanel>
+              <Grid Name="CaseReveal" Height="0" IsHitTestVisible="False"/>
+            <StackPanel Name="CaseSummary" Margin="18,11,18,13">
+              <Grid MinHeight="36" Margin="0,0,46,0">
+                <TextBlock Name="GameTitle" Text="Grand Theft Auto VI" VerticalAlignment="Center" Foreground="#FFF7F5" FontWeight="SemiBold" FontSize="23" TextTrimming="CharacterEllipsis"/>
+              </Grid>
+              <Grid Margin="1,8,0,0">
+              <StackPanel Name="HistoryEmpty" Orientation="Horizontal" VerticalAlignment="Center">
+                <Path Width="10" Height="10" VerticalAlignment="Center" Stretch="Uniform" Fill="{StaticResource sunsetType}"
+                      Data="M5,0 C5.7,3.2 6.8,4.3 10,5 C6.8,5.7 5.7,6.8 5,10 C4.3,6.8 3.2,5.7 0,5 C3.2,4.3 4.3,3.2 5,0 Z"/>
+                <TextBlock Name="HistoryStatus" Margin="7,0,0,0" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource sunsetType}"/>
+              </StackPanel>
+              <layout:HistoryStatsPanel Name="HistoryStats" Visibility="Hidden">
+                <StackPanel Margin="0,0,12,0" MaxWidth="300">
+                  <TextBlock Text="{DynamicResource 'ui.游玩进度'}" Style="{StaticResource cardCaption}"/>
+                  <DockPanel Name="GameProgressValue" Margin="0,2,0,0" HorizontalAlignment="Left" TextElement.FontSize="16" TextElement.FontWeight="SemiBold" TextElement.Foreground="{StaticResource sunsetType}">
+                    <TextBlock Name="GameProgressPercent" DockPanel.Dock="Right"/>
+                    <TextBlock Name="GameProgress" TextTrimming="CharacterEllipsis"/>
+                  </DockPanel>
+                </StackPanel>
+                <Border BorderThickness="1,0,0,0" BorderBrush="#48DBCDDA" Padding="12,0" MaxWidth="230"><StackPanel>
+                  <TextBlock Text="{DynamicResource 'ui.游玩时长'}" Style="{StaticResource cardCaption}"/>
+                  <TextBlock Name="GamePlaytime" Margin="0,2,0,0" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource sunsetType}"/>
+                </StackPanel></Border>
+                <Border BorderThickness="1,0,0,0" BorderBrush="#48DBCDDA" Padding="12,0,0,0" MinWidth="66"><StackPanel>
+                  <TextBlock Text="{DynamicResource 'ui.上次启动'}" Style="{StaticResource cardCaption}"/>
+                  <layout:AdaptiveLaunchTime Name="LastLaunch" Margin="0,2,0,0" TextElement.FontSize="16" TextElement.Foreground="#FFF7F5"/>
+                </StackPanel></Border>
+              </layout:HistoryStatsPanel>
+              </Grid>
+            </StackPanel>
+            <Canvas Name="CaseShelf" Height="0" ClipToBounds="True" Visibility="Collapsed">
+              <StackPanel Name="ShelfContent" Canvas.Left="18" Width="{Binding ActualWidth, ElementName=CaseSummary}">
+                <DockPanel Margin="0,0,0,5">
+                  <TextBlock Name="CaseCount" DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource sunsetType}"/>
+                  <TextBlock Text="{DynamicResource 'ui.成就记录'}" Foreground="#FFF7F5" FontSize="15" FontWeight="SemiBold"/>
+                </DockPanel>
+                <ItemsControl Name="AchievementRows" ItemTemplate="{StaticResource achievementTile}">
+                  <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" HorizontalAlignment="Left"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                  <ItemsControl.Template><ControlTemplate TargetType="ItemsControl">
+                <ScrollViewer Name="CaseScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" CanContentScroll="False" PanningMode="HorizontalOnly" FocusVisualStyle="{StaticResource navFocus}">
+                  <ItemsPresenter/>
+                </ScrollViewer>
+                  </ControlTemplate></ItemsControl.Template>
+                </ItemsControl>
+              </StackPanel>
+            </Canvas>
+            </StackPanel>
+            <Button Name="CaseToggle" HorizontalAlignment="Right" VerticalAlignment="Top" Width="44" Height="44" Margin="0,7,14,0"
+                    shell:WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource windowButton}" Template="{StaticResource coverToggleFace}" Background="#473B50" Cursor="Hand" ToolTip="{DynamicResource 'ui.展开封面'}" AutomationProperties.Name="{DynamicResource 'ui.展开封面'}">
+              <Path Width="12" Height="7" Stretch="Fill" Data="M1,7 L7,1 13,7" Stroke="#F5E8FB" StrokeThickness="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" RenderTransformOrigin=".5,.5">
+                <Path.RenderTransform><RotateTransform/></Path.RenderTransform>
+              </Path>
+            </Button>
+          </layout:GameCoverPanel>
+          </Grid>
+          <Grid Grid.Column="1" Name="LaunchPill" Height="54" Width="205" VerticalAlignment="Bottom" RenderTransformOrigin=".5,.5">
+              <Button Name="Play" Style="{StaticResource railAction}" Background="#FFDF62" Foreground="#211126" IsEnabled="False" AutomationProperties.Name="{DynamicResource 'ui.着色器预热中'}">
+                <Button.Template><ControlTemplate TargetType="Button"><Grid>
+                  <Border CornerRadius="27" Background="{TemplateBinding Background}"/>
+                  <Border CornerRadius="27" Background="{TemplateBinding BorderBrush}" IsHitTestVisible="False"/>
+                  <Border Name="wash" CornerRadius="27" Background="White" Opacity="0" IsHitTestVisible="False"/>
+                  <ContentPresenter Margin="3,0,51,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid><ControlTemplate.Triggers>
+                  <Trigger Property="IsPressed" Value="True"><Setter TargetName="wash" Property="Opacity" Value=".23"/></Trigger>
+                </ControlTemplate.Triggers></ControlTemplate></Button.Template>
+                <StackPanel Name="PlayFace" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                  <Grid Width="21" Height="21" VerticalAlignment="Center">
+                    <Ellipse Name="GlyphRing" Opacity="0" Stroke="#211126" StrokeThickness="1.8"/>
+                    <Path Name="PlayGlyph" Opacity="0" Fill="#211126" Data="M8,5.8 L15.4,10.5 8,15.2 Z"/>
+                    <StackPanel Name="RunningGlyph" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0">
+                      <Rectangle Width="2" Height="7" RadiusX="1" RadiusY="1" Fill="#211126"/>
+                      <Rectangle Width="2" Height="11" Margin="1.5,0" RadiusX="1" RadiusY="1" Fill="#211126"/>
+                      <Rectangle Width="2" Height="8" RadiusX="1" RadiusY="1" Fill="#211126"/>
+                    </StackPanel>
+                    <Path Name="StopGlyph" Opacity="0" Fill="#211126" Data="M7,7 H14 V14 H7 Z"/>
+                    <Path Name="WarningGlyph" Opacity="0" Stroke="#211126" StrokeThickness="1.7" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M10.5,2 L20,18.5 H1 Z M10.5,7.5 V12 M10.5,15 V15.3"/>
+                    <Path Name="RetryGlyph" Opacity="0" Stroke="#211126" StrokeThickness="1.8" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M18,8 A7.8,7.8 0 1 0 18,14 M18,2.5 V8 H12.5"/>
+                    <Grid Name="BusyIcon" Width="20" Height="20">
+                      <Ellipse Stroke="#40402D12" StrokeThickness="2"/>
+                      <Path Stroke="#392912" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                            RenderTransformOrigin=".5,.5" Data="M10,1 A9,9 0 0 1 18.46,13.08">
+                        <Path.RenderTransform><RotateTransform x:Name="WarmRotation"/></Path.RenderTransform>
+                      </Path>
+                    </Grid>
+                  </Grid>
+                  <Grid Name="CaptionSpace">
+                    <TextBlock Name="PlayText" FontSize="16" FontWeight="SemiBold" Margin="11,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <TextBlock Name="ExitText" FontSize="16" FontWeight="SemiBold" Margin="11,0,0,0" VerticalAlignment="Center" Opacity="0"/>
+                    <TextBlock Name="WarmText" Text="{DynamicResource 'ui.着色器预热中'}" FontSize="14" FontWeight="SemiBold" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                  </Grid>
+                </StackPanel>
+              </Button>
+              <Border Name="WarmHoverArea" Margin="0,0,52,0" Background="Transparent" CornerRadius="27" Visibility="Collapsed"/>
+              <Button Name="More" HorizontalAlignment="Right" Margin="0,0,3,0" Style="{StaticResource roundAction}" Width="48" Height="48" Background="#502036" ToolTip="{DynamicResource 'ui.启动选项'}" AutomationProperties.Name="{DynamicResource 'ui.启动选项'}">
+                <Path Data="M1,2 H17 M1,7 H17 M1,12 H17" Stroke="White" StrokeThickness="2.2"/>
+              </Button>
+          </Grid>
+          <Button Grid.Column="1" Name="BlockedLaunch" Width="205" Height="54" VerticalAlignment="Bottom" IsEnabled="False"
+                  Visibility="Collapsed" Background="#595661" Foreground="#DDD8E2" AutomationProperties.Name="{DynamicResource 'ui.启动游戏'}">
+            <Button.Template><ControlTemplate TargetType="Button"><Border Background="{TemplateBinding Background}" CornerRadius="27"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border></ControlTemplate></Button.Template>
+            <StackPanel Orientation="Horizontal"><Path Margin="0,0,10,0" VerticalAlignment="Center" Fill="#D4CFDA" Data="M0,0 L12,7 0,14 Z"/>
+              <TextBlock Text="{DynamicResource 'ui.启动游戏'}" FontSize="16" FontWeight="SemiBold"/></StackPanel>
+          </Button>
+          <StackPanel Grid.Column="1" Name="InstallActions" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Border Name="InstallBubble" Background="#EF23212E" CornerRadius="11" Padding="11,6" Margin="0,0,0,7" HorizontalAlignment="Right" MaxWidth="270" Visibility="Collapsed"><TextBlock Name="InstallProgress" TextWrapping="Wrap" Foreground="#ECEAF0"/></Border>
+            <Grid Width="205" Height="54"><Border Background="#23B8F6" CornerRadius="27"/><Button Name="InstallGame" Style="{StaticResource railAction}" Background="#23B8F6" Foreground="#132B3C">
+              <StackPanel Orientation="Horizontal" Margin="0,0,42,0"><Grid Width="23" Height="23" Margin="0,0,9,0" ClipToBounds="True"><Ellipse Stroke="#49657A" StrokeThickness="1.5"/><Path Name="InstallArrow" Data="M11,5 V16 M7,12 L11,16 15,12" Stroke="#15384A" StrokeThickness="2"><Path.RenderTransform><TranslateTransform/></Path.RenderTransform></Path><Path Name="InstallSpinner" Visibility="Collapsed" Data="M11,2 A9,9 0 0 1 20,11" Stroke="#173E55" StrokeThickness="2.5" RenderTransformOrigin=".5,.5"><Path.RenderTransform><RotateTransform/></Path.RenderTransform></Path></Grid>
+              <TextBlock Name="InstallText" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/></StackPanel>
+            </Button><Button Name="InstallOptions" HorizontalAlignment="Right" Margin="0,0,3,0" Width="48" Height="48" Style="{StaticResource roundAction}" Background="#193B4B" ToolTip="{DynamicResource 'ui.启动选项'}"><Path Data="M1,2 H17 M1,7 H17 M1,12 H17" Stroke="White" StrokeThickness="2.2"/></Button></Grid></StackPanel>
+          <Button Name="CriticalUpdate" Grid.Column="1" Height="54" MinWidth="205" VerticalAlignment="Bottom"
+                  Visibility="Collapsed" Foreground="White" Style="{StaticResource railAction}" HorizontalAlignment="Right">
+            <Button.Template><ControlTemplate TargetType="Button">
+              <Border Name="surface" CornerRadius="27" Background="#176AC7" Padding="20,0">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="surface" Property="Background" Value="#227ADB"/></Trigger>
+                <Trigger Property="IsPressed" Value="True"><Setter TargetName="surface" Property="Background" Value="#1458A7"/></Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate></Button.Template>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Path Name="CriticalGlyph" Stroke="White" StrokeThickness="1.6" Width="20" Height="20" Stretch="Uniform" VerticalAlignment="Center"
+                    StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="M10,2 V13 M5,8 L10,13 L15,8 M2,14 V18 H18 V14"/>
+              <TextBlock Name="CriticalLabel" Margin="10,0,0,0" FontWeight="SemiBold" FontSize="16"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+        <Image Name="GameMark" Width="113" Height="91" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Top" HorizontalAlignment="Left"
+               Margin="27,24,0,0" RenderTransformOrigin=".5,.5" IsHitTestVisible="False" AutomationProperties.Name="Grand Theft Auto VI">
+          <Image.RenderTransform><TransformGroup><ScaleTransform/><TranslateTransform/></TransformGroup></Image.RenderTransform>
+        </Image>
+        <Border Name="WarmDetailCard" Visibility="Collapsed" IsHitTestVisible="False" Opacity="0"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,23,84" MaxWidth="312"
+                Padding="16,12" CornerRadius="14" Background="#FA29252D" BorderBrush="#61594E" BorderThickness="1">
+          <Border.RenderTransform><TranslateTransform Y="7"/></Border.RenderTransform>
+          <StackPanel>
+            <TextBlock Name="LaunchDetailTitle" Text="{DynamicResource 'ui.预热详情'}" FontSize="11" FontWeight="SemiBold" Foreground="#FFDF82"/>
+            <TextBlock Name="WarmDetailStage" Margin="0,5,0,0" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap"/>
+            <TextBlock Name="WarmDetailShaders" Margin="0,6,0,0" FontSize="12" Foreground="#DAD4DE" Visibility="Collapsed" TextWrapping="Wrap"/>
+            <TextBlock Name="WarmDetailPipelines" Margin="0,4,0,0" FontSize="12" Foreground="#DAD4DE" Visibility="Collapsed" TextWrapping="Wrap"/>
+          </StackPanel>
+        </Border>
+        <Border Name="LaunchMenu" Visibility="Collapsed" Width="192" Margin="0,0,23,84" VerticalAlignment="Bottom" RenderTransformOrigin=".89,1"
+                HorizontalAlignment="Right" Background="#F3272528" CornerRadius="13" Padding="6" BorderThickness="1" BorderBrush="#527D747C">
+          <Border.RenderTransform><ScaleTransform ScaleX=".9" ScaleY=".9"/></Border.RenderTransform>
+          <Border.Effect><DropShadowEffect Color="#292125" BlurRadius="12" ShadowDepth="3" Opacity=".5"/></Border.Effect>
+          <StackPanel>
+            <StackPanel Name="GtaProjectGroup">
+              <TextBlock Text="{DynamicResource 'ui.CYBERLEEK · v1.0.2.1 专属'}" Foreground="#C7BECE" FontSize="11" Margin="11,5,8,3"/>
+              <StackPanel Name="GtaProjectOptions"/>
+              <Border Name="ProjectGroupDivider" Height="1" Background="#474149" Margin="8,5"/>
+            </StackPanel>
+            <StackPanel Name="GeneralProjectGroup">
+              <TextBlock Text="{DynamicResource 'ui.Xbox Series X|S 通用'}" Foreground="#C7BECE" FontSize="11" Margin="11,5,8,3"/>
+              <StackPanel Name="GeneralProjectOptions"/>
+            </StackPanel>
+            <Border Height="1" Background="#474149" Margin="8,5"/>
+            <Button Name="ShaderMenu" Height="33" Background="Transparent" BorderBrush="Transparent" AutomationProperties.Name="{DynamicResource 'ui.着色器设置'}">
+              <StackPanel Orientation="Horizontal"><TextBlock Text="{DynamicResource 'ui.着色器设置'}"/><Path Margin="9,0,0,0" VerticalAlignment="Center" Data="M1,1 L5,5 1,9" Stroke="#D7C4EF" StrokeThickness="1.4"/></StackPanel>
+            </Button>
+            <Button Name="RenderSettings" Height="33" Background="Transparent" BorderBrush="Transparent">
+              <StackPanel Orientation="Horizontal"><TextBlock Name="RenderSettingsLabel" Text="{DynamicResource 'ui.模拟器设置'}"/><Path Margin="9,0,0,0" VerticalAlignment="Center" Data="M1,1 L5,5 1,9" Stroke="#D7C4EF" StrokeThickness="1.4"/></StackPanel>
+            </Button>
+            <Button Name="LocalSaves" Height="33" Background="Transparent" BorderBrush="Transparent">
+              <StackPanel Orientation="Horizontal"><TextBlock Name="LocalSavesLabel" Text="{DynamicResource 'ui.本机存档'}"/><Path Margin="9,0,0,0" VerticalAlignment="Center" Data="M1,1 L5,5 1,9" Stroke="#D7C4EF" StrokeThickness="1.4"/></StackPanel>
+            </Button>
+          </StackPanel>
+        </Border>
+        </Grid>
+        <Grid Name="GameImport" Visibility="Collapsed">
+          <Grid Name="LobbyEditor" Panel.ZIndex="2" Background="{StaticResource panelSurface}" Visibility="Collapsed">
+            <layout:LobbyArtwork x:Name="LobbyPreview"/>
+            <TextBlock Name="LobbyPlaceholder" Text="{Binding Text,ElementName=ImportName}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Image Name="LobbyMark" Width="95" Height="75" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,65,0,0"/>
+            <Grid Name="LobbyCardArea" Margin="22" Width="408" HorizontalAlignment="Left">
+              <Grid Name="LobbyCard" Height="96" VerticalAlignment="Bottom">
+                <Border Background="#DE292532" BorderBrush="#61DBCDDA" BorderThickness="1" CornerRadius="13"/>
+                <Grid Name="LobbyCardHost" IsHitTestVisible="False"/>
+                <Button Name="LobbyCardToggle" HorizontalAlignment="Right" VerticalAlignment="Top" Width="44" Height="44" Margin="0,7,14,0"
+                        shell:WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource windowButton}" Template="{StaticResource coverToggleFace}" Background="#473B50" ToolTip="{DynamicResource 'ui.展开封面'}" AutomationProperties.Name="{DynamicResource 'ui.展开封面'}">
+                  <Path Width="12" Height="7" Stretch="Fill" Data="M1,7 L7,1 13,7" Stroke="#F5E8FB" StrokeThickness="1.5" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" RenderTransformOrigin=".5,.5"><Path.RenderTransform><RotateTransform/></Path.RenderTransform></Path>
+                </Button>
+              </Grid>
+            </Grid>
+            <Button Name="LobbyBack" shell:WindowChrome.IsHitTestVisibleInChrome="True" Width="34" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,15" Style="{StaticResource roundAction}" Content="‹" FontSize="22" ToolTip="{DynamicResource 'ui.上一步'}"/>
+            <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="18" Padding="13" CornerRadius="16" Background="#F1282530"><StackPanel MaxWidth="275">
+              <TextBlock Text="{DynamicResource 'ui.大厅背景'}" FontWeight="SemiBold" FontSize="16"/>
+              <TextBlock Name="LobbyStatus" Margin="0,5,0,9" Foreground="#D4CBDC" TextWrapping="Wrap" MaxHeight="56" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text,RelativeSource={RelativeSource Self}}"/>
+              <WrapPanel><Button Name="ChooseLobby" Padding="10,5" Content="{DynamicResource 'ui.选择背景'}"/><Button Name="ClearLobby" Padding="9,5" Margin="5,0" Content="{DynamicResource 'ui.清除'}"/><Button Name="FinishLobby" Padding="16,5" Background="#78E3A0" Foreground="#211126" Content="{DynamicResource 'ui.完成'}"/></WrapPanel>
+            </StackPanel></Border>
+          </Grid>
+          <Button Name="ImportBack" Width="34" Height="34" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,15,0,0"
+                  Style="{StaticResource windowButton}" shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                  ToolTip="{DynamicResource 'ui.返回主页'}" AutomationProperties.Name="{DynamicResource 'ui.返回主页'}">
+            <Path Data="M10,1 L3,8 10,15 M3,8 H17" Stroke="White" StrokeThickness="1.6" StrokeLineJoin="Round"/>
+          </Button>
+          <Grid Name="SourceForm" MaxWidth="530" Margin="32,64,32,24">
+          <Grid.RowDefinitions>
+            <RowDefinition Height=".27*">
+              <RowDefinition.Style><Style TargetType="RowDefinition">
+                <Setter Property="MaxHeight" Value="100"/>
+                <Style.Triggers><DataTrigger Binding="{Binding Visibility,ElementName=ExeSources}" Value="Visible"><Setter Property="MaxHeight" Value="48"/></DataTrigger><DataTrigger Binding="{Binding Visibility,ElementName=ImportArtworkFields}" Value="Visible"><Setter Property="MaxHeight" Value="28"/></DataTrigger></Style.Triggers>
+              </Style></RowDefinition.Style>
+            </RowDefinition>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+          <Grid.Resources>
+            <Style x:Key="importSourceCard" TargetType="RadioButton">
+              <Setter Property="Cursor" Value="Hand"/>
+              <Setter Property="FocusVisualStyle" Value="{StaticResource navFocus}"/>
+              <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
+                <Border Name="card" CornerRadius="14" Background="#2D2C35" BorderBrush="#504C59" BorderThickness="1">
+                  <Grid>
+                    <StackPanel Margin="16">
+                      <Border Name="iconWell" HorizontalAlignment="Left" Width="34" Height="34" CornerRadius="10" Background="#393640">
+                        <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="{TemplateBinding Tag}" Stroke="#DDD1EA"
+                              StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"/>
+                      </Border>
+                      <TextBlock Margin="0,13,0,4" FontSize="16" FontWeight="SemiBold" Foreground="#FFF7FA" TextWrapping="Wrap"
+                                 Text="{Binding Path=(AutomationProperties.Name),RelativeSource={RelativeSource TemplatedParent}}"/>
+                      <TextBlock FontSize="12" Foreground="#C5BECE" TextWrapping="Wrap" Text="{TemplateBinding Content}"/>
+                    </StackPanel>
+                    <Grid Width="14" Height="14" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,12,12,0" IsHitTestVisible="False">
+                      <Ellipse Name="ring" Stroke="#928A9C"/>
+                      <Ellipse Name="mark" Width="6" Height="6" Fill="#FFD65C" Visibility="Collapsed"/>
+                    </Grid>
+                  </Grid>
+                </Border>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="card" Property="Background" Value="#383640"/></Trigger>
+                  <Trigger Property="IsChecked" Value="True"><Setter TargetName="card" Property="BorderBrush" Value="#FFD65C"/><Setter TargetName="card" Property="Background" Value="#343137"/><Setter TargetName="iconWell" Property="Background" Value="#494045"/><Setter TargetName="ring" Property="Stroke" Value="#FFD65C"/><Setter TargetName="mark" Property="Visibility" Value="Visible"/></Trigger>
+                  <Trigger Property="IsEnabled" Value="False"><Setter TargetName="card" Property="Opacity" Value=".46"/><Setter Property="Cursor" Value="Arrow"/></Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <Style x:Key="importRow" TargetType="Border">
+              <Setter Property="CornerRadius" Value="8"/><Setter Property="Height" Value="42"/>
+              <Setter Property="Background" Value="#19191D"/><Setter Property="BorderBrush" Value="#48474C"/>
+              <Setter Property="BorderThickness" Value="1"/>
+              <Style.Triggers><Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter Property="BorderBrush" Value="#FFD65C"/></Trigger></Style.Triggers>
+            </Style>
+            <Style x:Key="filePicker" TargetType="Button">
+              <Setter Property="Cursor" Value="Hand"/><Setter Property="FocusVisualStyle" Value="{StaticResource navFocus}"/>
+              <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                <Border x:Name="surface" Background="#302D38" BorderBrush="#504B59" BorderThickness="1" CornerRadius="9" Padding="14,0" MinHeight="46">
+                  <DockPanel VerticalAlignment="Center">
+                    <TextBlock x:Name="action" DockPanel.Dock="Right" Margin="14,0,0,0" FontSize="12" Foreground="#E6CEE8" Text="{DynamicResource 'ui.更改'}"/>
+                    <Grid>
+                      <ContentPresenter/>
+                      <TextBlock x:Name="hint" Visibility="Collapsed" Foreground="#CABECB" Text="{TemplateBinding Tag}"/>
+                    </Grid>
+                  </DockPanel>
+                </Border>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="ToolTip" Value="">
+                    <Setter TargetName="hint" Property="Visibility" Value="Visible"/><Setter TargetName="action" Property="Text" Value="{DynamicResource 'ui.选择'}"/>
+                    <Setter Property="ToolTipService.IsEnabled" Value="False"/>
+                  </Trigger>
+                  <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="surface" Property="Background" Value="#3B3642"/></Trigger>
+                  <Trigger Property="IsPressed" Value="True"><Setter TargetName="surface" Property="Background" Value="#292631"/></Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <Style x:Key="pickedPath" TargetType="TextBox">
+              <Setter Property="IsReadOnly" Value="True"/><Setter Property="Focusable" Value="False"/><Setter Property="IsHitTestVisible" Value="False"/>
+              <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TextBox">
+                <TextBlock Text="{TemplateBinding Text}" TextTrimming="CharacterEllipsis" Foreground="#FFF6FA"/>
+              </ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <Style x:Key="exeTab" TargetType="RadioButton">
+              <Setter Property="Cursor" Value="Hand"/><Setter Property="FocusVisualStyle" Value="{StaticResource navFocus}"/>
+              <Setter Property="Foreground" Value="#C4BAC9"/>
+              <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="RadioButton">
+                <Border Background="Transparent" MinHeight="40" Padding="8,4">
+                  <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Path DockPanel.Dock="Left" Margin="0,0,8,0" VerticalAlignment="Center" Stroke="{TemplateBinding Foreground}" StrokeThickness="1.5" StrokeLineJoin="Round" Data="{TemplateBinding Tag}"/>
+                    <TextBlock Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                  </DockPanel>
+                </Border>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="IsMouseOver" Value="True"><Setter Property="Foreground" Value="White"/></Trigger>
+                  <Trigger Property="IsChecked" Value="True"><Setter Property="Foreground" Value="#FFF4FB"/></Trigger>
+                  <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value=".45"/></Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <Style x:Key="importPath" TargetType="TextBox">
+              <Setter Property="Foreground" Value="#F5F3EE"/><Setter Property="CaretBrush" Value="#FFD65C"/>
+              <Setter Property="SelectionBrush" Value="#806922"/><Setter Property="VerticalContentAlignment" Value="Center"/>
+              <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TextBox">
+                <Border Background="Transparent"><ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Focusable="False"/></Border>
+              </ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <Style x:Key="sourceRow" TargetType="Border" BasedOn="{StaticResource importRow}">
+              <Setter Property="Padding" Value="12,0"/><Setter Property="Height" Value="46"/><Setter Property="CornerRadius" Value="11"/>
+              <Setter Property="Background" Value="#2C2A34"/>
+            </Style>
+            <Style x:Key="sourceAddress" TargetType="TextBox" BasedOn="{StaticResource importPath}">
+              <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TextBox">
+                <Grid Background="Transparent" ClipToBounds="True">
+                  <ScrollViewer Name="PART_ContentHost" Focusable="False" VerticalAlignment="Center" Opacity="0"/>
+                  <TextBlock Name="summary" VerticalAlignment="Center" IsHitTestVisible="False" Text="{TemplateBinding Tag}" TextTrimming="CharacterEllipsis"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                  <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter TargetName="summary" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="PART_ContentHost" Property="Opacity" Value="1"/>
+                  </Trigger>
+                  <Trigger Property="Text" Value="">
+                    <Setter TargetName="summary" Property="Text" Value="{Binding Path=(AutomationProperties.HelpText),RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <Setter TargetName="summary" Property="Foreground" Value="#BFB7C8"/>
+                    <Setter TargetName="summary" Property="Visibility" Value="Visible"/>
+                  </Trigger>
+                </ControlTemplate.Triggers>
+              </ControlTemplate></Setter.Value></Setter>
+            </Style>
+          </Grid.Resources>
+          <Grid Name="ImportViewport" Grid.Row="1" ClipToBounds="True">
+          <Viewbox Stretch="Uniform" StretchDirection="DownOnly" VerticalAlignment="Top" HorizontalAlignment="Left" ClipToBounds="True">
+          <AdornerDecorator ClipToBounds="True">
+          <StackPanel Width="{Binding ActualWidth, ElementName=ImportViewport}">
+            <TextBlock Name="ImportHeading" Text="{DynamicResource 'ui.载入游戏本体'}" FontSize="28" FontWeight="SemiBold"/>
+            <StackPanel Name="ImportPageBody">
+            <StackPanel.RenderTransform><TranslateTransform/></StackPanel.RenderTransform>
+            <UniformGrid Name="ImportSources" Columns="2" Margin="-4,16,-4,0">
+              <RadioButton Name="MagnetSource" GroupName="ImportSource" Margin="4" Style="{StaticResource importSourceCard}"
+                           AutomationProperties.Name="{DynamicResource 'ui.磁力链接导入'}" Content="{DynamicResource 'ui.流式下载，边下载边解压。'}">
+                <RadioButton.Tag><PathGeometry Figures="M9,15 L6,18 A4,4 0 0 1 1,12 L6,7 A4,4 0 0 1 12,8 M10,5 L13,2 A4,4 0 0 1 19,7 L14,12 A4,4 0 0 1 8,12 M7,13 L13,7"/></RadioButton.Tag>
+              </RadioButton>
+              <RadioButton Name="LocalSource" GroupName="ImportSource" Margin="4" Style="{StaticResource importSourceCard}"
+                           AutomationProperties.Name="{DynamicResource 'ui.本地目录导入'}" Content="{DynamicResource 'ui.从已有文件夹载入游戏。'}">
+                <RadioButton.Tag><PathGeometry Figures="M1,5 Q1,3 3,3 H8 L11,6 H19 Q21,6 21,8 V17 Q21,19 19,19 H3 Q1,19 1,17 Z"/></RadioButton.Tag>
+              </RadioButton>
+            </UniformGrid>
+            <StackPanel Name="ImportPresets" Margin="0,18,0,0">
+              <StackPanel Orientation="Horizontal" Margin="0,0,0,9">
+                <Path Width="11" Height="11" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,7,0" Fill="#C9B8D6"
+                      Data="M0,1 Q0,0 1,0 H4 Q5,0 5,1 V4 Q5,5 4,5 H1 Q0,5 0,4 Z M7,1 Q7,0 8,0 H11 Q12,0 12,1 V4 Q12,5 11,5 H8 Q7,5 7,4 Z M0,8 Q0,7 1,7 H4 Q5,7 5,8 V11 Q5,12 4,12 H1 Q0,12 0,11 Z M7,8 Q7,7 8,7 H11 Q12,7 12,8 V11 Q12,12 11,12 H8 Q7,12 7,11 Z"/>
+                <TextBlock Text="{DynamicResource 'ui.配置预设（可选）'}" FontSize="13" FontWeight="SemiBold" Foreground="#E8DFEC"/>
+              </StackPanel>
+              <StackPanel Orientation="Horizontal">
+                <CheckBox Name="CyberleekPreset" Width="138" Height="138" Cursor="Hand" FocusVisualStyle="{StaticResource navFocus}"
+                          ToolTip="{DynamicResource 'ui.自动应用详细配置和大厅背景。'}" AutomationProperties.HelpText="{DynamicResource 'ui.自动应用详细配置和大厅背景。'}">
+                  <CheckBox.Template><ControlTemplate TargetType="CheckBox">
+                    <Border x:Name="face" CornerRadius="13" Background="#302C38" BorderBrush="#554D60" BorderThickness="1">
+                      <Grid>
+                        <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="31"/></Grid.RowDefinitions>
+                        <Grid x:Name="artWell">
+                          <Border CornerRadius="12,12,0,0">
+                            <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                              <GradientStop Color="#514159"/><GradientStop Color="#37303F" Offset=".58"/><GradientStop Color="#302B37" Offset="1"/>
+                            </LinearGradientBrush></Border.Background>
+                          </Border>
+                          <!-- Center the visible mass of the cropped VI artwork within the art area. -->
+                          <Image x:Name="presetLogo" Source="{TemplateBinding Tag}" Stretch="Uniform" Width="74" Height="58"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality">
+                            <Image.RenderTransform><TranslateTransform X="-6.6" Y="4.2"/></Image.RenderTransform>
+                          </Image>
+                          <Grid Width="14" Height="14" Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" IsHitTestVisible="False">
+                            <Border x:Name="box" CornerRadius="3" BorderThickness="1" BorderBrush="#AB9CB5" Background="#38313F"/>
+                            <Path x:Name="tick" Data="M3,7 L6,10 11,4" Stroke="#302632" StrokeThickness="1.6"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Visibility="Collapsed"/>
+                          </Grid>
+                        </Grid>
+                        <Border Grid.Row="1" CornerRadius="0,0,12,12" BorderBrush="#504655" BorderThickness="0,1,0,0" Padding="7,0">
+                          <Viewbox Stretch="Uniform" StretchDirection="DownOnly" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="{TemplateBinding Content}" FontSize="11.5" FontWeight="SemiBold" Foreground="#F5EEF8"/>
+                          </Viewbox>
+                        </Border>
+                      </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="face" Property="Background" Value="#3A3441"/><Setter TargetName="face" Property="BorderBrush" Value="#A28CAD"/></Trigger>
+                      <Trigger Property="IsChecked" Value="True"><Setter TargetName="face" Property="Background" Value="#39323B"/><Setter TargetName="face" Property="BorderBrush" Value="#AF9DBA"/><Setter TargetName="box" Property="BorderBrush" Value="#F2ECA6"/><Setter TargetName="box" Property="Background" Value="#F2ECA6"/><Setter TargetName="tick" Property="Visibility" Value="Visible"/></Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate></CheckBox.Template>
+                </CheckBox>
+              </StackPanel>
+            </StackPanel>
+            <StackPanel Name="ImportNameRow" Visibility="Collapsed">
+              <TextBlock Margin="0,19,0,7" Foreground="#D4D0C8" Text="{DynamicResource 'ui.游戏名称'}"/>
+              <DockPanel>
+                <Button Name="ChooseGameIcon" DockPanel.Dock="Left" Width="46" Height="46" Margin="0,0,9,0" Cursor="Hand" Padding="0" FocusVisualStyle="{StaticResource navFocus}" ToolTip="{DynamicResource 'ui.更换游戏图标'}" AutomationProperties.Name="{DynamicResource 'ui.更换游戏图标'}">
+                  <Button.Template><ControlTemplate TargetType="Button">
+                    <Border Name="rim" Background="#393341" BorderBrush="#63586C" BorderThickness="1" CornerRadius="11">
+                      <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="rim" Property="BorderBrush" Value="#D5BCE1"/></Trigger></ControlTemplate.Triggers>
+                  </ControlTemplate></Button.Template>
+                  <Grid Width="40" Height="40"><Grid.Clip><RectangleGeometry Rect="0,0,40,40" RadiusX="8" RadiusY="8"/></Grid.Clip>
+                    <TextBlock Name="IconInitial" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="19" Foreground="#EEE8F2"/>
+                    <Image Name="IconPreview" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#D5C8DD" StrokeThickness="1.5" Data="M1,2 H18 V17 H1 Z M3,14 L7,9 10,12 14,7 17,12">
+                      <Path.Style><Style TargetType="Path"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><MultiDataTrigger><MultiDataTrigger.Conditions><Condition Binding="{Binding Text,ElementName=IconInitial}" Value=""/><Condition Binding="{Binding Source,ElementName=IconPreview}" Value="{x:Null}"/></MultiDataTrigger.Conditions><Setter Property="Visibility" Value="Visible"/></MultiDataTrigger></Style.Triggers></Style></Path.Style>
+                    </Path>
+                  </Grid>
+                </Button>
+                <Border Style="{StaticResource sourceRow}">
+                <TextBox Name="ImportName" MaxLength="120" AutomationProperties.Name="{DynamicResource 'ui.游戏名称'}" Style="{StaticResource importPath}"/>
+                </Border>
+              </DockPanel>
+            </StackPanel>
+            <StackPanel Name="MagnetImportFields" Visibility="Collapsed">
+              <TextBlock Margin="0,13,0,5" FontSize="12" Foreground="#D4D0C8" Text="{DynamicResource 'ui.磁力链接'}"/>
+              <Border Style="{StaticResource sourceRow}">
+                <DockPanel>
+                  <Path DockPanel.Dock="Left" Margin="0,0,11,0" VerticalAlignment="Center" Stroke="#C6AFD8" StrokeThickness="1.5"
+                        StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M9,15 L6,18 A4,4 0 0 1 1,12 L6,7 A4,4 0 0 1 12,8 M10,5 L13,2 A4,4 0 0 1 19,7 L14,12 A4,4 0 0 1 8,12 M7,13 L13,7"/>
+                  <TextBox Name="MagnetLink" AutomationProperties.Name="{DynamicResource 'ui.磁力链接'}"
+                           AutomationProperties.HelpText="{DynamicResource 'ui.粘贴磁力链接'}" Style="{StaticResource sourceAddress}"/>
+                </DockPanel>
+              </Border>
+            </StackPanel>
+            <StackPanel Name="LocalImportFields" Visibility="Collapsed">
+              <TextBlock Margin="0,20,0,7" FontSize="13" Foreground="#E5DEE7" Text="{DynamicResource 'ui.游戏本体目录'}"/>
+              <Button Name="PickAssets" Style="{StaticResource filePicker}" Tag="{DynamicResource 'ui.尚未选择文件夹'}"
+                      AutomationProperties.Name="{DynamicResource 'ui.游戏本体目录'}" ToolTip="{Binding Text,ElementName=AssetPath}">
+                <TextBox Name="AssetPath" Style="{StaticResource pickedPath}"/>
+              </Button>
+            </StackPanel>
+            <StackPanel Name="ArchiveOptions" Visibility="Collapsed" Margin="0,16,0,0">
+              <TextBlock FontSize="12" Foreground="#E6C989" Text="{DynamicResource 'ui.检测到本体压缩包'}"/>
+              <TextBlock Name="ArchiveDetails" Margin="0,3,0,0" FontSize="12" Foreground="#C7C1CF" TextWrapping="Wrap"/>
+              <StackPanel Name="ArchiveModes" Margin="0,16,0,0">
+                <TextBlock FontWeight="SemiBold" Foreground="#F5F0F6" Text="{DynamicResource 'ui.选择解压方式'}"/>
+                <UniformGrid Name="ArchiveModeCards" Columns="2" Margin="-4,5,-4,0">
+                  <RadioButton Name="KeepArchive" GroupName="ArchiveMode" Margin="4" Style="{StaticResource importSourceCard}"
+                               AutomationProperties.Name="{DynamicResource 'ui.标准解压'}" Content="{DynamicResource 'ui.完整保留源归档，可重复解压。'}">
+                    <RadioButton.Tag><PathGeometry Figures="M2,7 H20 V18 H2 Z M1,3 H21 V7 H1 Z M8,10 H14"/></RadioButton.Tag>
+                  </RadioButton>
+                  <RadioButton Name="DeleteArchive" GroupName="ArchiveMode" Margin="4" Style="{StaticResource importSourceCard}"
+                               AutomationProperties.Name="{DynamicResource 'ui.解压并删除源分卷'}" Content="{DynamicResource 'ui.逐卷释放源归档占用的磁盘空间。'}">
+                    <RadioButton.Tag><PathGeometry Figures="M2,5 H19 M6,5 V3 H15 V5 M4,7 L5,19 H16 L17,7 M8,9 V16 M13,9 V16"/></RadioButton.Tag>
+                  </RadioButton>
+                </UniformGrid>
+              </StackPanel>
+              <StackPanel Name="ArchiveDestination" Margin="0,14,0,0">
+                <TextBlock Margin="0,0,0,5" FontWeight="SemiBold" Text="{DynamicResource 'ui.解压目录'}"/>
+                <Button Name="PickArchiveOutput" Style="{StaticResource filePicker}" Tag="{DynamicResource 'ui.请选择解压目录'}"
+                        AutomationProperties.Name="{DynamicResource 'ui.解压目录'}" ToolTip="{Binding Text,ElementName=ArchiveOutputPath}">
+                  <TextBox Name="ArchiveOutputPath" Style="{StaticResource pickedPath}"/>
+                </Button>
+              </StackPanel>
+              <Border Name="ArchiveRisk" Visibility="Collapsed" Margin="0,8,0,0" Padding="12,10" Background="#342E25" BorderBrush="#6C5533" BorderThickness="1" CornerRadius="10">
+                <Grid>
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                  <Path Width="16" Height="16" Margin="0,2,10,0" VerticalAlignment="Top" Stretch="Uniform" Stroke="#F3C76D" StrokeThickness="1.6"
+                        StrokeLineJoin="Round" Data="M9,2 L17,16 H1 Z M9,6 V10 M9,12 V13"/>
+                  <StackPanel Grid.Column="1">
+                    <TextBlock Foreground="#FFE1A0" FontWeight="SemiBold" Text="{DynamicResource 'ui.删除源卷不可撤销'}"/>
+                    <TextBlock Margin="0,4,0,0" FontSize="12" Foreground="#E0D2BC" TextWrapping="Wrap"
+                               Text="{DynamicResource 'ui.分卷 RAR 可在读取下一卷时删除已完整读取的前序卷；单卷归档会在解压完成并检测到游戏清单后删除。若任务中断、发生磁盘读写错误或校验失败，重新解压前需补齐已删除的源卷。'}"/>
+                    <CheckBox Name="ReleaseVolumes" Margin="0,10,0,0" Style="{StaticResource settingsCheck}"
+                              AutomationProperties.Name="{DynamicResource 'ui.我已了解风险，允许永久删除源卷。'}">
+                      <TextBlock FontSize="13" Foreground="#FFF1D3" TextWrapping="Wrap" Text="{DynamicResource 'ui.我已了解风险，允许永久删除源卷。'}"/>
+                    </CheckBox>
+                  </StackPanel>
+                </Grid>
+              </Border>
+            </StackPanel>
+            <StackPanel Name="ContainsQuestion" Visibility="Collapsed" Margin="0,18,0,0">
+              <TextBlock FontWeight="SemiBold" Text="{DynamicResource 'ui.本体中是否包含游戏 EXE？'}"/>
+              <UniformGrid Name="ExePresenceCards" Columns="2" Margin="-4,5,-4,0">
+                <RadioButton Name="IncludesExe" GroupName="Included" Margin="4" Style="{StaticResource importSourceCard}"
+                             AutomationProperties.Name="{DynamicResource 'ui.包含，自动查找'}" Content="{DynamicResource 'ui.从本体文件中识别游戏 EXE。'}">
+                  <RadioButton.Tag><PathGeometry Figures="M4,2 H12 L17,7 V11 M12,2 V7 H17 M4,2 V19 H9 M17,16 A3.5,3.5 0 1 1 10,16 A3.5,3.5 0 1 1 17,16 M16.5,18.5 L20,22"/></RadioButton.Tag>
+                </RadioButton>
+                <RadioButton Name="SupplyExe" GroupName="Included" Margin="4" Style="{StaticResource importSourceCard}"
+                             AutomationProperties.Name="{DynamicResource 'ui.另行提供 EXE'}" Content="{DynamicResource 'ui.指定 EXE 来源，或选择内置版本。'}">
+                  <RadioButton.Tag><PathGeometry Figures="M4,2 H12 L17,7 V11 M12,2 V7 H17 M4,2 V19 H10 M15,13 V21 M11,17 H19"/></RadioButton.Tag>
+                </RadioButton>
+              </UniformGrid>
+            </StackPanel>
+            <StackPanel Name="ExeSources" Visibility="Collapsed" Margin="0,18,0,0">
+              <Border CornerRadius="13" Padding="3" BorderThickness="1" BorderBrush="#514A5C" Background="#27252F">
+                <Grid Name="ExeSourceTrack" Background="Transparent" Cursor="Hand">
+                  <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                  <Border Name="ExeSourceThumb" IsHitTestVisible="False" Opacity="0" CornerRadius="10" Background="#443B4F" BorderBrush="#736180" BorderThickness="1">
+                    <Border.RenderTransform><TranslateTransform/></Border.RenderTransform>
+                  </Border>
+                  <UniformGrid Columns="2" Grid.ColumnSpan="2">
+                    <RadioButton Name="OwnExe" GroupName="ExeSource" Style="{StaticResource exeTab}" Content="{DynamicResource 'ui.自己的 EXE'}">
+                      <RadioButton.Tag><PathGeometry Figures="M2,1 H10 L15,6 V17 H2 Z M10,1 V6 H15 M5,11 H11"/></RadioButton.Tag>
+                    </RadioButton>
+                    <RadioButton Name="BuiltinExe" GroupName="ExeSource" Style="{StaticResource exeTab}" Content="{DynamicResource 'ui.内置适配 EXE'}">
+                      <RadioButton.Tag><PathGeometry Figures="M1,5 L9,1 L17,5 L9,9 Z M1,9 L9,13 L17,9 M1,13 L9,17 L17,13"/></RadioButton.Tag>
+                    </RadioButton>
+                  </UniformGrid>
+                </Grid>
+              </Border>
+              <StackPanel Name="OwnExeRow" Margin="0,18,0,0">
+                <TextBlock Name="ExeAddressLabel" FontSize="13" Margin="0,0,0,6" Text="{DynamicResource 'ui.EXE 文件或压缩包'}"/>
+                <Border Style="{StaticResource sourceRow}" Padding="12,0,7,0">
+                  <DockPanel>
+                    <Border DockPanel.Dock="Right" Margin="8,0,0,0" VerticalAlignment="Center" Background="#443C4D" CornerRadius="8">
+                      <Button Name="PickExe" Height="30" MinWidth="64" Style="{StaticResource railAction}" Foreground="#EDE4F3" Content="{DynamicResource 'ui.浏览文件'}"/>
+                    </Border>
+                    <Path DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,0,11,0" Stroke="#C6AFD8" StrokeThickness="1.5" StrokeLineJoin="Round"
+                          Data="M1,5 Q1,3 3,3 H7 L10,6 H17 Q19,6 19,8 V15 Q19,17 17,17 H3 Q1,17 1,15 Z"/>
+                    <TextBox Name="ExePath" Style="{StaticResource sourceAddress}" AutomationProperties.Name="{Binding Text,ElementName=ExeAddressLabel}"/>
+                  </DockPanel>
+                </Border>
+              </StackPanel>
+              <StackPanel Name="BuiltinExeRow" Margin="0,18,0,0">
+                <TextBlock FontSize="13" Margin="0,0,0,6" Text="{DynamicResource 'ui.可用版本'}"/>
+                <ListBox Name="BuiltinList" AutomationProperties.Name="{DynamicResource 'ui.可用版本'}" SelectedValuePath="Value" DisplayMemberPath="Key"
+                         Background="Transparent" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                  <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem">
+                    <Setter Property="Cursor" Value="Hand"/><Setter Property="FocusVisualStyle" Value="{StaticResource navFocus}"/>
+                    <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+                      <Border Name="choice" MinHeight="46" Margin="0,0,0,4" CornerRadius="11" Padding="13,6" Background="#2C2A34" BorderThickness="1" BorderBrush="#514A5C">
+                        <DockPanel VerticalAlignment="Center">
+                          <Grid DockPanel.Dock="Right" Width="14" Height="14" Margin="10,0,0,0">
+                            <Ellipse Stroke="#A398AC"/><Ellipse Name="selected" Margin="3" Fill="#FFD65C" Visibility="Collapsed"/>
+                          </Grid>
+                          <ContentPresenter VerticalAlignment="Center" TextElement.Foreground="#EEE8F2"/>
+                        </DockPanel>
+                      </Border>
+                      <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="choice" Property="Background" Value="#383440"/></Trigger>
+                        <Trigger Property="IsSelected" Value="True"><Setter TargetName="selected" Property="Visibility" Value="Visible"/><Setter TargetName="choice" Property="BorderBrush" Value="#FFD65C"/></Trigger>
+                      </ControlTemplate.Triggers>
+                    </ControlTemplate></Setter.Value></Setter>
+                  </Style></ListBox.ItemContainerStyle>
+                </ListBox>
+              </StackPanel>
+            </StackPanel>
+            <Border Name="ImportCheckPage" Visibility="Collapsed" Margin="0,16,0,0" Padding="14"
+                    Background="#2E2B36" BorderBrush="#514A5C" BorderThickness="1" CornerRadius="14">
+              <StackPanel>
+                <DockPanel LastChildFill="True">
+                  <Border DockPanel.Dock="Right" Margin="10,0,0,0" VerticalAlignment="Center" Background="#423B4B" CornerRadius="15"
+                          Visibility="{Binding Visibility,ElementName=CancelMagnet}">
+                    <Button Name="CancelMagnet" MinWidth="54" Height="30" Visibility="Collapsed"
+                            Foreground="#EDE6F4" Style="{StaticResource railAction}" Content="{DynamicResource 'ui.取消'}"/>
+                  </Border>
+                  <Border DockPanel.Dock="Left" Width="36" Height="36" Margin="0,0,12,0" VerticalAlignment="Center" CornerRadius="11" Background="#433A50">
+                    <Grid>
+                      <Path HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#DDC6F0" StrokeThickness="1.6" StrokeLineJoin="Round"
+                            Data="M9,1 V12 M4,7 L9,12 L14,7 M2,14 V17 H16 V14">
+                        <Path.Style><Style TargetType="Path"><Style.Triggers><DataTrigger Binding="{Binding IsIndeterminate,ElementName=MagnetProgress}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></Path.Style>
+                      </Path>
+                      <StackPanel Name="TransferWaitDots" HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                        <StackPanel.Style><Style TargetType="StackPanel"><Style.Triggers>
+                          <DataTrigger Binding="{Binding IsIndeterminate,ElementName=MagnetProgress}" Value="False"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                        </Style.Triggers></Style></StackPanel.Style>
+                        <Ellipse Width="4" Height="4" Margin="1.5" Fill="#DDC6F0"/><Ellipse Width="4" Height="4" Margin="1.5" Fill="#DDC6F0"/><Ellipse Width="4" Height="4" Margin="1.5" Fill="#DDC6F0"/>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                  <StackPanel VerticalAlignment="Center">
+                    <TextBlock Name="CheckActivity" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                    <TextBlock Name="CheckSource" Margin="0,3,0,0" FontSize="12" Foreground="#CEC3D7" TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                </DockPanel>
+                <ProgressBar Name="MagnetProgress" Height="4" Margin="0,8,0,0" Minimum="0" Maximum="100" Background="#45414E" Foreground="#D5BFEB">
+                  <ProgressBar.Style><Style TargetType="ProgressBar"><Style.Triggers>
+                    <Trigger Property="IsIndeterminate" Value="True"><Setter Property="Visibility" Value="Collapsed"/></Trigger>
+                  </Style.Triggers></Style></ProgressBar.Style>
+                  <ProgressBar.Template><ControlTemplate TargetType="ProgressBar">
+                    <Grid x:Name="PART_Track"><Border CornerRadius="2" Background="{TemplateBinding Background}"/>
+                      <Border x:Name="PART_Indicator" HorizontalAlignment="Left" CornerRadius="2" Background="{TemplateBinding Foreground}"/>
+                    </Grid>
+                  </ControlTemplate></ProgressBar.Template>
+                </ProgressBar>
+              </StackPanel>
+            </Border>
+            <StackPanel Name="ImportArtworkFields" Visibility="Collapsed" Margin="0,18,0,0">
+              <TextBlock Text="{DynamicResource 'ui.详细卡封面'}" Margin="0,0,0,6"/>
+              <Button Name="PickDetailCover" Style="{StaticResource filePicker}" AutomationProperties.Name="{DynamicResource 'ui.导入封面'}">
+                <TextBlock Name="DetailCoverName" Foreground="#EEE8F2" TextTrimming="CharacterEllipsis"/>
+              </Button>
+              <TextBlock Text="{DynamicResource 'ui.配置启动器'}" Margin="0,15,0,4"/>
+              <UniformGrid Columns="2" Margin="-4,0,-4,0">
+                <RadioButton Name="ChooseXcl" Style="{StaticResource importSourceCard}" GroupName="DraftEngine" Margin="4" AutomationProperties.Name="XCL" Content="{DynamicResource 'ui.Xbox Series X|S 通用'}">
+                  <RadioButton.Tag><PathGeometry Figures="M2,3 H19 V15 H2 Z M6,19 H15 M10.5,15 V19"/></RadioButton.Tag>
+                </RadioButton>
+                <RadioButton Name="ChooseOptimized" Style="{StaticResource importSourceCard}" GroupName="DraftEngine" Margin="4" AutomationProperties.Name="{DynamicResource 'ui.独立优化'}">
+                  <RadioButton.Tag><PathGeometry Figures="M10,1 L19,6 10,11 1,6 Z M1,11 L10,16 19,11 M1,15 L10,20 19,15"/></RadioButton.Tag>
+                </RadioButton>
+              </UniformGrid>
+              <CheckBox Name="UseBundledProfile" Margin="0,5,0,0" Cursor="Hand" FocusVisualStyle="{StaticResource navFocus}">
+                <CheckBox.Template><ControlTemplate TargetType="CheckBox">
+                  <Border Name="versionCard" MinHeight="46" Padding="14,7" CornerRadius="10" Background="#302D38" BorderBrush="#514A5C" BorderThickness="1">
+                    <DockPanel VerticalAlignment="Center">
+                      <Grid DockPanel.Dock="Right" Width="18" Height="18"><Ellipse Name="choiceRing" Stroke="#97879F"/><Path Name="tick" Visibility="Collapsed" Data="M4,9 L7.4,12.2 14,5.8" Stroke="#302530" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"/></Grid>
+                      <Path DockPanel.Dock="Left" Margin="0,0,11,0" VerticalAlignment="Center" Stroke="#CCB8DA" StrokeThickness="1.4" StrokeLineJoin="Round" Data="M1,5 L9,1 17,5 9,9 Z M1,5 V13 L9,17 17,13 V5 M9,9 V17"/>
+                      <ContentPresenter VerticalAlignment="Center" TextElement.FontWeight="SemiBold" TextElement.Foreground="#F0E9F3"/>
+                    </DockPanel>
+                  </Border>
+                  <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="versionCard" Property="Background" Value="#393440"/></Trigger><Trigger Property="IsChecked" Value="True"><Setter TargetName="versionCard" Property="BorderBrush" Value="#756479"/><Setter TargetName="versionCard" Property="Background" Value="#38313E"/><Setter TargetName="choiceRing" Property="Fill" Value="#F0D68A"/><Setter TargetName="choiceRing" Property="Stroke" Value="#F0D68A"/><Setter TargetName="tick" Property="Visibility" Value="Visible"/></Trigger></ControlTemplate.Triggers>
+                </ControlTemplate></CheckBox.Template>
+              </CheckBox>
+            </StackPanel>
+            <TextBlock Name="ImportStatus" Margin="0,14,0,0" TextWrapping="Wrap" Foreground="#F0D595"/>
+            </StackPanel>
+          </StackPanel>
+          </AdornerDecorator>
+          </Viewbox>
+          </Grid>
+          <DockPanel Grid.Row="2" Margin="0,16,0,0" LastChildFill="False">
+          <layout:ImportActionButton Name="CheckGame" DockPanel.Dock="Right" Height="54" MinWidth="175"
+                  Style="{StaticResource railAction}" FontWeight="SemiBold" FontSize="16" ToolTipService.ShowOnDisabled="True">
+            <Button.Template><ControlTemplate TargetType="Button">
+              <Grid Background="Transparent">
+                <VisualStateManager.VisualStateGroups>
+                  <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                      <VisualTransition To="Pressed" GeneratedDuration="{StaticResource ImportPressDuration}"/>
+                      <VisualTransition GeneratedDuration="{StaticResource ImportHoverDuration}">
+                        <VisualTransition.GeneratedEasingFunction><CubicEase EasingMode="EaseOut"/></VisualTransition.GeneratedEasingFunction>
+                      </VisualTransition>
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal"/><VisualState x:Name="Disabled"/>
+                    <VisualState x:Name="MouseOver"><Storyboard>
+                      <DoubleAnimation Storyboard.TargetName="wash" Storyboard.TargetProperty="Opacity" To=".12" Duration="0"/>
+                      <DoubleAnimation Storyboard.TargetName="lift" Storyboard.TargetProperty="Y" To="-1.5" Duration="0"/>
+                    </Storyboard></VisualState>
+                    <VisualState x:Name="Pressed"><Storyboard>
+                      <DoubleAnimation Storyboard.TargetName="press" Storyboard.TargetProperty="ScaleX" To=".975" Duration="0"/>
+                      <DoubleAnimation Storyboard.TargetName="press" Storyboard.TargetProperty="ScaleY" To=".96" Duration="0"/>
+                    </Storyboard></VisualState>
+                  </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Grid Name="pill" RenderTransformOrigin=".5,.5">
+                  <Grid.RenderTransform><TransformGroup><ScaleTransform x:Name="press"/><TranslateTransform x:Name="lift"/></TransformGroup></Grid.RenderTransform>
+                  <Border CornerRadius="27" Background="{TemplateBinding Background}"/>
+                  <Border CornerRadius="27" BorderThickness="1" BorderBrush="{TemplateBinding Foreground}" Opacity=".23"/>
+                  <Border Name="wash" CornerRadius="27" Background="White" Opacity="0"/>
+                  <Grid Margin="19,0,9,0">
+                    <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                    <Grid Grid.Column="1" Width="35" Height="35" VerticalAlignment="Center">
+                      <Ellipse Fill="{TemplateBinding Foreground}" Opacity=".095"/>
+                      <Path x:Name="actionGlyph" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Stroke="{TemplateBinding Foreground}" StrokeThickness="1.8" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                            RenderTransformOrigin=".5,.5"/>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False"><Setter Property="Cursor" Value="Arrow"/></Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate></Button.Template>
+          </layout:ImportActionButton>
+          <StackPanel Name="DetailCheckSuccess" Visibility="Collapsed" DockPanel.Dock="Right" Margin="0,0,15,0" Orientation="Horizontal" VerticalAlignment="Center">
+            <Path Stroke="#8FE3B0" VerticalAlignment="Center" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M1,6 L5,10 13,2"/>
+            <TextBlock Text="{DynamicResource 'ui.检查通过'}" Margin="6,0,0,0" Foreground="#A9DFC0"/>
+          </StackPanel>
+          </DockPanel>
+          </Grid>
+        </Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,14,15,0" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Grid Name="UpdateSlot" Width="0" ClipToBounds="True">
+          <Button Name="UpdateAction" Style="{StaticResource toolbarButton}" HorizontalAlignment="Center" Margin="0" Visibility="Collapsed"
+                  ToolTipService.ShowOnDisabled="True" RenderTransformOrigin=".5,.5">
+            <Button.RenderTransform><ScaleTransform/></Button.RenderTransform>
+            <Button.Background>
+              <LinearGradientBrush StartPoint="0,0" EndPoint=".8,1">
+                <GradientStop Color="#257BDE" Offset="0"/><GradientStop Color="#10458F" Offset="1"/>
+              </LinearGradientBrush>
+            </Button.Background>
+            <Grid Width="37" Height="37">
+              <Path Name="DownloadGlyph" Width="19.5" Height="18.5" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="White"
+                    StrokeThickness="1.65" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"
+                    Data="M11,1 V13 M5.8,8.4 L11,13.6 16.2,8.4 M2,14 V18 H20 V14"/>
+              <Path Name="InstallGlyph" Visibility="Collapsed" Width="18" Height="18" Stretch="Fill"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="White" StrokeThickness="1.5"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Data="M3,7 A7,7 0 1 1 3,12 M2,2 V8 H8"/>
+              <Grid Name="DownloadMeter" Visibility="Collapsed">
+                <Canvas Width="37" Height="37">
+                  <Path Stroke="#597A96" StrokeThickness="1.45"><Path.Data><EllipseGeometry Center="18.5,18.5" RadiusX="13" RadiusY="13"/></Path.Data></Path>
+                  <Path Name="DownloadArc" Stroke="#C5E9FF" StrokeThickness="1.45" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                </Canvas>
+                <TextBlock Name="DownloadAmount" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10" FontWeight="Medium" Foreground="White"/>
+                <Path Name="TransferArrow" Width="11" Height="13" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center"
+                      Opacity="0" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                      StrokeLineJoin="Round" Data="M5,0 V11 M.5,6.5 L5,11 9.5,6.5">
+                  <Path.Stroke>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                      <LinearGradientBrush.RelativeTransform><TranslateTransform/></LinearGradientBrush.RelativeTransform>
+                      <GradientStop Offset="0" Color="#78AFDF"/><GradientStop Offset=".42" Color="White"/>
+                      <GradientStop Offset=".62" Color="White"/><GradientStop Offset="1" Color="#78AFDF"/>
+                    </LinearGradientBrush>
+                  </Path.Stroke>
+                </Path>
+              </Grid>
+            </Grid>
+          </Button>
+          </Grid>
+          <Button Name="ShowConsole" Style="{StaticResource toolbarButton}" ToolTip="{DynamicResource 'ui.打开实时日志'}" AutomationProperties.Name="{DynamicResource 'ui.打开实时日志'}">
+            <Path Stroke="White" StrokeThickness="1.65" Data="M1,2 H16 V14 H1 Z M4,5 L7,8 4,11 M9,11 H13"/>
+          </Button>
+          <Button Name="ShowSettings" Style="{StaticResource toolbarButton}" ToolTip="{DynamicResource 'ui.启动器设置'}" AutomationProperties.Name="{DynamicResource 'ui.启动器设置'}">
+            <Path Data="{StaticResource settingsGear}" Width="17" Height="17" Stretch="Uniform" Fill="White"/>
+          </Button>
+          <Rectangle Width="1" Height="21" Fill="#90FFFFFF" Margin="9,0,6,0"/>
+          <Button Name="Min" Style="{StaticResource toolbarButton}" ToolTip="{DynamicResource 'ui.最小化'}" AutomationProperties.Name="{DynamicResource 'ui.最小化'}"><Path Stroke="White" StrokeThickness="1.45" Data="M1,6 H12"/></Button>
+          <Button Name="Close" Style="{StaticResource toolbarButton}" ToolTip="{DynamicResource 'ui.关闭'}" AutomationProperties.Name="{DynamicResource 'ui.关闭'}"><Path Stroke="White" StrokeThickness="1.45" Data="M1,1 L11,11 M11,1 L1,11"/></Button>
+        </StackPanel>
+        <Grid Name="ShaderOverlay" Visibility="Collapsed" shell:WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabNavigation="Cycle">
+          <Border Name="ShaderScrim" Background="Transparent"/>
+          <Border Name="ShaderCard" Style="{StaticResource launchSettingsCard}">
+            <StackPanel>
+              <DockPanel>
+                <Button DockPanel.Dock="Right" Name="CloseShader" Width="27" Height="27" Style="{StaticResource roundAction}" AutomationProperties.Name="{DynamicResource 'ui.关闭'}"><Path Data="M2,2 L11,11 M11,2 L2,11" Stroke="#EEE5EF" StrokeThickness="1.5"/></Button>
+                <TextBlock Text="{DynamicResource 'ui.着色器设置'}" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/>
+              </DockPanel>
+              <Border Height="1" Background="#504853" Margin="0,12,0,9"/>
+              <UniformGrid Columns="2">
+                <Button Name="Retry" MinHeight="33" Margin="0,0,3,0"><TextBlock Text="{DynamicResource 'ui.重新预热着色器'}" TextAlignment="Center" TextWrapping="Wrap"/></Button>
+                <Button Name="ClearShaders" MinHeight="33" Margin="3,0,0,0"><TextBlock Text="{DynamicResource 'ui.清理着色器缓存'}" TextAlignment="Center" TextWrapping="Wrap"/></Button>
+              </UniformGrid>
+            </StackPanel>
+          </Border>
+        </Grid>
+        <Grid Name="RenderOverlay" Visibility="Collapsed" shell:WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabNavigation="Cycle">
+          <Border Name="RenderScrim" Background="Transparent"/>
+          <Border Name="RenderCard" Style="{StaticResource launchSettingsCard}">
+            <StackPanel>
+              <DockPanel>
+                <Button DockPanel.Dock="Right" Name="CloseRender" Width="27" Height="27" Style="{StaticResource roundAction}" AutomationProperties.Name="{DynamicResource 'ui.关闭'}"><Path Data="M2,2 L11,11 M11,2 L2,11" Stroke="#EEE5EF" StrokeThickness="1.5"/></Button>
+                <TextBlock Text="{DynamicResource 'ui.模拟器设置'}" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/>
+              </DockPanel>
+              <TextBlock Name="RenderEngineName" Foreground="#DBC8F1" Margin="0,8,0,12"/>
+              <StackPanel Name="VictoryOptions" Visibility="Collapsed">
+                <TextBlock Text="{DynamicResource 'ui.主机配置'}" Style="{StaticResource cardCaption}"/>
+                <Border Style="{StaticResource renderSegments}"><UniformGrid Name="VictoryConsole" Columns="2"/></Border>
+                <TextBlock Text="NVIDIA DLSS" Style="{StaticResource cardCaption}"/>
+                <Border Style="{StaticResource renderSegments}">
+                  <UniformGrid Name="VictoryDlss" Columns="4"/>
+                </Border>
+                <TextBlock Text="{DynamicResource 'ui.帧生成方式'}" Style="{StaticResource cardCaption}"/>
+                <Border Style="{StaticResource renderSegments}" Margin="0,4,0,0"><UniformGrid Name="VictoryType" Columns="3"/></Border>
+                <TextBlock Name="VictoryStatus" Style="{StaticResource cardCaption}" Margin="0,6,0,0" TextWrapping="Wrap"/>
+              </StackPanel>
+              <StackPanel Name="NativeDlssSection">
+              <CheckBox Name="DlssSr" Content="NVIDIA DLSS" Style="{StaticResource settingsCheck}"/>
+              <TextBlock Name="DlssStatus" Style="{StaticResource cardCaption}" Margin="23,3,0,0" TextWrapping="Wrap"/>
+              <StackPanel Name="DlssOptions">
+                <StackPanel.Style><Style TargetType="StackPanel">
+                  <Setter Property="Visibility" Value="Collapsed"/>
+                  <Style.Triggers><DataTrigger Binding="{Binding IsChecked,ElementName=DlssSr}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+                </Style></StackPanel.Style>
+                <UniformGrid Columns="3" Margin="0,10,0,0">
+                  <RadioButton Name="SrQuality" GroupName="SrMode" Style="{StaticResource settingsTab}" Tag="quality" Content="{DynamicResource 'ui.质量'}"/>
+                  <RadioButton Name="SrBalanced" GroupName="SrMode" Style="{StaticResource settingsTab}" Tag="balanced" Content="{DynamicResource 'ui.平衡'}"/>
+                  <RadioButton Name="SrPerformance" GroupName="SrMode" Style="{StaticResource settingsTab}" Tag="performance" Content="{DynamicResource 'ui.性能'}"/>
+                </UniformGrid>
+              </StackPanel>
+              </StackPanel>
+              <StackPanel Name="FgOptions" Visibility="Collapsed">
+              <DockPanel Margin="0,12,0,0">
+                <TextBlock Name="FgValue" DockPanel.Dock="Right" Foreground="#DBC8F1" VerticalAlignment="Center"/>
+                <TextBlock Name="FgTitle" Text="{DynamicResource 'ui.DLSS 帧生成'}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+              </DockPanel>
+              <Slider Name="FgSlider" Margin="0,5,0,0" Height="42" Minimum="0" Maximum="1" SmallChange="1" LargeChange="1"
+                      IsMoveToPointEnabled="True" IsEnabled="False" Cursor="Hand"
+                      FocusVisualStyle="{StaticResource navFocus}" AutomationProperties.Name="{DynamicResource 'ui.DLSS 帧生成'}">
+                <Slider.Template><ControlTemplate TargetType="Slider">
+                  <Grid x:Name="surface" Background="Transparent">
+                    <Border VerticalAlignment="Center" Height="25" CornerRadius="13" Background="#514C59"/>
+                    <layout:FrameMultiplierTicks x:Name="stops" Minimum="{TemplateBinding Minimum}" Maximum="{TemplateBinding Maximum}"
+                        ReservedSpace="31" Fill="#A69FAD" IsHitTestVisible="False"/>
+                    <Track x:Name="PART_Track" Focusable="False" Value="{Binding Value,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}">
+                      <Track.DecreaseRepeatButton>
+                        <RepeatButton Focusable="False" Command="{x:Static Slider.DecreaseLarge}">
+                          <RepeatButton.Template><ControlTemplate TargetType="RepeatButton">
+                            <Grid Background="Transparent">
+                              <Border Height="25" Margin="0,0,-16,0" CornerRadius="13,0,0,13" VerticalAlignment="Center"
+                                      Background="{Binding Foreground,RelativeSource={RelativeSource AncestorType=Slider}}"/>
+                              <Border Height="20" Margin="7,0,-9,0" VerticalAlignment="Center"
+                                      Background="{Binding Background,RelativeSource={RelativeSource AncestorType=Slider}}"/>
+                            </Grid>
+                          </ControlTemplate></RepeatButton.Template>
+                        </RepeatButton>
+                      </Track.DecreaseRepeatButton>
+                      <Track.Thumb><Thumb Width="31" Height="31" Focusable="False">
+                        <Thumb.Template><ControlTemplate TargetType="Thumb">
+                          <Ellipse Fill="#FFFDFF" Stroke="#DDD7E5" StrokeThickness="0.8"/>
+                        </ControlTemplate></Thumb.Template>
+                      </Thumb></Track.Thumb>
+                      <Track.IncreaseRepeatButton>
+                        <RepeatButton Focusable="False" Command="{x:Static Slider.IncreaseLarge}">
+                          <RepeatButton.Template><ControlTemplate TargetType="RepeatButton"><Border Background="Transparent"/></ControlTemplate></RepeatButton.Template>
+                        </RepeatButton>
+                      </Track.IncreaseRepeatButton>
+                    </Track>
+                  </Grid>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsEnabled" Value="False"><Setter TargetName="surface" Property="Opacity" Value=".42"/><Setter Property="Cursor" Value="Arrow"/></Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate></Slider.Template>
+              </Slider>
+              </StackPanel>
+              <TextBlock Name="RenderNotice" Visibility="Collapsed" Style="{StaticResource cardCaption}" Margin="0,9,0,0" TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+        </Grid>
+        <Grid Name="SaveOverlay" Visibility="Collapsed" shell:WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabNavigation="Cycle">
+          <Border Name="SaveScrim" Background="Transparent"/>
+          <Border Name="SaveCard" Style="{StaticResource launchSettingsCard}">
+            <StackPanel>
+              <DockPanel>
+                <Button DockPanel.Dock="Right" Name="CloseSaves" Width="27" Height="27" Style="{StaticResource roundAction}" AutomationProperties.Name="{DynamicResource 'ui.关闭'}"><Path Data="M2,2 L11,11 M11,2 L2,11" Stroke="#EEE5EF" StrokeThickness="1.5"/></Button>
+                <TextBlock Text="{Binding Text,ElementName=LocalSavesLabel}" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center"/>
+              </DockPanel>
+              <TextBlock Margin="0,12,0,5" Text="{DynamicResource 'ui.选择存档'}" Style="{StaticResource cardCaption}"/>
+              <ScrollViewer MaxHeight="178" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Name="SaveChoices"/>
+              </ScrollViewer>
+              <Border Height="1" Background="#504853" Margin="0,12,0,9"/>
+              <UniformGrid Columns="3">
+                <Button Name="SaveFolder" Height="32" Margin="0,0,3,0" Content="{DynamicResource 'ui.所在文件夹'}"/>
+                <Button Name="ExportSave" Margin="3,0" Content="{DynamicResource 'ui.导出存档'}"/>
+                <Button Name="ImportSave" Margin="3,0,0,0" Content="{DynamicResource 'ui.导入存档'}"/>
+              </UniformGrid>
+              <TextBlock Name="SaveNotice" Margin="0,8,0,0" Visibility="Collapsed" TextWrapping="Wrap" Style="{StaticResource cardCaption}"/>
+            </StackPanel>
+          </Border>
+        </Grid>
+        </Grid>
+        <Grid Name="ControllerHost" Visibility="Collapsed" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+          <Grid.Background>
+            <RadialGradientBrush Center=".49,.44" GradientOrigin=".49,.44" RadiusX=".74" RadiusY=".86">
+              <GradientStop Color="#33363D"/><GradientStop Color="#202228" Offset=".54"/><GradientStop Color="#101115" Offset="1"/>
+            </RadialGradientBrush>
+          </Grid.Background>
+          <Grid Name="ControllerPageContent">
+          <Grid Name="MappingStage">
+            <Grid.RowDefinitions><RowDefinition/><RowDefinition Name="KeyboardRow" Height=".78*"/></Grid.RowDefinitions>
+          <Grid Name="OrbitSurface" Grid.RowSpan="2" Background="Transparent" Focusable="True" FocusVisualStyle="{x:Null}" AutomationProperties.Name="{DynamicResource 'ui.控制器输入测试'}">
+            <Viewport3D Name="ControllerViewport" IsHitTestVisible="False"/>
+          </Grid>
+            <Viewbox Name="KeyboardOverview" Grid.Row="1" Stretch="Uniform" Visibility="Collapsed" Margin="6,2"
+                     Focusable="True" FocusVisualStyle="{x:Null}">
+              <Viewbox.RenderTransform><TranslateTransform Y="12"/></Viewbox.RenderTransform>
+            </Viewbox>
+          </Grid>
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,18,0,0">
+            <Button Name="ControllerBack" Width="34" Height="34" Style="{StaticResource windowButton}" ToolTip="{DynamicResource 'ui.返回主页'}" AutomationProperties.Name="{DynamicResource 'ui.返回主页'}">
+              <Path Data="M10,1 L3,8 10,15 M3,8 H17" Stroke="White" StrokeThickness="1.6" StrokeLineJoin="Round"/>
+            </Button>
+            <TextBlock Name="ControllerTitle" Text="{DynamicResource 'ui.控制器'}" FontSize="16" FontWeight="SemiBold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+          </StackPanel>
+          <TextBlock Name="PaddleInput" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,24,0"
+                     FontSize="13" FontWeight="SemiBold" Foreground="#BCEADD" IsHitTestVisible="False"/>
+          <StackPanel Name="PadFooter" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,23">
+            <TextBlock Name="LivePadInfo" Text="{DynamicResource 'ui.未连接手柄'}" VerticalAlignment="Center" Foreground="#DFE0E6" FontSize="13"/>
+            <Button Name="RecenterPad" Visibility="Collapsed" Style="{StaticResource railAction}" Width="27" Height="27"
+                    Margin="5,0,0,0" ToolTip="{DynamicResource 'ui.陀螺仪已连接 · 点击回正'}" AutomationProperties.Name="{DynamicResource 'ui.陀螺仪回正'}">
+              <Grid Width="18" Height="18"><Ellipse Width="9" Height="17" Stroke="#B9EBD8" StrokeThickness="1.2"/>
+                <Ellipse Width="17" Height="7" Stroke="#B9EBD8" StrokeThickness="1.2"><Ellipse.RenderTransform><RotateTransform Angle="-25" CenterX="8.5" CenterY="3.5"/></Ellipse.RenderTransform></Ellipse>
+                <Ellipse Width="3" Height="3" Fill="#B9EBD8"/></Grid>
+            </Button>
+          </StackPanel>
+          <Grid Name="MappingPanel" Visibility="Collapsed" Margin="20,18">
+            <Grid HorizontalAlignment="Right">
+              <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+            <StackPanel Name="SlotRail" Grid.Row="1" RenderTransformOrigin=".5,.5">
+              <TextBlock Text="{DynamicResource 'ui.配置槽'}" HorizontalAlignment="Center" Foreground="#ADAAB5" FontSize="11" Margin="0,0,0,8"/>
+              <Border Background="#EB1B1A20" BorderBrush="#49454F" BorderThickness="1" CornerRadius="15" Padding="6">
+                <ScrollViewer Name="SlotScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
+                  <StackPanel Name="SlotList"/>
+                </ScrollViewer>
+              </Border>
+            </StackPanel>
+              <Button Name="MappingViewSwitch" Grid.Row="2" Width="38" Height="38" Margin="0,24,0,0" HorizontalAlignment="Center"
+                      VerticalAlignment="Top" Visibility="Collapsed" Style="{StaticResource windowButton}">
+                <Grid Width="21" Height="18" IsHitTestVisible="False">
+                  <Grid.Resources><Style TargetType="Path"><Setter Property="Stretch" Value="Uniform"/><Setter Property="Stroke" Value="#F3EDF7"/>
+                    <Setter Property="StrokeThickness" Value="1.6"/><Setter Property="StrokeLineJoin" Value="Round"/>
+                    <Setter Property="StrokeStartLineCap" Value="Round"/><Setter Property="StrokeEndLineCap" Value="Round"/></Style></Grid.Resources>
+                  <Path Name="SwitchKeyboardIcon" Data="M3,2 H21 Q23,2 23,4 V15 Q23,17 21,17 H3 Q1,17 1,15 V4 Q1,2 3,2 Z M5,6 H6 M9,6 H10 M13,6 H14 M17,6 H18 M5,9 H6 M9,9 H10 M13,9 H14 M17,9 H18 M8,13 H16"/>
+                  <Path Name="SwitchControllerIcon" Opacity="0" Data="M7,4 Q3,3 2,8 L1,14 Q0,20 5,16 L8,13 H16 L19,16 Q24,20 23,14 L22,8 Q21,3 17,4 L15,5 H9 Z M5,8 H10 M7.5,5.5 V10.5 M16,8 H17 M19,10 H20"/>
+                </Grid>
+              </Button>
+            </Grid>
+            <Grid Name="ProfileCaption" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,80,0">
+              <Grid.Resources><Style x:Key="profilePill" TargetType="Border">
+                <Setter Property="MinWidth" Value="90"/><Setter Property="CornerRadius" Value="13"/>
+                <Setter Property="BorderThickness" Value="1"/><Setter Property="BorderBrush" Value="#534E59"/>
+              </Style></Grid.Resources>
+              <Border Background="#F125242D" BorderBrush="#514B59" BorderThickness="1" CornerRadius="20" Padding="7,6">
+              <WrapPanel VerticalAlignment="Center">
+              <StackPanel Orientation="Horizontal">
+              <Grid MinHeight="30">
+              <Grid Name="ProfileLabel" ToolTip="{Binding ToolTip,ElementName=SlotStatus}">
+                <Border>
+                  <Border.Style><Style TargetType="Border" BasedOn="{StaticResource profilePill}">
+                    <Setter Property="Background" Value="#333239"/>
+                    <Style.Triggers><DataTrigger Binding="{Binding Visibility,ElementName=PresetMark}" Value="Visible">
+                      <Setter Property="Background" Value="{StaticResource presetCaptionTint}"/>
+                      <Setter Property="BorderBrush" Value="#6A556A"/>
+                    </DataTrigger></Style.Triggers>
+                  </Style></Border.Style>
+                </Border>
+                <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="11,0" MaxWidth="172">
+                  <Path Name="PresetMark" Width="23" Height="18" Stretch="Uniform" Fill="White"
+                        Margin="0,0,8,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                        Visibility="Collapsed" Data="{StaticResource gtaViMark}"/>
+                  <TextBlock Name="SlotStatus" Text="{DynamicResource 'ui.暂未配置'}" FontSize="14"
+                             Foreground="#F2EEF3" Background="Transparent" Padding="0,5"
+                             TextTrimming="CharacterEllipsis" TextAlignment="Center" VerticalAlignment="Center"/>
+                </DockPanel>
+              </Grid>
+              <Border Name="NameField" Style="{StaticResource profilePill}" MinWidth="126" Background="#34343C" Visibility="Collapsed" Padding="8,2">
+                <TextBox Name="ProfileName" MaxLength="40" Background="Transparent" Foreground="White" CaretBrush="White"
+                         FontSize="14" TextAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0" FocusVisualStyle="{x:Null}"
+                         AutomationProperties.Name="{DynamicResource 'ui.配置名称'}">
+                  <TextBox.Template><ControlTemplate TargetType="TextBox"><ScrollViewer Name="PART_ContentHost"/></ControlTemplate></TextBox.Template>
+                </TextBox>
+              </Border>
+              </Grid>
+              <Button Name="RenameSlot" Width="30" Height="30" Margin="5,0,0,0" Style="{StaticResource windowButton}"
+                      ToolTip="{DynamicResource 'ui.重命名配置'}" AutomationProperties.Name="{DynamicResource 'ui.重命名配置'}">
+                <Path Data="M2,12 L3,8.5 10,1.5 Q11,.5 12.5,2 Q14,3.5 13,4.5 L6,11.5 Z M8.5,3 L11.5,6"
+                      Stroke="#E0D7EA" StrokeLineJoin="Round" StrokeThickness="1.4"/>
+              </Button>
+              <Button Name="DeleteSlot" Width="30" Height="30" Margin="5,0,0,0" Background="#412E36" Style="{StaticResource railAction}"
+                      ToolTip="{DynamicResource 'ui.删除当前配置'}" AutomationProperties.Name="{DynamicResource 'ui.删除当前配置'}">
+                <Button.Template><ControlTemplate TargetType="Button">
+                  <Border x:Name="face" CornerRadius="15" Background="{TemplateBinding Background}" BorderBrush="#654753" BorderThickness="1">
+                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="face" Property="Background" Value="#563740"/></Trigger>
+                    <Trigger Property="IsPressed" Value="True"><Setter TargetName="face" Property="Background" Value="#67414D"/></Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate></Button.Template>
+                <Path Data="M2,4 H14 M5.5,4 V2 H10.5 V4 M4,5.5 L4.7,14 H11.3 L12,5.5 M6.7,7 V11.5 M9.3,7 V11.5"
+                      Stroke="#F2B8C3" StrokeThickness="1.4" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+              </Button>
+              </StackPanel>
+              <Border Name="PromptGroup" BorderBrush="#585161" BorderThickness="1,0,0,0" Margin="10,3,2,3" Padding="10,0,3,0">
+                <CheckBox Name="UseKeyPrompts" VerticalAlignment="Center" MinHeight="24" FontSize="13" Style="{StaticResource settingsCheck}"
+                      ToolTipService.ShowOnDisabled="True" Content="{DynamicResource 'ui.替换为实际键位'}"
+                      ToolTip="{DynamicResource 'ui.开启后预载键位提示，游戏退出后可更改。'}"/>
+              </Border>
+              </WrapPanel>
+              </Border>
+            </Grid>
+            <Button Name="ResetBindings" Style="{StaticResource windowButton}" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top"
+                    ToolTip="{DynamicResource 'ui.重置当前配置的全部键位'}" AutomationProperties.Name="{DynamicResource 'ui.重置当前配置的全部键位'}">
+              <Path Data="M3,7 A7,7 0 1 1 3,12 M2,2 V8 H8" Stroke="#F8F5FA" StrokeThickness="1.6" StrokeLineJoin="Round" StrokeEndLineCap="Round"/>
+            </Button>
+            <Border Name="BindPanel" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,6">
+              <StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
+                  <TextBlock Name="StepName" FontWeight="SemiBold" Foreground="#F5F1F6"/>
+                  <TextBlock Name="StepCount" Margin="9,1,0,0" FontSize="11" Foreground="#B9B5C2"/>
+                </StackPanel>
+                <Grid HorizontalAlignment="Center">
+                  <Grid.ColumnDefinitions><ColumnDefinition Width="55"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="55"/></Grid.ColumnDefinitions>
+                  <Button Name="PrevBinding" Style="{StaticResource windowButton}" Width="29" Height="29" Margin="0"
+                          ToolTip="{DynamicResource 'ui.上一步'}" AutomationProperties.Name="{DynamicResource 'ui.上一步'}">
+                    <Path Data="M8,1 L2,7 8,13" Stroke="#DDD8E0" StrokeThickness="1.6" StrokeLineJoin="Round"/>
+                  </Button>
+                  <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Border Name="ControlCap" Width="46" Height="46" CornerRadius="23" Background="#F0292B30"
+                            BorderThickness="1.5" BorderBrush="#BBE9D4" RenderTransformOrigin=".5,.5">
+                      <TextBlock Name="ControlSymbol" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <Button Name="BindTarget" Style="{StaticResource bindingCapsule}" Width="150" Height="46" Margin="12,0,0,0"
+                            ToolTip="{DynamicResource 'ui.点击重新录入'}" AutomationProperties.Name="{DynamicResource 'ui.录入或修改当前键位'}">
+                      <Grid>
+                        <TextBlock Name="BoundText" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="SemiBold" Foreground="#282530"/>
+                        <StackPanel Name="WaitingDots" Orientation="Horizontal" VerticalAlignment="Center">
+                          <Ellipse Width="5" Height="5" Fill="#514C5B"/><Ellipse Width="5" Height="5" Fill="#514C5B" Margin="6,0"/><Ellipse Width="5" Height="5" Fill="#514C5B"/>
+                        </StackPanel>
+                      </Grid>
+                    </Button>
+                  </StackPanel>
+                  <Button Name="NextBinding" Grid.Column="2" Width="32" Height="32" Margin="0" Visibility="Hidden"
+                          Style="{StaticResource windowButton}" Background="#DFCFF0" ToolTip="{DynamicResource 'ui.下一步'}" AutomationProperties.Name="{DynamicResource 'ui.下一步'}">
+                    <Path Name="NextGlyph" Data="M2,8 H14 M8,2 L14,8 8,14" Stroke="#2A2031" StrokeThickness="1.8" StrokeLineJoin="Round" StrokeEndLineCap="Round"/>
+                  </Button>
+                </Grid>
+                <TextBlock Name="BindHint" FontSize="11" Foreground="#D1CCD8" TextAlignment="Center" Margin="0,12,0,0" TextWrapping="Wrap"/>
+              </StackPanel>
+            </Border>
+            <Border Name="BindingSuccess" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    CornerRadius="22" Height="44" Background="#26342F" IsHitTestVisible="False">
+              <Grid ClipToBounds="True">
+                <Grid Width="44" Height="44" HorizontalAlignment="Left">
+                  <Path Name="SuccessRing" Data="M22,8 A14,14 0 1 1 21.99,8" Stroke="#AAECCD" StrokeThickness="2"
+                        StrokeDashArray="45 46" StrokeDashCap="Round"/>
+                  <Path Name="SuccessTick" Data="M15.5,22 L20,26.5 28.8,17.5" Stroke="#C4F7D9" StrokeThickness="2.3" StrokeDashArray="9 11"
+                        StrokeDashCap="Round" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                </Grid>
+                <TextBlock Name="SuccessLabel" Text="{DynamicResource 'ui.配置完成'}" FontWeight="SemiBold" Foreground="#EAFCF2"
+                           VerticalAlignment="Center" HorizontalAlignment="Left" Margin="46,0,15,0" TextWrapping="NoWrap"/>
+              </Grid>
+            </Border>
+          </Grid>
+          </Grid>
+        </Grid>
+        <Border Background="#7508060D" IsHitTestVisible="False" Visibility="{Binding Visibility, ElementName=SettingsPanel}"/>
+      </Grid>
+      <Grid Grid.ColumnSpan="4" Panel.ZIndex="5" HorizontalAlignment="Left" VerticalAlignment="Top" Height="76" Margin="16,3,0,0" IsHitTestVisible="False">
+        <Border Name="RepositoryNotice" Visibility="Collapsed" Width="48" Height="48" VerticalAlignment="Center"
+                Background="#20372C" BorderBrush="#688FDEA6" BorderThickness="1" CornerRadius="24" ClipToBounds="True">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="46"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Rectangle Width="31" Height="31">
+              <Rectangle.Fill><VisualBrush Visual="{Binding Content,ElementName=Repository}" Stretch="Uniform"/></Rectangle.Fill>
+            </Rectangle>
+            <TextBlock Name="RepositoryMessage" Grid.Column="1" VerticalAlignment="Center" MaxWidth="430" Margin="0,2,18,2" TextWrapping="Wrap"
+                       FontSize="14" Foreground="#EFFBF2" Text="{DynamicResource 'ui.该启动器为免费开源项目，请确保您是免费获得的。'}"/>
+          </Grid>
+        </Border>
+      </Grid>
+      <Canvas Name="ProjectOverlay" Grid.ColumnSpan="4" Panel.ZIndex="4" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+        <Border Name="ProjectCard" Width="402" Visibility="Collapsed">
+          <Grid>
+          <Border Background="#FC1A1921" BorderBrush="#504D4559" BorderThickness="1" CornerRadius="16">
+            <Border.Effect><DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity=".42"/></Border.Effect>
+          </Border>
+          <StackPanel Margin="18,16">
+            <DockPanel>
+              <Border Name="CardArt" Width="40" Height="40" CornerRadius="9" DockPanel.Dock="Left" Margin="0,0,11,0"/>
+              <Button Name="ProjectSource" DockPanel.Dock="Right" Width="32" Height="32" Background="#39343F"
+                      Style="{StaticResource roundAction}" ToolTip="{DynamicResource 'ui.在 GitHub 打开此项目'}" AutomationProperties.Name="{DynamicResource 'ui.打开项目源码'}">
+                <Path Data="M8,2 H15 V9 M14.7,2.3 L6.8,10.2 M5,4 H2 V15 H13 V12" Stroke="#F3E9F8"
+                      StrokeThickness="1.5" StrokeLineJoin="Round"/>
+              </Button>
+              <StackPanel VerticalAlignment="Center"><TextBlock Name="CardName" FontSize="17" FontWeight="Bold"/>
+                <TextBlock Name="CardRepo" Style="{StaticResource cardCaption}"/></StackPanel>
+            </DockPanel>
+            <Border BorderThickness="0,1" BorderBrush="#37333F" Padding="0,10" Margin="0,13,0,10">
+              <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="1.12*"/><ColumnDefinition Name="CardFpsColumn" Width="*"/><ColumnDefinition Width="1.23*"/></Grid.ColumnDefinitions>
+                <StackPanel>
+                  <TextBlock Text="{DynamicResource 'ui.适配平台'}" Style="{StaticResource cardCaption}"/>
+                    <TextBlock Name="CardPlatform" FontWeight="ExtraBold">
+                      <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource cardValue}">
+                        <Setter Property="Foreground" Value="#BDBDC7"/>
+                        <Style.Triggers>
+                          <Trigger Property="Text" Value="NVIDIA"><Setter Property="Foreground" Value="#A7DE40"/></Trigger>
+                          <Trigger Property="Text" Value="AMD"><Setter Property="Foreground" Value="#FF7177"/></Trigger>
+                        </Style.Triggers>
+                      </Style></TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Name="CardFpsGroup" Grid.Column="1"><TextBlock Name="CardFpsLabel" Text="{DynamicResource 'ui.游戏内 FPS'}" Style="{StaticResource cardCaption}"/><TextBlock Name="CardAverage" Foreground="{StaticResource sunsetType}" Style="{StaticResource cardValue}"/></StackPanel>
+                <StackPanel Grid.Column="2"><TextBlock Text="{DynamicResource 'ui.稳定性 · 上游记录'}" Style="{StaticResource cardCaption}"/><TextBlock Name="CardStability" Style="{StaticResource cardValue}"/></StackPanel>
+              </Grid>
+            </Border>
+            <TextBlock Name="CardBenchmark" FontSize="12" Foreground="#EDCADF" TextWrapping="Wrap" Margin="0,0,0,8"/>
+            <TextBlock Text="{DynamicResource 'ui.推荐配置参考'}" Style="{StaticResource cardCaption}"/>
+            <TextBlock Name="CardConfig" Margin="0,3,0,10" TextWrapping="Wrap" FontSize="12"/>
+            <TextBlock Name="CardRevision" Style="{StaticResource cardCaption}"/>
+            <TextBlock Name="CardFetched" Margin="0,3,0,0" Style="{StaticResource cardCaption}"/>
+            <StackPanel Name="CardAchievementSupport" Visibility="Collapsed" Margin="0,3,0,0">
+              <TextBlock Name="CardAchievementSystem" TextWrapping="Wrap" Style="{StaticResource cardCaption}" FontWeight="SemiBold"/>
+              <TextBlock TextWrapping="Wrap" Style="{StaticResource cardCaption}" Text="{DynamicResource 'ui.支持读取成就 ID 和进度。'}"/>
+            </StackPanel>
+          </StackPanel></Grid>
+        </Border>
+      </Canvas>
+    </Grid>
+    <Grid Name="SettingsPanel" Visibility="Collapsed" Focusable="True" KeyboardNavigation.IsTabStop="False"
+          FocusVisualStyle="{x:Null}" KeyboardNavigation.TabNavigation="Cycle"
+          KeyboardNavigation.ControlTabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Contained"
+          shell:WindowChrome.IsHitTestVisibleInChrome="True" AutomationProperties.Name="{DynamicResource 'ui.启动器设置'}">
+      <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="3*" MinWidth="540"/><ColumnDefinition/></Grid.ColumnDefinitions>
+      <Grid.RowDefinitions><RowDefinition/><RowDefinition Height="3*" MinHeight="278"/><RowDefinition/></Grid.RowDefinitions>
+      <Border Grid.RowSpan="3" Grid.ColumnSpan="3" Name="SettingsScrim" Background="Transparent"/>
+      <Border Grid.Row="1" Grid.Column="1" Name="SettingsDialog" MaxWidth="810" MaxHeight="460" CornerRadius="15"
+              Background="#FF19181C" BorderBrush="#FF3B383E" BorderThickness="1">
+        <Border.Effect><DropShadowEffect BlurRadius="21" ShadowDepth="5" Opacity=".34"/></Border.Effect>
+        <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="24*"/><ColumnDefinition Width="76*"/></Grid.ColumnDefinitions>
+          <Border BorderBrush="#FF343137" BorderThickness="0,0,1,0">
+            <StackPanel Margin="8,12">
+              <StackPanel Orientation="Horizontal" Margin="6,0,0,13">
+                <Path Data="{StaticResource settingsGear}" Width="15" Height="15" Stretch="Uniform" Fill="White" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource 'ui.设置'}" FontSize="17" FontWeight="SemiBold" Margin="7,0,0,0"/>
+              </StackPanel>
+              <RadioButton Name="SettingsGeneral" Content="{DynamicResource 'ui.启动器设置'}" GroupName="SettingsCategory"
+                           IsChecked="True" Style="{StaticResource settingsTab}"/>
+              <RadioButton Name="SettingsAbout" Content="{DynamicResource 'ui.关于'}" GroupName="SettingsCategory" Margin="0,3,0,0"
+                           Style="{StaticResource settingsTab}"/>
+              <RadioButton Name="SettingsLicenses" Content="{DynamicResource 'ui.开源许可'}" GroupName="SettingsCategory" Margin="0,3,0,0" Style="{StaticResource settingsTab}"/>
+            </StackPanel>
+          </Border>
+          <Grid Grid.Column="1" Margin="14,6,10,14">
+            <Grid.RowDefinitions><RowDefinition Height="31"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <Button Name="CloseSettings" Panel.ZIndex="1" Width="27" Height="27" Style="{StaticResource railAction}" HorizontalAlignment="Right"
+                    ToolTip="{DynamicResource 'ui.关闭设置'}" AutomationProperties.Name="{DynamicResource 'ui.关闭设置'}">
+              <Path Stroke="White" StrokeThickness="1.7" Data="M1,1 L11,11 M11,1 L1,11"/>
+            </Button>
+            <Grid Grid.RowSpan="2" Margin="6,2,0,0"
+                  Visibility="{Binding IsChecked,ElementName=SettingsLicenses,Converter={StaticResource whenChecked}}">
+              <Grid.RowDefinitions><RowDefinition Height="42"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+              <TextBlock Text="{DynamicResource 'ui.开源许可'}" FontWeight="SemiBold" FontSize="19" Margin="3,0,38,0" VerticalAlignment="Center"/>
+              <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Name="LicenseList" Margin="2,1,7,2"/>
+              </ScrollViewer>
+            </Grid>
+            <ScrollViewer Name="GeneralPage" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Focusable="False" Visibility="{Binding IsChecked,ElementName=SettingsGeneral,Converter={StaticResource whenChecked}}">
+              <StackPanel>
+              <Border Style="{StaticResource settingsCard}" Margin="0,0,6,10" Padding="15,13">
+                <StackPanel><TextBlock Text="{DynamicResource 'ui.界面语言'}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,9"/>
+                  <WrapPanel Name="LanguageOptions">
+                    <RadioButton Name="LangChinese" Tag="zh-CN" GroupName="UiLanguage" Content="简体中文" Style="{StaticResource languageChoice}" AutomationProperties.Name="简体中文"/>
+                    <RadioButton Name="LangTraditional" Tag="zh-TW" GroupName="UiLanguage" Content="繁體中文" Style="{StaticResource languageChoice}" AutomationProperties.Name="繁體中文"/>
+                    <RadioButton Name="LangEnglish" Tag="en-US" GroupName="UiLanguage" Content="English" Style="{StaticResource languageChoice}"/>
+                    <RadioButton Tag="ja-JP" GroupName="UiLanguage" Content="日本語" Style="{StaticResource languageChoice}"/>
+                    <RadioButton Tag="ko-KR" GroupName="UiLanguage" Content="한국어" Style="{StaticResource languageChoice}"/>
+                  </WrapPanel>
+                </StackPanel>
+              </Border>
+              <Border Style="{StaticResource settingsCard}">
+                <StackPanel>
+                  <Border BorderBrush="#FF3A373D" BorderThickness="0,0,0,1" Padding="15,13">
+                    <TextBlock Text="{DynamicResource 'ui.项目显示'}" FontSize="14" FontWeight="SemiBold"/>
+                  </Border>
+                  <StackPanel Margin="15,15,15,14">
+                    <CheckBox Name="ShowFps" Content="{DynamicResource 'ui.显示游戏帧率参考'}" Style="{StaticResource settingsCheck}"/>
+                    <TextBlock Text="{DynamicResource 'ui.在项目悬浮卡中显示上游实测帧率和测试场景。'}" Margin="23,5,0,0"
+                               TextWrapping="Wrap" Foreground="#FFABA5AE" FontSize="12"/>
+                    <TextBlock Name="SettingsNotice" Visibility="Collapsed" Foreground="#FFDBA2" FontSize="11" TextWrapping="Wrap" Margin="23,6,0,0"/>
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+              <Border Style="{StaticResource settingsCard}" Margin="0,10,6,0" Padding="15,13">
+                <Grid>
+                  <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                  <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                    <TextBlock Text="{DynamicResource 'ui.运行环境'}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                    <TextBlock Name="ComponentSummary" Margin="0,4,0,0" FontSize="12" Foreground="#FFABA5AE" TextWrapping="Wrap"
+                               Visibility="Collapsed" AutomationProperties.LiveSetting="Polite"/>
+                  </StackPanel>
+                  <Button Name="CheckComponents" Grid.Column="1" MinWidth="64" Padding="12,6" VerticalAlignment="Center"
+                          Content="{DynamicResource 'ui.检测'}"/>
+                </Grid>
+              </Border>
+              </StackPanel>
+            </ScrollViewer>
+            <ScrollViewer Name="AboutPage" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Focusable="False" Visibility="{Binding IsChecked,ElementName=SettingsAbout,Converter={StaticResource whenChecked}}">
+              <Border Style="{StaticResource settingsCard}">
+                <StackPanel>
+                  <Border BorderBrush="#FF3A373D" BorderThickness="0,0,0,1" Padding="15,13">
+                    <TextBlock Text="{DynamicResource 'ui.关于启动器'}" FontSize="14" FontWeight="SemiBold"/>
+                  </Border>
+                  <StackPanel Margin="15,14">
+                    <TextBlock Name="AboutLauncherName" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                    <Button Name="AboutRepository" HorizontalAlignment="Left" Margin="0,10,0,0" Padding="10,6"
+                            Content="Pumo-Ayla/series-relay-launcher  ↗" ToolTip="{DynamicResource 'ui.在 GitHub 打开启动器仓库'}" AutomationProperties.Name="{DynamicResource 'ui.在 GitHub 打开启动器仓库'}"/>
+                    <Button Name="CheckLauncherUpdate" HorizontalAlignment="Left" Margin="0,12,0,0" Padding="10,6"
+                            Content="{DynamicResource 'ui.检查更新'}"/>
+                    <TextBlock Name="UpdateStatus" Margin="0,8,0,0" Foreground="#CECAD3" TextWrapping="Wrap"/>
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+            </ScrollViewer>
+          </Grid>
+        </Grid>
+      </Border>
+    </Grid>
+    <Grid Name="RemovalOverlay" Visibility="Collapsed" Panel.ZIndex="12" KeyboardNavigation.TabNavigation="Cycle"
+          KeyboardNavigation.DirectionalNavigation="Contained" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+      <Border CornerRadius="17" Background="#B415121A"/>
+      <Border Name="RemovalCard" Width="380" Padding="24" Background="#2B2731" CornerRadius="18"
+              BorderBrush="#685D70" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel>
+          <TextBlock Name="RemovalTitle" Foreground="#FFF8FA" FontSize="21" FontWeight="SemiBold" TextWrapping="Wrap"/>
+          <TextBlock Name="RemovalMessage" Margin="0,12,0,0" Foreground="#DED5E2" LineHeight="21" FontSize="14" TextWrapping="Wrap"/>
+          <Border Name="RemovalPathBox" Background="#211E27" CornerRadius="9" Padding="12,9" Margin="0,12,0,0">
+            <TextBlock Name="RemovalPath" Foreground="#F3D4A7" TextWrapping="Wrap" MaxHeight="108" TextTrimming="CharacterEllipsis"/>
+          </Border>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,22,0,0">
+            <Button Name="CancelRemoval" MinWidth="76" Height="35" Content="{DynamicResource 'ui.取消'}"/>
+            <Button Name="ConfirmRemoval" MinWidth="76" Height="35" Margin="8,0,0,0" FontWeight="SemiBold"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
+    <Grid Name="DeleteOverlay" Visibility="Collapsed" Background="#990E0D12" Panel.ZIndex="10"
+          KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Contained"
+          shell:WindowChrome.IsHitTestVisibleInChrome="True">
+      <Border Width="336" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="18"
+              Background="#252229" BorderBrush="#554954" BorderThickness="1">
+        <StackPanel>
+          <TextBlock Text="{DynamicResource 'ui.删除当前配置'}" FontSize="18" FontWeight="SemiBold"/>
+          <TextBlock Name="DeletePrompt" Margin="0,12,0,22" TextWrapping="Wrap" Foreground="#D8D1DB"/>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="CancelDelete" MinWidth="76" Height="32" Content="{DynamicResource 'ui.取消'}"/>
+            <Button Name="ConfirmDelete" MinWidth="76" Height="32" Margin="8,0,0,0" Background="#643D48" Content="{DynamicResource 'ui.删除'}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Grid>
+    </Grid>
+  </Border>
+  </Viewbox>
+</Window>

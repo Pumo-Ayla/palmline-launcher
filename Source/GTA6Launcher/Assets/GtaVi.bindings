@@ -1,0 +1,41 @@
+# Layer, Windows virtual key (hex), Xbox control. Mouse movement adds to RX/RY.
+# F6 switches foot/drive. aim adds bindings while aiming on foot with RMB.
+# Alt holds D-pad right before RB. Arrow keys navigate the phone and menus.
+both 41 LX-
+both 44 LX+
+foot 57 LY+
+foot 53 LY-
+drive 57 RT
+drive 53 LT
+both 25 Left
+both 27 Right
+both 26 Up
+both 28 Down
+foot 01 RT
+drive 01 RB
+foot 02 LT
+both 04 Up
+both 20 A
+both 0D A
+both 08 B
+foot 52 X
+foot 10 LS
+both 43 RS
+foot 45 Y
+drive 45 LS
+both 46 Y
+foot 11 B
+drive 48 B
+both 09 LB
+foot 51 RB
+drive 51 Left
+both 54 Up
+both 47 Right
+both 5A Down
+aim 31 Y
+both 12 Right
+both 12 PartnerRB
+both 14 LS
+both 14 RS
+both 4D View
+both 1B Menu

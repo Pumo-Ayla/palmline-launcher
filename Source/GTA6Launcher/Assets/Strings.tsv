@@ -1,0 +1,586 @@
+Grand Theft Auto VI · 游戏启动器	Grand Theft Auto VI Launcher	Grand Theft Auto VI · 遊戲啟動器	Grand Theft Auto VI · ゲームランチャー	Grand Theft Auto VI · 게임 런처
+启动器仓库 · Pumo-Ayla/series-relay-launcher	Launcher repository · Pumo-Ayla/series-relay-launcher	啟動器儲存庫 · Pumo-Ayla/series-relay-launcher	ランチャーのリポジトリ · Pumo-Ayla/series-relay-launcher	런처 저장소 · Pumo-Ayla/series-relay-launcher
+打开启动器的 GitHub 仓库	Open the launcher on GitHub	在 GitHub 開啟啟動器儲存庫	ランチャーの GitHub リポジトリを開く	런처 GitHub 저장소 열기
+在 GitHub 打开启动器仓库	View launcher repository on GitHub	在 GitHub 檢視啟動器儲存庫	GitHub でランチャーを表示	GitHub에서 런처 저장소 보기
+查看 Xbox 手柄	View Xbox controller	檢視 Xbox 控制器	Xbox コントローラーを表示	Xbox 컨트롤러 보기
+查看免费开源说明	View the free and open-source notice	查看免費開源說明	無償・オープンソースについて	무료 오픈 소스 안내 보기
+该启动器为免费开源项目，请确保您是免费获得的。	This launcher is free and open source. Please make sure you received it free of charge.	此啟動器為免費開源專案，請確認您是免費取得的。	このランチャーは無料のオープンソースソフトウェアです。無料で入手したことをご確認ください。	이 런처는 무료 오픈 소스 프로젝트입니다. 무료로 받으셨는지 확인해 주세요.
+打开实时日志	Open live log	開啟即時記錄	ライブログを開く	실시간 로그 열기
+实时日志	Live log	即時記錄	ライブログ	실시간 로그
+替换为实际键位	Show bound keys in game	顯示實際綁定按鍵	ゲーム内に割り当てたキーを表示	게임에서 지정한 키 표시
+开启后预载键位提示，游戏退出后可更改。	Preloads your key prompts when enabled. You can change this after the game closes.	開啟後預載鍵位提示，遊戲結束後可更改。	有効にするとキー表示を事前に読み込みます。ゲーム終了後に変更できます。	켜면 키 안내를 미리 불러옵니다. 게임을 종료한 후 변경할 수 있습니다.
+打开日志目录	Open log folder	開啟記錄資料夾	ログフォルダーを開く	로그 폴더 열기
+导出当前日志	Export current log	匯出目前記錄	現在のログをエクスポート	현재 로그 내보내기
+无法打开日志控制台。	Could not open the log console.	無法開啟記錄主控台。	ログコンソールを開けません。	로그 콘솔을 열 수 없습니다.
+启动器设置	Launcher settings	啟動器設定	ランチャー設定	런처 설정
+最小化	Minimize	最小化	最小化	최소화
+关闭	Close	關閉	閉じる	닫기
+正在准备着色器	Preparing shaders	正在準備著色器	シェーダーを準備中	셰이더 준비 중
+着色器预热中	Warming shaders	著色器預熱中	シェーダーをウォームアップ中	셰이더 예열 중
+正在准备键位提示	Preparing key prompts	正在準備鍵位提示	キー表示を準備中	키 안내 준비 중
+着色器 {0:N0}	Shaders {0:N0}	著色器 {0:N0}	シェーダー {0:N0}	셰이더 {0:N0}
+管线预热 {0}%	Warming pipelines {0}%	管線預熱 {0}%	パイプライン準備 {0}%	파이프라인 예열 {0}%
+启动游戏	Play	啟動遊戲	ゲームを起動	게임 시작
+启动选项	Launch options	啟動選項	起動オプション	실행 옵션
+重新预热着色器	Warm shaders again	重新預熱著色器	シェーダーを再ウォームアップ	셰이더 다시 예열
+着色器	Shaders	著色器	シェーダー	셰이더
+着色器设置	Shader settings	著色器設定	シェーダー設定	셰이더 설정
+重试	Retry	重試	再試行	다시 시도
+错误原因	Error details	錯誤原因	エラーの詳細	오류 원인
+启动会话意外结束（退出码 {0}）	The launch session ended unexpectedly (exit code {0})	啟動工作階段意外結束（結束代碼 {0}）	起動セッションが予期せず終了しました（終了コード {0}）	실행 세션이 예기치 않게 종료되었습니다 (종료 코드 {0})
+游戏在启动完成前退出	Game exited before startup finished	遊戲在啟動完成前結束	起動完了前にゲームが終了しました	시작이 완료되기 전에 게임이 종료되었습니다
+返回上一级	Back	返回上一級	戻る	뒤로
+清理着色器缓存	Clear shader cache	清理著色器快取	シェーダーキャッシュを消去	셰이더 캐시 지우기
+预热着色器	Warm up shaders	預熱著色器	シェーダーをウォームアップ	셰이더 예열
+正在清理着色器缓存	Clearing shader cache	正在清理著色器快取	シェーダーキャッシュを消去中	셰이더 캐시 지우는 중
+着色器缓存已清理	Shader cache cleared	著色器快取已清理	シェーダーキャッシュを消去しました	셰이더 캐시를 지웠습니다
+正在扫描游戏目录中的着色器	Scanning the game folder for shaders	正在掃描遊戲目錄中的著色器	ゲームフォルダーのシェーダーを検索中	게임 폴더에서 셰이더를 검색하는 중
+预热停滞，正在以单线程重试	Shader warm-up stalled. Retrying with one thread	預熱停滯，正在以單執行緒重試	ウォームアップが停止したため、単一スレッドで再試行中	예열이 멈춰 단일 스레드로 다시 시도하는 중
+控制器输入测试	Controller input test	控制器輸入測試	コントローラー入力テスト	컨트롤러 입력 테스트
+返回主页	Back to home	返回首頁	ホームに戻る	홈으로 돌아가기
+控制器	Controller	控制器	コントローラー	컨트롤러
+未连接手柄	No controller connected	未連接控制器	コントローラー未接続	컨트롤러 연결 안 됨
+陀螺仪已连接 · 点击回正	Gyroscope available · Click to recenter	已連接陀螺儀 · 點選以重新置中	ジャイロ接続済み · クリックで中心をリセット	자이로 연결됨 · 클릭하여 중심 재설정
+陀螺仪回正	Recenter gyroscope	將陀螺儀重新置中	ジャイロの中心をリセット	자이로 중심 재설정
+配置槽	Profiles	設定檔	設定スロット	프로필 슬롯
+配置 {0}	Profile {0}	設定檔 {0}	プロファイル {0}	프로필 {0}
+配置名称	Profile name	設定檔名稱	プロファイル名	프로필 이름
+重命名配置	Rename profile	重新命名設定檔	プロファイル名を変更	프로필 이름 변경
+双击修改配置名称	Double-click to rename	按兩下以重新命名	ダブルクリックで名前を変更	두 번 클릭하여 이름 변경
+名称保存失败，请重试。	Could not save the name. Try again.	無法儲存名稱，請再試一次。	名前を保存できません。もう一度お試しください。	이름을 저장하지 못했습니다. 다시 시도하세요.
+配置完成	Profile complete	設定完成	設定完了	설정 완료
+按下键盘按键，或在白色槽内按下鼠标键	Press a key, or click inside the white field to bind a mouse button	按下鍵盤按鍵，或在白色欄位內按下滑鼠按鈕	キーを押すか、白い枠内でマウスボタンを押してください	키를 누르거나 흰색 영역에서 마우스 버튼을 누르세요
+暂未配置	No profile yet	尚無設定檔	未設定	설정되지 않음
+重置当前配置的全部键位	Reset all bindings in this profile	重設此設定檔的所有按鍵	このプロファイルの割り当てをすべてリセット	현재 프로필의 모든 키 설정 초기화
+上一步	Previous step	上一步	前へ	이전
+点击重新录入	Click to rebind	點選以重新綁定	クリックして再入力	클릭하여 다시 입력
+录入或修改当前键位	Set or change this binding	設定或修改此按鍵	キー割り当てを入力・変更	현재 키 설정 입력 또는 변경
+下一步	Next step	下一步	次へ	다음
+游戏名称	Game name	遊戲名稱	ゲーム名	게임 이름
+游戏展示卡	Game cover card	遊戲展示卡	ゲームカード	게임 카드
+等待识别游戏	Waiting for game recognition	等待辨識遊戲	ゲームの認識待ち	게임 인식 대기 중
+导入封面	Import cover	匯入封面	カバーを読み込む	표지 가져오기
+导入 Logo（可选）	Import logo (optional)	匯入 Logo（選用）	ロゴを読み込む（任意）	로고 가져오기 (선택)
+Logo 水平位置	Horizontal logo position	Logo 水平位置	ロゴの水平位置	로고 가로 위치
+Logo 垂直位置	Vertical logo position	Logo 垂直位置	ロゴの垂直位置	로고 세로 위치
+请选择一张图片作为详细卡封面。	Choose an image for the expanded card.	請選擇一張圖片作為詳細卡封面。	詳細カードのカバー画像を選択してください。	상세 카드의 표지 이미지를 선택하세요.
+完成导入	Finish import	完成匯入	読み込みを完了	가져오기 완료
+配置已保存	Profile saved	已儲存設定檔	プロファイルを保存しました	프로필을 저장했습니다
+在 GitHub 打开此项目	View project on GitHub	在 GitHub 檢視此專案	GitHub でこのプロジェクトを開く	GitHub에서 이 프로젝트 열기
+打开项目源码	Open source repository	開啟原始碼儲存庫	ソースコードを開く	소스 코드 열기
+优先适配平台	Target platform	優先支援平台	主な対応環境	주요 지원 플랫폼
+适配平台	Target platform	適配平台	対応環境	지원 플랫폼
+平均 FPS	Average FPS	平均 FPS	平均 FPS	평균 FPS
+稳定性 · 上游记录	Reported stability	穩定性 · 上游記錄	安定性 · 開発元の記録	안정성 · 개발자 기록
+推荐配置参考	Recommended hardware	建議硬體配備	推奨環境の目安	권장 사양 참고
+设置	Settings	設定	設定	설정
+关于	About	關於	このアプリについて	정보
+关闭设置	Close settings	關閉設定	設定を閉じる	설정 닫기
+项目显示	Project cards	專案顯示	プロジェクトの表示	프로젝트 표시
+显示游戏帧率参考	Show reported frame rates	顯示遊戲幀率參考	参考フレームレートを表示	참고 프레임 속도 표시
+在项目悬浮卡中显示上游实测帧率和测试场景。	Show the frame rate and test scene reported by each project.	在專案資訊卡顯示上游實測幀率與測試場景。	プロジェクトカードに開発元の実測 FPS と測定場面を表示します。	프로젝트 카드에 개발자가 측정한 FPS와 측정 장면을 표시합니다.
+关于启动器	About the launcher	關於啟動器	ランチャーについて	런처 정보
+界面语言	Interface language	介面語言	表示言語	표시 언어
+设置本次已生效，无法保存到磁盘。	Settings applied for this session. They could not be saved to disk.	設定已套用至本次工作階段，但無法儲存至磁碟。	設定を適用しましたが、ディスクに保存できませんでした。	설정을 적용했지만 디스크에 저장하지 못했습니다.
+键鼠映射	Keyboard & mouse	鍵鼠對應	キーボード・マウス割り当て	키보드·마우스 매핑
+新建配置	Create a profile	新增設定檔	新規プロファイル	새 프로필
+编辑配置 {0}	Edit profile {0}	編輯設定檔 {0}	プロファイル {0} を編集	프로필 {0} 편집
+使用配置 {0}	Use profile {0}	使用設定檔 {0}	プロファイル {0} を使用	프로필 {0} 사용
+旧键位待补全	Some bindings need updating	部分舊按鍵待補齊	以前の割り当てに未設定の項目があります	이전 키 설정에 누락된 항목이 있습니다
+当前配置	Active profile	目前的設定檔	現在のプロファイル	현재 프로필
+切换配置失败，请重试。	Could not switch profiles. Try again.	無法切換設定檔，請再試一次。	切り替えに失敗しました。もう一度お試しください。	프로필을 전환하지 못했습니다. 다시 시도하세요.
+配置 {0}   ·   WASD 行走   /   鼠标视角	Profile {0}   ·   WASD to move   /   Mouse to look	設定檔 {0}   ·   WASD 移動   /   滑鼠控制視角	プロファイル {0} · WASD で移動 / マウスで視点操作	프로필 {0} · WASD 이동 / 마우스 시점 조작
+配置 {0}  ·  {1}	Profile {0}  ·  {1}	設定檔 {0}  ·  {1}	プロファイル {0} · {1}	프로필 {0} · {1}
+保存配置	Save profile	儲存設定檔	プロファイルを保存	프로필 저장
+按下键盘或鼠标按键	Press a key or mouse button	按下鍵盤按鍵或滑鼠按鈕	キーまたはマウスボタンを押してください	키 또는 마우스 버튼을 누르세요
+点击键位重新录入	Click the binding to change it	點選按鍵以重新綁定	割り当てをクリックして再入力	키 설정을 클릭하여 다시 입력
+WASD 已用于行走，请选择其他按键	WASD is reserved for movement. Choose another key.	WASD 已用於移動，請選擇其他按鍵	WASD は移動用です。別のキーを選んでください	WASD는 이동에 사용됩니다. 다른 키를 선택하세요
+配置保存失败，可重试。	Could not save the profile. Try again.	無法儲存設定檔，請再試一次。	保存できませんでした。もう一度お試しください。	프로필을 저장하지 못했습니다. 다시 시도하세요.
+请完成所有键位。	Assign every control before saving.	請先設定所有按鍵。	すべてのキーを割り当ててください。	모든 키를 지정하세요.
+空格	Space	空白鍵	スペース	스페이스
+回车键	Enter	Enter 鍵	Enter キー	Enter 키
+退格键	Backspace	退格鍵	Backspace キー	백스페이스 키
+瞄准时	While aiming	瞄準時	照準時	조준 중
+长按	Hold	長按	長押し	길게 누르기
+鼠标左键	Left mouse button	滑鼠左鍵	マウス左ボタン	마우스 왼쪽 버튼
+鼠标右键	Right mouse button	滑鼠右鍵	マウス右ボタン	마우스 오른쪽 버튼
+鼠标中键	Middle mouse button	滑鼠中鍵	マウス中央ボタン	마우스 가운데 버튼
+鼠标	Mouse	滑鼠	マウス	마우스
+鼠标移动	Mouse movement	移動滑鼠	マウス移動	마우스 이동
+手柄视图	Controller view	手把檢視	コントローラー表示	컨트롤러 보기
+键鼠视图	Keyboard & mouse view	鍵鼠檢視	キーボード・マウス表示	키보드 및 마우스 보기
+切换到键鼠视图	Switch to keyboard & mouse view	切換至鍵鼠檢視	キーボード・マウス表示に切り替え	키보드 및 마우스 보기로 전환
+切换到手柄视图	Switch to controller view	切換至手把檢視	コントローラー表示に切り替え	컨트롤러 보기로 전환
+左摇杆	Left stick	左類比搖桿	左スティック	왼쪽 스틱
+右摇杆	Right stick	右類比搖桿	右スティック	오른쪽 스틱
+步行	On foot	步行	徒歩	도보
+驾驶	Driving	駕駛	運転	운전
+切换步行与驾驶	Switch between walking and driving	切換步行與駕駛	徒歩と運転を切り替え	도보 및 운전 전환
+长按触发 RB	Hold for RB	長按觸發 RB	長押しで RB	RB는 길게 누르기
+瞄准时：{0}	While aiming: {0}	瞄準時：{0}	照準時：{0}	조준 중: {0}
+鼠标侧键 1	Mouse button 4	滑鼠側鍵 1	マウスサイドボタン 1	마우스 측면 버튼 1
+鼠标侧键 2	Mouse button 5	滑鼠側鍵 2	マウスサイドボタン 2	마우스 측면 버튼 2
+滚轮上滑	Wheel up	滾輪向上	ホイールを上に回す	휠 위로
+滚轮下滑	Wheel down	滾輪向下	ホイールを下に回す	휠 아래로
+A 键	A button	A 鍵	A ボタン	A 버튼
+B 键	B button	B 鍵	B ボタン	B 버튼
+X 键	X button	X 鍵	X ボタン	X 버튼
+Y 键	Y button	Y 鍵	Y ボタン	Y 버튼
+左肩键	Left bumper	左肩鍵	左バンパー	왼쪽 범퍼
+右肩键	Right bumper	右肩鍵	右バンパー	오른쪽 범퍼
+左扳机	Left trigger	左扳機	左トリガー	왼쪽 트리거
+右扳机	Right trigger	右扳機	右トリガー	오른쪽 트리거
+方向键上	D-pad up	方向鍵上	方向パッド上	방향 패드 위
+方向键下	D-pad down	方向鍵下	方向パッド下	방향 패드 아래
+方向键左	D-pad left	方向鍵左	方向パッド左	방향 패드 왼쪽
+方向键右	D-pad right	方向鍵右	方向パッド右	방향 패드 오른쪽
+按下左摇杆	Left stick click	按下左搖桿	左スティック押し込み	왼쪽 스틱 누르기
+按下右摇杆	Right stick click	按下右搖桿	右スティック押し込み	오른쪽 스틱 누르기
+视图键	View button	檢視鍵	ビューボタン	보기 버튼
+菜单键	Menu button	選單鍵	メニューボタン	메뉴 버튼
+分享键	Share button	分享鍵	共有ボタン	공유 버튼
+Xbox 键	Xbox button	Xbox 鍵	Xbox ボタン	Xbox 버튼
+手柄模式	Controller mode	控制器模式	コントローラーモード	컨트롤러 모드
+键鼠模式	Keyboard & mouse mode	鍵鼠模式	キーボード・マウスモード	키보드·마우스 모드
+打开键鼠映射	Open keyboard & mouse mapping	開啟鍵鼠對應	キー割り当てを開く	키 매핑 열기
+查看手柄	View controller	檢視控制器	コントローラーを表示	컨트롤러 보기
+单击返回主页，长按切换输入模式	Click to return home. Hold to switch input modes.	點選返回首頁，長按可切換輸入模式	クリックでホームに戻る、長押しで入力モード切り替え	클릭하여 홈으로 돌아가기, 길게 눌러 입력 모드 전환
+单击打开键鼠映射，长按切换输入模式	Click to open keyboard and mouse mapping. Hold to switch input modes.	點選開啟鍵鼠對應，長按可切換輸入模式	クリックでキー割り当てを開く、長押しで入力モード切り替え	클릭하여 키 매핑 열기, 길게 눌러 입력 모드 전환
+单击查看手柄，长按切换输入模式	Click to view the controller. Hold to switch input modes.	點選檢視控制器，長按可切換輸入模式	クリックでコントローラーを表示、長押しで入力モード切り替え	클릭하여 컨트롤러 보기, 길게 눌러 입력 모드 전환
+启动器已关闭，按任意键关闭日志。	Launcher closed. Press any key to close this log.	啟動器已關閉，按任意鍵即可關閉記錄。	ランチャーを閉じました。いずれかのキーでログを閉じます。	런처가 닫혔습니다. 아무 키나 눌러 로그를 닫으세요.
+日志目录 {0}	Log folder: {0}	記錄資料夾：{0}	ログフォルダー {0}	로그 폴더 {0}
+已配置键鼠映射	Keyboard & mouse profile ready	已設定鍵鼠對應	キー割り当て設定済み	키보드·마우스 매핑 설정됨
+手柄输入不可用	Controller input unavailable	控制器輸入無法使用	コントローラー入力を使用できません	컨트롤러 입력을 사용할 수 없음
+手柄已连接	Controller connected	已連接控制器	コントローラー接続済み	컨트롤러 연결됨
+未检测到手柄	No controller detected	未偵測到控制器	コントローラーが見つかりません	컨트롤러가 감지되지 않음
+XBOX手柄	Xbox controller	Xbox 控制器	Xbox コントローラー	Xbox 컨트롤러
+未知手柄	Unknown controller	未知控制器	不明なコントローラー	알 수 없는 컨트롤러
+右背键 1	Right paddle 1	右背鍵 1	右背面ボタン 1	오른쪽 후면 버튼 1
+右背键 2	Right paddle 2	右背鍵 2	右背面ボタン 2	오른쪽 후면 버튼 2
+左背键 1	Left paddle 1	左背鍵 1	左背面ボタン 1	왼쪽 후면 버튼 1
+左背键 2	Left paddle 2	左背鍵 2	左背面ボタン 2	왼쪽 후면 버튼 2
+未公布	Not published	未公布	未公表	미공개
+待核实	Unverified	待確認	未確認	미확인
+暂无长期记录	No long-term reports	尚無長期記錄	長期記録なし	장기 기록 없음
+拉取时间未知	Fetch time unknown	擷取時間不詳	取得日時不明	가져온 시간 알 수 없음
+拉取于 {0}（太平洋时间 · {1}）	Fetched {0} (Pacific Time · {1})	擷取於 {0}（太平洋時間 · {1}）	取得日時 {0}（太平洋時間 · {1}）	가져온 시간 {0} (태평양 시간 · {1})
+F1 打开项目卡片	Press F1 to open the project card	按 F1 開啟專案資訊卡	F1 でプロジェクトカードを開く	F1 키로 프로젝트 카드 열기
+打开 {0} 的 GitHub 仓库	Open {0} on GitHub	在 GitHub 開啟 {0}	{0} の GitHub リポジトリを開く	{0} GitHub 저장소 열기
+上游实测	Upstream test	上游實測	開発元の実測値	개발자 실측값
+开源仓库	Source repository	開源儲存庫	オープンソースリポジトリ	오픈 소스 저장소
+Windows x64 · AMD Radeon（RX 7900 XTX 实测）	Windows x64 · AMD Radeon (tested on RX 7900 XTX)	Windows x64 · AMD Radeon（RX 7900 XTX 實測）	Windows x64 · AMD Radeon（RX 7900 XTX で検証）	Windows x64 · AMD Radeon (RX 7900 XTX에서 테스트)
+Windows 11 x64 · AMD Radeon（RX 9070 XT 实测）	Windows 11 x64 · AMD Radeon (tested on RX 9070 XT)	Windows 11 x64 · AMD Radeon（RX 9070 XT 實測）	Windows 11 x64 · AMD Radeon（RX 9070 XT で検証）	Windows 11 x64 · AMD Radeon (RX 9070 XT에서 테스트)
+Windows 11 x64 · NVIDIA GeForce RTX 20 系列及以上	Windows 11 x64 · NVIDIA GeForce RTX 20 series or newer	Windows 11 x64 · NVIDIA GeForce RTX 20 系列或更新	Windows 11 x64 · NVIDIA GeForce RTX 20 シリーズ以降	Windows 11 x64 · NVIDIA GeForce RTX 20 시리즈 이상
+Windows 11 x64 · NVIDIA RTX 4070 实测	Windows 11 x64 · Tested on NVIDIA RTX 4070	Windows 11 x64 · NVIDIA RTX 4070 實測	Windows 11 x64 · NVIDIA RTX 4070 で検証	Windows 11 x64 · NVIDIA RTX 4070에서 테스트
+Windows 11 x64 · NVIDIA Blackwell（RTX 5060 Ti 实测）	Windows 11 x64 · NVIDIA Blackwell (tested on RTX 5060 Ti)	Windows 11 x64 · NVIDIA Blackwell（RTX 5060 Ti 實測）	Windows 11 x64 · NVIDIA Blackwell（RTX 5060 Ti で検証）	Windows 11 x64 · NVIDIA Blackwell (RTX 5060 Ti에서 테스트)
+Windows x64，支持 Mesh Shader 和 SM 6.6 的 D3D12 显卡。上游实测 RX 7900 XTX。	Windows x64 and a D3D12 GPU with mesh shaders and SM 6.6. Tested on RX 7900 XTX.	Windows x64，支援網格著色器與 SM 6.6 的 D3D12 顯示卡。上游實測 RX 7900 XTX。	Windows x64、メッシュシェーダーと SM 6.6 対応の D3D12 GPU。開発元は RX 7900 XTX で検証。	Windows x64, 메시 셰이더 및 SM 6.6 지원 D3D12 GPU. 개발자는 RX 7900 XTX에서 테스트했습니다.
+城市室外 · 实验性光追 · 50 帧平均	City exterior · Experimental ray tracing · 50-frame average	城市戶外 · 實驗性光線追蹤 · 50 幀平均	市街地の屋外 · 実験的レイトレーシング · 50 フレーム平均	도심 실외 · 실험적 레이 트레이싱 · 50프레임 평균
+驱动超时 1 次	One driver timeout	驅動程式逾時 1 次	ドライバーのタイムアウト 1 回	드라이버 시간 초과 1회
+上游实测 Windows 11、RX 9070 XT 16 GB、Ryzen 7 9800X3D、64 GB 内存。	Tested on Windows 11 with RX 9070 XT 16 GB, Ryzen 7 9800X3D and 64 GB RAM.	上游實測 Windows 11、RX 9070 XT 16 GB、Ryzen 7 9800X3D、64 GB 記憶體。	開発元の検証環境：Windows 11、RX 9070 XT 16 GB、Ryzen 7 9800X3D、メモリ 64 GB。	개발자 테스트 환경: Windows 11, RX 9070 XT 16 GB, Ryzen 7 9800X3D, 메모리 64 GB.
+游戏世界 · 驾车约 3 FPS	In-world · About 3 FPS while driving	遊戲世界 · 駕車約 3 FPS	ゲーム内 · 運転中は約 3 FPS	게임 내 · 운전 중 약 3 FPS
+单次 90 分钟以上无崩溃	One 90+ minute run without a crash	單次執行逾 90 分鐘未崩潰	90 分以上連続でクラッシュなし	90분 이상 연속 실행 중 충돌 없음
+Windows 10/11 x64、AVX2 处理器、RTX 20 系列或更新。上游实测 RTX 3050 8 GB。	Windows 10/11 x64, an AVX2 CPU and an RTX 20 series GPU or newer. Tested on RTX 3050 8 GB.	Windows 10/11 x64、支援 AVX2 的處理器、RTX 20 系列或更新。上游實測 RTX 3050 8 GB。	Windows 10/11 x64、AVX2 対応 CPU、RTX 20 シリーズ以降。開発元は RTX 3050 8 GB で検証。	Windows 10/11 x64, AVX2 지원 CPU, RTX 20 시리즈 이상. 개발자는 RTX 3050 8 GB에서 테스트했습니다.
+RTX 3050 8 GB · 游戏世界	RTX 3050 8 GB · In-world	RTX 3050 8 GB · 遊戲世界	RTX 3050 8 GB · ゲーム内	RTX 3050 8 GB · 게임 내
+常规测试未遇驱动挂起	No driver hangs in routine testing	一般測試未遇驅動程式停止回應	通常テストでドライバー停止なし	일반 테스트에서 드라이버 멈춤 없음
+上游实测 Windows 11 x64、GeForce RTX 4070。	Tested on Windows 11 x64 with GeForce RTX 4070.	上游實測 Windows 11 x64、GeForce RTX 4070。	開発元の検証環境：Windows 11 x64、GeForce RTX 4070。	개발자 테스트 환경: Windows 11 x64, GeForce RTX 4070.
+游戏世界 · 优化配置下起始房间约 9.6 FPS	In-world · About 9.6 FPS in the starting room with optimized settings	遊戲世界 · 最佳化設定下起始房間約 9.6 FPS	ゲーム内 · 最適化設定で開始地点の室内は約 9.6 FPS	게임 내 · 최적화 설정에서 시작 지점 실내 약 9.6 FPS
+实测未遇驱动超时	No driver timeouts observed	實測未遇驅動程式逾時	テストでドライバーのタイムアウトなし	테스트에서 드라이버 시간 초과 없음
+最高 6 FPS	Up to 6 FPS	最高 6 FPS	最大 6 FPS	최대 6 FPS
+上游推荐预设在 Windows 11 x64、GeForce RTX 5060 Ti 16 GB 上测试。	Recommended preset tested on Windows 11 x64 with GeForce RTX 5060 Ti 16 GB.	上游建議預設已在 Windows 11 x64、GeForce RTX 5060 Ti 16 GB 上測試。	開発元の推奨設定を Windows 11 x64、GeForce RTX 5060 Ti 16 GB で検証。	개발자 권장 설정을 Windows 11 x64, GeForce RTX 5060 Ti 16 GB에서 테스트했습니다.
+RTX 5060 Ti · 3D 游戏世界	RTX 5060 Ti · In-world (3D)	RTX 5060 Ti · 3D 遊戲世界	RTX 5060 Ti · 3D ゲーム内	RTX 5060 Ti · 3D 게임 내
+游戏运行中	Game running	遊戲執行中	ゲーム実行中	게임 실행 중
+预热失败	Warm-up failed	預熱失敗	ウォームアップ失敗	예열 실패
+运行失败	Game failed	執行失敗	実行失敗	실행 실패
+会话已结束	Session ended	工作階段已結束	セッション終了	세션 종료
+正在启动游戏	Starting game	正在啟動遊戲	ゲームを起動中	게임 시작 중
+启动失败，请查看实时日志	Launch failed. Check the live log.	啟動失敗，請檢查即時記錄	起動に失敗しました。ライブログを確認してください	시작하지 못했습니다. 실시간 로그를 확인하세요
+会话失败，请查看实时日志	Session failed. Check the live log.	工作階段失敗，請檢查即時記錄	セッションに失敗しました。ライブログを確認してください	세션 오류가 발생했습니다. 실시간 로그를 확인하세요
+启动器依赖不可用	Launcher dependency unavailable	啟動器相依元件無法使用	ランチャーに必要なコンポーネントを利用できません	런처에 필요한 구성 요소를 사용할 수 없습니다
+预加载着色器	Preloading shaders	正在預先載入著色器	シェーダーを事前読み込み中	셰이더 미리 불러오는 중
+预热 GPU 计算管线	Warming GPU compute pipelines	正在預熱 GPU 運算管線	GPU コンピュートパイプラインをウォームアップ中	GPU 컴퓨트 파이프라인 예열 중
+游戏已退出	Game exited	遊戲已結束	ゲームが終了しました	게임이 종료되었습니다
+游戏进程 {0}	Game process {0}	遊戲處理程序 {0}	ゲームのプロセス {0}	게임 프로세스 {0}
+游戏退出码 {0}	Game exit code {0}	遊戲結束代碼 {0}	ゲームの終了コード {0}	게임 종료 코드 {0}
+已选择 {0}	Selected {0}	已選擇 {0}	{0} を選択しました	{0} 선택됨
+启动器已打开。	The launcher is already open.	啟動器已開啟。	ランチャーは既に開いています。	런처가 이미 열려 있습니다.
+请从包含 XCL-VIctory-Lab 的 Launcher 文件夹打开启动器。	Open the launcher from the Launcher folder containing XCL-VIctory-Lab.	請從含有 XCL-VIctory-Lab 的 Launcher 資料夾開啟啟動器。	XCL-VIctory-Lab がある Launcher フォルダーから起動してください。	XCL-VIctory-Lab이 있는 Launcher 폴더에서 런처를 여세요.
+该项目正在预热或运行，请查看已有会话。	This project is warming up or running. Check the active session.	此專案正在預熱或執行，請查看現有工作階段。	このプロジェクトはウォームアップ中または実行中です。既存のセッションを確認してください。	이 프로젝트는 예열 또는 실행 중입니다. 기존 세션을 확인하세요.
+无法读取当前 D3D12 显卡的 wave 大小和描述符堆容量	Could not read the D3D12 GPU wave size and descriptor heap capacity	無法讀取目前 D3D12 顯示卡的 wave 大小與描述元堆積容量	D3D12 GPU のウェーブサイズと記述子ヒープ容量を取得できません	D3D12 GPU의 웨이브 크기와 설명자 힙 용량을 읽을 수 없습니다
+上游程序未返回可识别的着色器统计，请查看 prewarm.log	The runtime returned no recognizable shader statistics. Check prewarm.log.	上游程式未傳回可辨識的著色器統計，請查看 prewarm.log	開発元のプログラムからシェーダー統計を取得できません。prewarm.log を確認してください	프로그램에서 셰이더 통계를 읽지 못했습니다. prewarm.log를 확인하세요
+启动清单未匹配到着色器	No shaders matched the startup manifest	啟動清單未比對到著色器	起動リストに一致するシェーダーがありません	시작 목록과 일치하는 셰이더가 없습니다
+检查启动管线	Checking startup pipelines	正在檢查啟動管線	起動用パイプラインを確認中	시작 파이프라인 확인 중
+预热着色器缓存	Warming the shader cache	正在預熱著色器快取	シェーダーキャッシュをウォームアップ中	셰이더 캐시 예열 중
+所选项目未能处理任何启动着色器，请查看 prewarm.log	The project could not process any startup shaders. Check prewarm.log.	選取的專案無法處理啟動著色器，請查看 prewarm.log	起動用シェーダーを処理できませんでした。prewarm.log を確認してください	시작 셰이더를 처리하지 못했습니다. prewarm.log를 확인하세요
+启动管线检查完成	Startup pipelines checked	啟動管線檢查完成	起動用パイプラインの確認完了	시작 파이프라인 확인 완료
+着色器缓存预热完成	Shader cache ready	著色器快取預熱完成	シェーダーキャッシュのウォームアップ完了	셰이더 캐시 예열 완료
+{0} 个着色器跳过	Shaders skipped: {0}	略過 {0} 個著色器	シェーダー {0} 件をスキップ	셰이더 {0}개 건너뜀
+{0} 条管线未通过	Pipelines rejected: {0}	{0} 條管線未通過	パイプライン {0} 件が失敗	파이프라인 {0}개 실패
+预热进程退出码 {0}，请查看 prewarm.log	Warm-up process exited with code {0}. Check prewarm.log.	預熱處理程序結束代碼為 {0}，請查看 prewarm.log	ウォームアップ終了コード {0}。prewarm.log を確認してください	예열 종료 코드 {0}. prewarm.log를 확인하세요
+匹配离线启动着色器	Matching offline startup shaders	正在比對離線啟動著色器	オフラインの起動用シェーダーを照合中	오프라인 시작 셰이더 확인 중
+动画缺少 {0}	Animation is missing {0}	動畫缺少 {0}	アニメーションに {0} がありません	애니메이션에 {0} 항목이 없습니다
+无效的加载动画	Invalid loading animation	無效的載入動畫	無効な読み込みアニメーション	잘못된 로딩 애니메이션
+无效的画布、帧率或帧数	Invalid canvas, frame rate or frame count	無效的畫布、幀率或總幀數	キャンバス、フレームレート、またはフレーム数が無効です	캔버스, 프레임 속도 또는 프레임 수가 잘못되었습니다
+无效的图层	Invalid layer	無效的圖層	無効なレイヤー	잘못된 레이어
+找不到动画引用的图层	Referenced animation layer not found	找不到動畫所參照的圖層	アニメーションが参照するレイヤーが見つかりません	애니메이션에서 참조하는 레이어를 찾을 수 없습니다
+无法读取加载动画 {0}：{1}	Could not load animation {0}: {1}	無法讀取載入動畫 {0}：{1}	読み込みアニメーション {0} を読み取れません：{1}	로딩 애니메이션 {0}을(를) 읽을 수 없습니다: {1}
+游戏内 FPS	In-game FPS	遊戲內 FPS	ゲーム内 FPS	게임 내 FPS
+实测显卡	Tested GPU	實測顯示卡	検証 GPU	테스트 GPU
+RX 7000 系	RX 7000 series	RX 7000 系	RX 7000 シリーズ	RX 7000 시리즈
+RX 9000 系	RX 9000 series	RX 9000 系	RX 9000 シリーズ	RX 9000 시리즈
+RTX 40 系	RTX 40 series	RTX 40 系	RTX 40 シリーズ	RTX 40 시리즈
+PortWatch 核验	Verified by PortWatch	PortWatch 核驗	PortWatch が確認	PortWatch 확인
+PortWatch 收录 · 作者自报	PortWatch · self-reported	PortWatch 收錄 · 作者自報	PortWatch 掲載 · 開発者報告	PortWatch 수록 · 개발자 보고
+约 16 FPS	~16 FPS	約 16 FPS	約 16 FPS	약 16 FPS
+约 3 FPS	~3 FPS	約 3 FPS	約 3 FPS	약 3 FPS
+AMD RX 7000 系 · RX 7900 XTX 实测	AMD RX 7000 series · Tested on RX 7900 XTX	AMD RX 7000 系列 · RX 7900 XTX 實測	AMD RX 7000 シリーズ · RX 7900 XTX で検証	AMD RX 7000 시리즈 · RX 7900 XTX에서 테스트
+AMD RX 9000 系 · RX 9070 XT 实测	AMD RX 9000 series · Tested on RX 9070 XT	AMD RX 9000 系列 · RX 9070 XT 實測	AMD RX 9000 シリーズ · RX 9070 XT で検証	AMD RX 9000 시리즈 · RX 9070 XT에서 테스트
+NVIDIA RTX 40 系 · RTX 4070 实测	NVIDIA RTX 40 series · Tested on RTX 4070	NVIDIA RTX 40 系列 · RTX 4070 實測	NVIDIA RTX 40 シリーズ · RTX 4070 で検証	NVIDIA RTX 40 시리즈 · RTX 4070에서 테스트
+Windows x64 · AMD RX 7900 XTX 实测	Windows x64 · Tested on AMD RX 7900 XTX	Windows x64 · AMD RX 7900 XTX 實測	Windows x64 · AMD RX 7900 XTX で検証	Windows x64 · AMD RX 7900 XTX에서 테스트
+Windows x64 · AMD RX 9070 XT 实测	Windows x64 · Tested on AMD RX 9070 XT	Windows x64 · AMD RX 9070 XT 實測	Windows x64 · AMD RX 9070 XT で検証	Windows x64 · AMD RX 9070 XT에서 테스트
+Windows x64 · NVIDIA RTX 4070 实测	Windows x64 · Tested on NVIDIA RTX 4070	Windows x64 · NVIDIA RTX 4070 實測	Windows x64 · NVIDIA RTX 4070 で検証	Windows x64 · NVIDIA RTX 4070에서 테스트
+约 8 FPS	~8 FPS	約 8 FPS	約 8 FPS	약 8 FPS
+单次 41 分钟无崩溃	41 min without a crash	單次 41 分鐘無崩潰	41 分間クラッシュなし	41분 연속 실행 중 충돌 없음
+很少崩溃	Rare crashes	很少崩潰	クラッシュはまれ	충돌은 드묾
+游戏内平均；街头追逐 6–10 FPS	In-game average; street chases 6–10 FPS	遊戲內平均；街頭追逐 6–10 FPS	ゲーム内平均。市街地のカーチェイスでは 6–10 FPS	게임 내 평균. 도심 추격전에서는 6–10 FPS
+开放世界与任务	Open world and missions	開放世界與任務	オープンワールドとミッション	오픈 월드 및 임무
+游戏内；开启光追约 1 FPS	In game; ~1 FPS with ray tracing	遊戲內；開啟光追約 1 FPS	ゲーム内。レイトレーシング有効時は約 1 FPS	게임 내. 레이 트레이싱 사용 시 약 1 FPS
+序章直播；作者另报首批房间 8–10 FPS	Prologue stream; author reports 8–10 FPS in early rooms	序章直播；作者另報首批房間 8–10 FPS	プロローグの配信。開発者によると序盤の室内は 8–10 FPS	프롤로그 방송 기준. 개발자는 초반 실내에서 8–10 FPS를 보고함
+退出游戏	Exit game	退出遊戲	ゲームを終了	게임 종료
+正在退出游戏	Exiting game	正在退出遊戲	ゲームを終了中	게임 종료 중
+删除当前配置	Delete current profile	刪除目前配置	現在のプロファイルを削除	현재 프로필 삭제
+删除“{0}”的键鼠映射？	Delete the keyboard and mouse bindings for “{0}”?	刪除「{0}」的鍵鼠映射？	「{0}」のキーとマウスの割り当てを削除しますか？	‘{0}’ 프로필의 키보드·마우스 매핑을 삭제할까요?
+删除失败，请重试。	Could not delete the profile. Try again.	刪除失敗，請重試。	削除できませんでした。もう一度お試しください。	삭제하지 못했습니다. 다시 시도하세요.
+删除	Delete	刪除	削除	삭제
+取消	Cancel	取消	キャンセル	취소
+GTA6 定制	GTA6 Custom	GTA6 訂製	GTA6 カスタム	GTA6 커스텀
+步行 · WASD 移动，右键瞄准，左键射击	On foot · WASD to move, right-click to aim, left-click to fire	步行 · WASD 移動，右鍵瞄準，左鍵射擊	徒歩 · WASD で移動、右クリックで照準、左クリックで射撃	도보 · WASD 이동, 우클릭 조준, 좌클릭 사격
+驾驶 · W/S 油门与刹车，A/D 转向，空格手刹，左键射击	Driving · W/S to accelerate or brake, A/D to steer, Space for handbrake, left-click to fire	駕駛 · W/S 加速與煞車，A/D 轉向，空白鍵手煞車，左鍵射擊	運転 · W/S で加速・ブレーキ、A/D で操舵、スペースでハンドブレーキ、左クリックで射撃	운전 · W/S 가속 및 제동, A/D 조향, 스페이스바 핸드브레이크, 좌클릭 사격
+方向键浏览菜单，Enter 确认，Backspace 返回。	Use the arrow keys for menus, Enter to confirm and Backspace to go back.	方向鍵瀏覽選單，Enter 確認，Backspace 返回。	方向キーでメニューを移動、Enter で決定、Backspace で戻ります。	방향키로 메뉴 이동, Enter로 확인, Backspace로 돌아갑니다.
+恢复 GTA6 定制	Restore GTA6 Custom	還原 GTA6 訂製	GTA6 カスタムを復元	GTA6 커스텀 복원
+右键可恢复 GTA6 定制	Right-click to restore GTA6 Custom	按右鍵可還原 GTA6 訂製	右クリックで GTA6 カスタムを復元	마우스 오른쪽 버튼으로 GTA6 커스텀 복원
+恢复失败，请重试。	Could not restore the preset. Try again.	還原失敗，請重試。	復元できませんでした。もう一度お試しください。	복원할 수 없습니다. 다시 시도하세요.
+只读配置	Read-only preset	唯讀設定檔	読み取り専用プロファイル	읽기 전용 프로필
+F6 切换步行和驾驶。长按 Alt 切换角色。	Press F6 to switch between on foot and driving. Hold Alt to switch characters.	按 F6 切換步行與駕駛。長按 Alt 切換角色。	F6 で徒歩と運転を切り替えます。Alt を長押ししてキャラクターを切り替えます。	F6 키로 도보와 운전 모드를 전환합니다. Alt 키를 길게 눌러 캐릭터를 바꾸세요.
+未找到该项目的 GTA6 定制输入组件。	The GTA6 Custom input component is missing for this project.	找不到此專案的 GTA6 訂製輸入元件。	このプロジェクトの GTA6 カスタム入力コンポーネントが見つかりません。	이 프로젝트의 GTA6 커스텀 입력 구성 요소를 찾을 수 없습니다.
+载入游戏本体	Load game files	載入遊戲本體	ゲームファイルを読み込む	게임 파일 불러오기
+找不到配套的游戏资源。	Matching game files could not be found.	找不到對應的遊戲資源。	対応するゲームデータが見つかりません。	해당 게임 데이터를 찾을 수 없습니다.
+请先载入 Xbox 游戏文件和对应的可执行文件（.exe）。	Load the Xbox game files and their matching executable (.exe) first.	請先載入 Xbox 遊戲檔案及對應的執行檔（.exe）。	先に Xbox のゲームデータと対応する実行ファイル（.exe）を読み込んでください。	먼저 Xbox 게임 파일과 해당 실행 파일(.exe)을 불러오세요.
+暂无游戏实例	No game loaded	暫無遊戲實例	ゲームが読み込まれていません	불러온 게임이 없습니다
+点击右下角的＋，载入 Xbox 游戏文件和对应的可执行文件（.exe）。	Click + at the bottom right to load the Xbox game files and their matching executable (.exe).	點擊右下角的＋，載入 Xbox 遊戲檔案及對應的執行檔（.exe）。	右下の＋をクリックして、Xbox のゲームデータと対応する実行ファイル（.exe）を読み込んでください。	오른쪽 아래의 +를 눌러 Xbox 게임 파일과 해당 실행 파일(.exe)을 불러오세요.
+游戏本体目录	Game data folder	遊戲本體目錄	ゲームデータフォルダー	게임 데이터 폴더
+原版游戏 EXE	Original game EXE	原版遊戲 EXE	オリジナルのゲーム EXE	원본 게임 EXE
+选择	Browse	選擇	選択	찾아보기
+检查	Check	檢查	確認	검사
+请检查游戏本体目录与 EXE 是否匹配。	Check the game data folder and matching EXE.	請檢查遊戲本體目錄與 EXE 是否相符。	ゲームデータと EXE の組み合わせを確認してください。	게임 폴더와 EXE가 일치하는지 확인하세요.
+显卡未通过 D3D12 功能检查。	The GPU did not pass the D3D12 capability check.	顯示卡未通過 D3D12 功能檢查。	GPU が D3D12 機能チェックを通過しませんでした。	GPU가 D3D12 기능 검사를 통과하지 못했습니다.
+正在检查 {0} / {1} · {2}	Checking {0} / {1} · {2}	正在檢查 {0} / {1} · {2}	確認中 {0} / {1} · {2}	검사 중 {0} / {1} · {2}
+试载通过	Load check passed	試載通過	読み込み確認済み	로딩 검사 통과
+试载失败，请查看 compatibility.log	Load check failed. See compatibility.log.	試載失敗，請查看 compatibility.log	読み込み失敗。compatibility.log を確認してください	로딩 검사 실패. compatibility.log를 확인하세요
+没有方案通过检查，请查看实时日志。	No project passed. See the live log.	沒有方案通過檢查，請查看即時日誌。	確認を通過したプロジェクトがありません。ライブログを確認してください。	검사를 통과한 프로젝트가 없습니다. 실시간 로그를 확인하세요.
+约 25 FPS	About 25 FPS	約 25 FPS	約 25 FPS	약 25 FPS
+Windows x64 · NVIDIA · 16 GB 显存	Windows x64 · NVIDIA · 16 GB VRAM	Windows x64 · NVIDIA · 16 GB 顯示記憶體	Windows x64 · NVIDIA · VRAM 16 GB	Windows x64 · NVIDIA · VRAM 16 GB
+作者评分 0.85	Author rating 0.85	作者評分 0.85	作者評価 0.85	작성자 평점 0.85
+游戏内平均；仍有轻微画面异常	In-game average. Minor visual glitches remain.	遊戲內平均，仍有輕微畫面異常	ゲーム内平均。軽微な描画の乱れあり。	게임 내 평균. 일부 화면 이상이 남아 있습니다.
+GTA6 定制 · F6 切换步行和驾驶。长按 Alt 切换角色。	GTA6 Custom · Press F6 to switch between walking and driving. Hold Alt to switch characters.	GTA6 訂製 · 按 F6 切換步行與駕駛。長按 Alt 切換角色。	GTA6 カスタム · F6 で徒歩と運転を切り替えます。Alt を長押ししてキャラクターを切り替えます。	GTA6 커스텀 · F6 키로 도보와 운전을 전환합니다. Alt 키를 길게 눌러 캐릭터를 전환합니다.
+所有项目试载失败。请查看 XCL-VIctory-Lab/desktop/gpu-check.log。	All projects failed the load check. See XCL-VIctory-Lab/desktop/gpu-check.log.	所有專案試載失敗。請查看 XCL-VIctory-Lab/desktop/gpu-check.log。	すべてのプロジェクトで読み込み確認に失敗しました。XCL-VIctory-Lab/desktop/gpu-check.log を確認してください。	모든 프로젝트의 로드 검사에 실패했습니다. XCL-VIctory-Lab/desktop/gpu-check.log를 확인하세요.
+正在预编译完整着色器归档	Precompiling the full shader archive	正在預編譯完整著色器封存檔	シェーダーアーカイブ全体を事前コンパイル中	전체 셰이더 아카이브 사전 컴파일 중
+正在预热已记录的渲染管线	Warming recorded graphics pipelines	正在預熱已記錄的渲染管線	記録済みパイプラインを準備中	기록된 렌더링 파이프라인 예열 중
+就绪	Ready	就緒	準備完了	준비 완료
+正在读取管线记录	Reading pipeline history	正在讀取管線記錄	パイプラインの記録を読み込み中	파이프라인 기록 읽는 중
+已无待预热管线	No pending pipelines	已無待預熱管線	準備が必要なパイプラインはありません	예열할 파이프라인이 없습니다
+预热完成，部分条目已跳过	Warmup finished with skipped entries	預熱完成，部分項目已略過	一部をスキップして準備完了	일부 항목을 건너뛰고 예열 완료
+已缓存 {0:N0}	{0:N0} cached	已快取 {0:N0}	キャッシュ済み {0:N0} 件	{0:N0}개 캐시됨
+渲染设备就绪，等待首帧	Renderer ready, waiting for first frame	渲染裝置就緒，等待首幀	描画デバイス準備完了・最初のフレームを待機中	렌더링 장치 준비 완료 · 첫 프레임 대기 중
+首次运行将记录渲染管线	The first run will record pipelines	首次執行將記錄渲染管線	初回起動時にパイプラインを記録します	첫 실행 시 파이프라인을 기록합니다
+未收到有效的着色器缓存统计，请查看 prewarm.log	No shaders were confirmed in cache. See prewarm.log.	未收到有效的著色器快取統計，請查看 prewarm.log	シェーダーキャッシュの確認に失敗しました。prewarm.log を確認してください	셰이더 캐시를 확인할 수 없습니다. prewarm.log를 확인하세요
+管线预热未完成，请查看 prewarm.log	Pipeline warmup failed. See prewarm.log.	管線預熱未完成，請查看 prewarm.log	パイプラインの準備に失敗しました。prewarm.log を確認してください	파이프라인 예열에 실패했습니다. prewarm.log를 확인하세요
+正在初始化渲染，等待首帧	Initializing the renderer, waiting for the first frame	正在初始化渲染，等待首幀	レンダラーを初期化中・最初のフレームを待機中	렌더러 초기화 중 · 첫 프레임 대기 중
+首帧已提交	First frame submitted	首幀已提交	最初のフレームを送信しました	첫 프레임을 제출했습니다
+首帧提交前游戏已退出，请查看 runtime.log	Game exited before the first frame. See runtime.log.	首幀提交前遊戲已結束，請查看 runtime.log	最初のフレームの前に終了しました。runtime.log を確認してください	첫 프레임 전에 게임이 종료되었습니다. runtime.log를 확인하세요
+CGBJ 试载失败，请查看 gpu-check.log。	CGBJ load check failed. See gpu-check.log.	CGBJ 試載失敗，請查看 gpu-check.log。	CGBJ の読み込みに失敗しました。gpu-check.log を確認してください。	CGBJ 로드 확인에 실패했습니다. gpu-check.log를 확인하세요.
+正在初始化 D3D12 渲染设备	Initializing the D3D12 device	正在初始化 D3D12 渲染裝置	D3D12 デバイスを初期化中	D3D12 렌더링 장치 초기화 중
+CGBJ 未能初始化 D3D12 渲染设备，请查看 prewarm.log	CGBJ could not initialize the D3D12 device. See prewarm.log.	CGBJ 未能初始化 D3D12 渲染裝置，請查看 prewarm.log	CGBJ が D3D12 デバイスを初期化できませんでした。prewarm.log を確認してください	CGBJ가 D3D12 장치를 초기화하지 못했습니다. prewarm.log를 확인하세요
+模拟器	Emulator	模擬器	エミュレーター	에뮬레이터
+尚无记录	No record yet	尚無紀錄	記録なし	기록 없음
+上次运行　{0}	Last played · {0}	上次執行　{0}	前回のプレイ　{0}	마지막 플레이　{0}
+上次启动	Last launched	上次啟動	前回の起動	마지막 실행
+刚刚	Just now	剛剛	たった今	방금
+{0}分钟前	{0} min ago	{0}分鐘前	{0}分前	{0}분 전
+{0}小时前	{0} h ago	{0}小時前	{0}時間前	{0}시간 전
+{0}天前	{0} d ago	{0}天前	{0}日前	{0}일 전
+游玩时长	Playtime	遊玩時長	プレイ時間	플레이 시간
+崭新出厂	Factory fresh	嶄新出廠	未プレイ	플레이 기록 없음
+游玩进度	Story progress	遊玩進度	進行状況	진행도
+暂无存档	No saves yet	暫無存檔	セーブなし	저장 데이터 없음
+本机存档	Local saves	本機存檔	ローカルセーブ	로컬 저장 데이터
+外部存档	Imported save	外部存檔	インポートしたセーブ	가져온 저장 데이터
+旧版存档	Legacy save	舊版存檔	旧バージョンのセーブ	이전 버전 저장 데이터
+选择存档	Select a save	選擇存檔	セーブを選択	저장 데이터 선택
+所在文件夹	Open folder	所在資料夾	フォルダー	폴더 열기
+导出存档	Export save	匯出存檔	書き出す	내보내기
+导入存档	Import save	匯入存檔	読み込む	가져오기
+默认存档	Default save	預設存檔	既定のセーブ	기본 저장 데이터
+无效的存档包	Invalid save archive	無效的存檔包	無効なセーブアーカイブです	올바르지 않은 저장 파일입니다
+存档已导入	Save imported	存檔已匯入	セーブを読み込みました	저장 데이터를 가져왔습니다
+存档已导出	Save exported	存檔已匯出	セーブを書き出しました	저장 데이터를 내보냈습니다
+退出游戏后可切换或传输存档	Exit the game to switch or transfer saves	退出遊戲後可切換或傳輸存檔	ゲーム終了後にセーブを切り替え・転送できます	게임을 종료하면 저장 데이터를 전환하거나 전송할 수 있습니다
+游玩时间　{0}	Playtime · {0}	遊玩時間　{0}	プレイ時間　{0}	플레이 시간　{0}
+{0} 秒	{0} s	{0} 秒	{0} 秒	{0}초
+{0} 分钟	{0} min	{0} 分鐘	{0} 分	{0}분
+{0} 小时	{0} h	{0} 小時	{0} 時間	{0}시간
+检查更新	Check for updates	檢查更新	更新を確認	업데이트 확인
+正在检查更新…	Checking for updates…	正在檢查更新…	更新を確認中…	업데이트 확인 중…
+当前没有可用更新	No updates available	目前沒有可用更新	利用可能な更新はありません	사용 가능한 업데이트가 없습니다
+无法检查更新，请稍后重试	Couldn’t check for updates. Try again later.	無法檢查更新，請稍後重試	更新を確認できませんでした。しばらくしてから再試行してください	업데이트를 확인할 수 없습니다. 잠시 후 다시 시도하세요
+下载启动器更新 {0}	Download launcher update {0}	下載啟動器更新 {0}	ランチャーの更新 {0} をダウンロード	런처 업데이트 {0} 다운로드
+正在下载更新 · {0}%	Downloading update · {0}%	正在下載更新 · {0}%	更新をダウンロード中 · {0}%	업데이트 다운로드 중 · {0}%
+安装 {0} 并重启启动器	Install {0} and restart the launcher	安裝 {0} 並重新啟動啟動器	{0} をインストールしてランチャーを再起動	{0} 설치 후 런처 다시 시작
+退出游戏后可安装更新	Exit the game to install the update	退出遊戲後可安裝更新	ゲームを終了すると更新をインストールできます	게임을 종료하면 업데이트를 설치할 수 있습니다
+游戏或预热正在运行，请稍后点击安装	Game or warm-up in progress. Click to install once it finishes.	遊戲或預熱正在執行，請稍後點擊安裝	ゲームまたは準備処理が進行中です。終了後にクリックしてインストールしてください	게임 실행 또는 사전 준비 중입니다. 종료 후 클릭하여 설치하세요
+正在重启启动器	Restarting launcher	正在重新啟動啟動器	ランチャーを再起動中	런처를 다시 시작하는 중
+下载失败，点击下载图标重试	Download failed. Click the download icon to retry.	下載失敗，點擊下載圖示重試	ダウンロードに失敗しました。アイコンをクリックして再試行してください	다운로드에 실패했습니다. 다운로드 아이콘을 클릭하여 다시 시도하세요
+无法安装更新，请重试	Couldn’t install the update. Try again.	無法安裝更新，請重試	更新をインストールできませんでした。再試行してください	업데이트를 설치할 수 없습니다. 다시 시도하세요
+模拟器设置	Emulator settings	模擬器設定	エミュレーター設定	에뮬레이터 설정
+主机配置	Console profile	主機設定	コンソール設定	콘솔 프로필
+帧生成方式	Frame generation method	畫格生成方式	フレーム生成方式	프레임 생성 방식
+帧生成倍数	Frame multiplier	畫格生成倍率	フレーム生成倍率	프레임 생성 배수
+自动	Auto	自動	自動	자동
+请开启 DLSS 以使用 DLSS 帧生成	Enable DLSS to use DLSS Frame Generation.	請開啟 DLSS 以使用 DLSS 畫格生成	DLSS フレーム生成を使用するには DLSS を有効にしてください。	DLSS 프레임 생성을 사용하려면 DLSS를 켜세요.
+无 DLSS 时，FSR 3 需要 Series S	Without DLSS, FSR 3 requires Series S.	未開啟 DLSS 時，FSR 3 需要 Series S	シェーダーのアップスケールに DLSS を使用しない場合、FSR 3 には Series S が必要です。	DLSS 없이 FSR 3를 사용하려면 Series S가 필요합니다.
+当前配置无法使用所选帧生成方式	The selected frame generation method is unavailable with this configuration.	目前設定無法使用所選畫格生成方式	現在の設定では選択したフレーム生成方式を使用できません。	현재 설정에서는 선택한 프레임 생성 방식을 사용할 수 없습니다.
+无法读取模拟器设置	Couldn’t read emulator settings	無法讀取模擬器設定	エミュレーター設定を読み込めませんでした	에뮬레이터 설정을 읽을 수 없습니다
+正在写入原生管线库	Building the native pipeline library	正在寫入原生管線庫	ネイティブパイプラインライブラリを構築中	네이티브 파이프라인 라이브러리 작성 중
+下次启动游戏时生效	Applies on the next game launch	下次啟動遊戲時生效	次回のゲーム起動時に反映されます	다음 게임 실행 시 적용됩니다
+DLSS 4.5 超分辨率与帧生成	DLSS 4.5 Super Resolution and Frame Generation	DLSS 4.5 超解析度與畫格生成	DLSS 4.5 超解像とフレーム生成	DLSS 4.5 슈퍼 레졸루션 및 프레임 생성
+DLSS 4.5 超分辨率（质量）	DLSS 4.5 Super Resolution (Quality)	DLSS 4.5 超解析度（品質）	DLSS 4.5 超解像（クオリティ）	DLSS 4.5 슈퍼 레졸루션 (품질)
+正在检测 DLSS 支持	Checking DLSS support…	正在偵測 DLSS 支援狀態	DLSS 対応状況を確認中…	DLSS 지원 확인 중…
+使用游戏的深度和运动矢量重建画面	Reconstructs the image using the game’s depth and motion vectors.	使用遊戲的深度與運動向量重建畫面	ゲームの深度とモーションベクトルから映像を再構成します。	게임의 깊이 및 모션 벡터로 화면을 재구성합니다.
+当前游戏或显卡无法使用 DLSS	DLSS is unavailable for this game or graphics adapter.	目前的遊戲或顯示卡無法使用 DLSS	現在のゲームまたは GPU では DLSS を使用できません。	현재 게임 또는 GPU에서는 DLSS를 사용할 수 없습니다.
+DLSS 帧生成	DLSS Frame Generation	DLSS 畫格生成	DLSS フレーム生成	DLSS 프레임 생성
+帧生成	Frame Generation	畫格生成	フレーム生成	프레임 생성
+DLSS 多帧生成	DLSS Multi Frame Generation	DLSS 多畫格生成	DLSS マルチフレーム生成	DLSS 멀티 프레임 생성
+降低帧生成倍数	Decrease frame multiplier	降低畫格生成倍率	フレーム生成倍率を下げる	프레임 생성 배수 낮추기
+提高帧生成倍数	Increase frame multiplier	提高畫格生成倍率	フレーム生成倍率を上げる	프레임 생성 배수 높이기
+未开启	Off	未開啟	オフ	꺼짐
+质量	Quality	品質	品質	품질
+平衡	Balanced	平衡	バランス	균형
+性能	Performance	效能	パフォーマンス	성능
+不可用	Unavailable	無法使用	利用不可	사용 불가
+无法保存模拟器设置	Couldn’t save emulator settings	無法儲存模擬器設定	エミュレーター設定を保存できませんでした	에뮬레이터 설정을 저장할 수 없습니다
+未找到该项目的游戏窗口运行组件。	The game window runtime is missing for this project.	找不到此專案的遊戲視窗執行元件。	このプロジェクトのゲームウィンドウ用ランタイムが見つかりません。	이 프로젝트의 게임 창 런타임을 찾을 수 없습니다.
+CGBJ · 预热详情	CGBJ · Warm-up details	CGBJ · 預熱詳情	CGBJ · ウォームアップの詳細	CGBJ · 예열 세부 정보
+缓存中的着色器　{0:N0}	Cached shaders  {0:N0}	快取中的著色器　{0:N0}	キャッシュ済みシェーダー　{0:N0}	캐시된 셰이더  {0:N0}
+已处理管线　{0:N0} / {1:N0}	Pipelines processed  {0:N0} / {1:N0}	已處理管線　{0:N0} / {1:N0}	処理済みパイプライン　{0:N0} / {1:N0}	처리된 파이프라인  {0:N0} / {1:N0}
+展开成就	Show achievements	展開成就	実績を開く	도전 과제 펼치기
+收起成就	Hide achievements	收起成就	実績を閉じる	도전 과제 접기
+成就记录	Achievements	成就紀錄	実績	도전 과제
+已解锁 {0}/{1} · {2:0.##}%	{0}/{1} unlocked · {2:0.##}%	已解鎖 {0}/{1} · {2:0.##}%	{0}/{1} 解除 · {2:0.##}%	{0}/{1} 달성 · {2:0.##}%
+已解锁	Unlocked	已解鎖	解除済み	달성
+尚无本地记录	No local record	尚無本機紀錄	ローカル記録なし	로컬 기록 없음
+成就记录读取失败	Could not read achievements	無法讀取成就紀錄	実績を読み込めません	기록을 읽을 수 없음
+展开封面	Expand cover	展開封面	カバーを開く	표지 펼치기
+收起封面	Collapse cover	收起封面	カバーを閉じる	표지 접기
+磁力链接导入	Import via magnet link	磁力連結匯入	マグネットリンクから取り込む	마그넷 링크로 가져오기
+流式下载，边下载边解压。	Extract files as they download.	串流下載，同步解壓縮。	ダウンロードしながら展開します。	다운로드하면서 압축을 풉니다.
+本地目录导入	Import from folder	本機目錄匯入	フォルダーから取り込む	폴더에서 가져오기
+从已有文件夹载入游戏。	Load the game from an existing folder.	從現有資料夾載入遊戲。	既存のフォルダーからゲームを読み込みます。	기존 폴더에서 게임을 불러옵니다.
+磁力链接	Magnet link	磁力連結	マグネットリンク	마그넷 링크
+粘贴磁力链接	Paste a magnet link	貼上磁力連結	マグネットリンクを貼り付け	마그넷 링크 붙여넣기
+选择游戏 EXE	Choose the game EXE	選擇遊戲 EXE	ゲームの EXE を選択	게임 EXE 선택
+EXE 文件或压缩包	EXE file or archive	EXE 檔案或壓縮檔	EXE ファイルまたはアーカイブ	EXE 파일 또는 압축 파일
+粘贴文件路径、下载地址或磁力链接	Paste a file path, download URL or magnet link	貼上檔案路徑、下載網址或磁力連結	ファイルのパス、ダウンロード URL、マグネットリンクを貼り付け	파일 경로, 다운로드 URL 또는 마그넷 링크 붙여넣기
+输入本地文件路径	Enter a local file path	輸入本機檔案路徑	ローカルファイルのパスを入力	로컬 파일 경로 입력
+浏览文件	Browse files	瀏覽檔案	ファイルを参照	파일 찾아보기
+可用版本	Available versions	可用版本	利用可能なバージョン	사용 가능한 버전
+开始下载	Start download	開始下載	ダウンロード開始	다운로드 시작
+选择下载位置	Choose a download folder	選擇下載位置	保存先を選択	다운로드 폴더 선택
+请输入有效的磁力链接。	Enter a valid magnet link.	請輸入有效的磁力連結。	有効なマグネットリンクを入力してください。	유효한 마그넷 링크를 입력하세요.
+正在获取种子元数据…	Fetching torrent metadata…	正在取得種子中繼資料…	トレントのメタデータを取得中…	토렌트 메타데이터를 가져오는 중…
+下载与解压 · {0:0.#}%	Downloading and extracting · {0:0.#}%	下載與解壓縮 · {0:0.#}%	ダウンロード・展開中 · {0:0.#}%	다운로드 및 압축 해제 중 · {0:0.#}%
+下载已取消	Download canceled	下載已取消	ダウンロードをキャンセルしました	다운로드가 취소되었습니다
+文件已保存到 {0}	Files saved to {0}	檔案已儲存至 {0}	保存先 · {0}	파일 저장 위치 · {0}
+下载失败 · {0}	Download failed · {0}	下載失敗 · {0}	ダウンロード失敗 · {0}	다운로드 실패 · {0}
+开源许可	Open-source licenses	開源授權	オープンソースライセンス	오픈 소스 라이선스
+开源组件	Open-source components	開源元件	オープンソースコンポーネント	오픈 소스 구성 요소
+其他第三方许可	Other third-party licenses	其他第三方授權	その他のサードパーティーライセンス	기타 타사 라이선스
+导入结束后可安装更新	Install the update after the import finishes	匯入結束後可安裝更新	インポート完了後に更新できます	가져오기가 끝나면 업데이트할 수 있습니다
+需要关键更新	Critical update required	需要重大更新	重要な更新が必要です	필수 업데이트 필요
+从 {0} 到 {1}：普通更新 {2} 个，关键更新 {3} 个	{0} to {1}: {2} optional, {3} critical	從 {0} 到 {1}：一般更新 {2} 個，重大更新 {3} 個	{0} → {1}：通常更新 {2} 件、重要更新 {3} 件	{0} → {1}: 일반 업데이트 {2}개, 필수 업데이트 {3}개
+安装更新并重启	Install and restart	安裝更新並重新啟動	更新して再起動	설치 후 다시 시작
+需要启动器 {0} 或更高版本才能启动游戏	Update to launcher {0} or later to play	需要啟動器 {0} 或更新版本才能啟動遊戲	プレイにはランチャー {0} 以降が必要です	게임을 시작하려면 런처 {0} 이상이 필요합니다
+启动器名称	Launcher name	啟動器名稱	ランチャー名	런처 이름
+保存名称	Save name	儲存名稱	名前を保存	이름 저장
+清空后保存可恢复默认名称	Clear and save to restore the default name	清空後儲存即可還原預設名稱	空欄で保存すると既定の名前に戻ります	비운 후 저장하면 기본 이름으로 돌아갑니다
+名称含有无效字符。	The name contains an invalid character.	名稱含有無效字元。	名前に使用できない文字が含まれています。	이름에 사용할 수 없는 문자가 있습니다.
+可执行文件来源	Executable source	執行檔來源	実行ファイルの選択	실행 파일 소스
+尚未选择文件夹	No folder selected	尚未選擇資料夾	フォルダー未選択	선택한 폴더 없음
+尚未选择 EXE	No EXE selected	尚未選擇 EXE	EXE 未選択	선택한 EXE 없음
+更改	Change	變更	変更	변경
+自己的 EXE	My EXE	自己的 EXE	自分の EXE	내 EXE
+内置适配 EXE	Bundled EXE	內建適配 EXE	同梱の対応 EXE	내장 호환 EXE
+EXE 磁力链接	EXE magnet link	EXE 磁力連結	EXE のマグネットリンク	EXE 마그넷 링크
+导入检查	Import checks	匯入檢查	インポートの確認	가져오기 검사
+检查磁力链接格式	Checking magnet link format	檢查磁力連結格式	マグネットリンクの形式を確認中	마그넷 링크 형식 확인 중
+检查游戏文件与 EXE	Checking game files and EXE	檢查遊戲檔案與 EXE	ゲームファイルと EXE を確認中	게임 파일 및 EXE 확인 중
+检查图形适配器	Checking the graphics adapter	檢查顯示卡	グラフィックスアダプターを確認中	그래픽 어댑터 확인 중
+找不到内置适配 EXE。	The bundled EXE is missing.	找不到內建適配 EXE。	同梱の EXE が見つかりません。	내장 EXE를 찾을 수 없습니다.
+本体磁力链接格式无效。	Invalid game magnet link format.	遊戲本體磁力連結格式無效。	ゲーム本体のマグネットリンクの形式が無効です。	게임 마그넷 링크 형식이 잘못되었습니다.
+EXE 磁力链接格式无效。	Invalid EXE magnet link format.	EXE 磁力連結格式無效。	EXE のマグネットリンクの形式が無効です。	EXE 마그넷 링크 형식이 잘못되었습니다.
+正在检查本体磁力链接	Checking game torrent metadata	正在檢查遊戲本體磁力連結	ゲーム本体のメタデータを確認中	게임 토렌트 메타데이터 확인 중
+正在检查 EXE 磁力链接	Checking EXE torrent metadata	正在檢查 EXE 磁力連結	EXE のメタデータを確認中	EXE 토렌트 메타데이터 확인 중
+正在下载所选 EXE	Downloading the selected EXE	正在下載所選 EXE	選択した EXE をダウンロード中	선택한 EXE 다운로드 중
+正在下载并解压游戏本体	Downloading and extracting game files	正在下載並解壓縮遊戲本體	ゲーム本体をダウンロード・展開中	게임 파일 다운로드 및 압축 해제 중
+下载内容中找不到游戏清单。	The downloaded files contain no game manifest.	下載內容中找不到遊戲資訊清單。	ダウンロード内容にゲームのマニフェストがありません。	다운로드한 파일에서 게임 매니페스트를 찾을 수 없습니다.
+60 秒内未取得元数据，请确认有在线来源后重试。	No metadata received in 60 seconds. Check for online peers and retry.	60 秒內未取得中繼資料，請確認有線上來源後重試。	60 秒以内にメタデータを取得できませんでした。ピアを確認して再試行してください。	60초 안에 메타데이터를 받지 못했습니다. 피어를 확인하고 다시 시도하세요.
+链接须包含一个匹配的游戏 EXE。	The link must contain exactly one matching game EXE.	連結須包含一個相符的遊戲 EXE。	リンクには対応するゲーム EXE が 1 つ必要です。	링크에는 호환되는 게임 EXE가 정확히 하나 있어야 합니다.
+90 秒内未收到所需数据，请检查在线来源后重试。	No required data received in 90 seconds. Check for online peers and retry.	90 秒內未收到所需資料，請檢查線上來源後重試。	90 秒以内に必要なデータを受信できませんでした。ピアを確認して再試行してください。	90초 안에 필요한 데이터를 받지 못했습니다. 피어를 확인하고 다시 시도하세요.
+链接中找不到游戏清单或支持的压缩包。	No game manifest or supported archive found in the link.	連結中找不到遊戲資訊清單或支援的壓縮檔。	ゲームのマニフェストまたは対応するアーカイブが見つかりません。	링크에서 게임 매니페스트 또는 지원되는 압축 파일을 찾을 수 없습니다.
+模拟器检查未通过，请查看 gpu-check.log。	No emulator passed the check. See gpu-check.log.	模擬器檢查未通過，請查看 gpu-check.log。	エミュレーターの確認に失敗しました。gpu-check.log を確認してください。	에뮬레이터 검사에 실패했습니다. gpu-check.log를 확인하세요.
+预热详情	Warm-up details	預熱詳情	ウォームアップの詳細	예열 세부 정보
+此引擎尚未接入 NVIDIA 时域渲染	NVIDIA temporal rendering is unavailable in this engine.	此引擎尚未接入 NVIDIA 時域渲染	このエンジンでは NVIDIA の時間的レンダリングは利用できません。	이 엔진은 NVIDIA 시간 기반 렌더링을 지원하지 않습니다.
+选择本体压缩包	Choose game archive	選擇本體壓縮檔	ゲームのアーカイブを選択	게임 압축 파일 선택
+检测到本体压缩包	Game archive detected	偵測到本體壓縮檔	ゲームのアーカイブを検出しました	게임 압축 파일을 찾았습니다
+⚠　解压空间与恢复风险	⚠　Extraction space and recovery	⚠　解壓空間與復原風險	⚠　展開時の容量と復元リスク	⚠　압축 해제 공간 및 복구 위험
+我已了解风险，允许永久删除源卷。	Delete consumed source volumes during extraction	我了解風險，解壓時刪除已讀原卷	リスクを理解し、読み取り済みの元ファイルを削除する	위험을 이해하고 읽은 원본 분할 파일 삭제
+本体中是否包含游戏 EXE？	Does the game include its EXE?	本體中是否包含遊戲 EXE？	ゲームに EXE が含まれていますか？	게임에 EXE가 포함되어 있나요?
+已检查本体目录，请选择 EXE 来源。	Game folder checked. Choose the EXE source.	已檢查本體目錄，請選擇 EXE 來源。	ゲームフォルダーを確認しました。EXE の入手元を選択してください。	게임 폴더를 확인했습니다. EXE 출처를 선택하세요.
+包含，自动查找	Yes, find it automatically	包含，自動尋找	はい、自動で検索	예, 자동 검색
+另行提供 EXE	Provide the EXE separately	另外提供 EXE	別の EXE を指定	EXE 따로 제공
+需要匹配的游戏 EXE	A matching game EXE is required	需要相符的遊戲 EXE	対応するゲーム EXE が必要です	일치하는 게임 EXE가 필요합니다
+EXE 文件、压缩包地址或磁力链接	EXE or archive path, URL, or magnet link	EXE 檔案、壓縮檔網址或磁力連結	EXE・アーカイブのパス、URL またはマグネットリンク	EXE나 압축 파일의 경로, URL 또는 마그넷 링크
+详细配置	Game details	詳細設定	詳細設定	상세 설정
+选择输出目录	Choose the output folder	選擇輸出目錄	出力先を選択	출력 폴더 선택
+请选择有效的 EXE、压缩包或链接。	Choose a valid EXE, archive or link.	請選擇有效的 EXE、壓縮檔或連結。	有効な EXE、アーカイブまたはリンクを選択してください。	유효한 EXE, 압축 파일 또는 링크를 선택하세요.
+正在准备游戏 EXE	Preparing the game EXE	正在準備遊戲 EXE	ゲーム EXE を準備中	게임 EXE 준비 중
+检查压缩包	Checking the archive	檢查壓縮檔	アーカイブを確認中	압축 파일 확인 중
+磁力下载使用临时分片。取消后需重新下载，原始做种文件不受影响。	The download uses temporary pieces. Cancelling requires downloading again. Seed files stay intact.	磁力下載使用暫存分片。取消後需重新下載，原始做種檔案不受影響。	一時データを使用します。キャンセル後は再ダウンロードが必要です。配布元には影響しません。	임시 조각을 사용합니다. 취소하면 다시 받아야 합니다. 배포 원본은 유지됩니다.
+默认保留原包。启用后，分卷 RAR 在读取下一卷时可删除已读卷；单卷在解压并找到游戏清单后删除。断电、取消或校验失败时，已删卷无法还原，重试可能需要重新下载。	Archives are kept by default. If enabled, consumed RAR volumes may be deleted as the next volume is read. Single archives are deleted after extraction and manifest discovery. A power loss, cancellation or validation failure may require downloading deleted files again.	預設保留原檔。啟用後，讀取下一卷時可刪除已讀的 RAR 分卷；單卷在解壓並找到遊戲清單後刪除。斷電、取消或驗證失敗時，已刪卷無法還原，可能需要重新下載。	通常は元ファイルを保持します。有効にすると次の RAR 分割ファイルを読む際に読み取り済みの巻を削除できます。単巻は展開とマニフェスト検出後に削除します。停電、中断、検証失敗時は再ダウンロードが必要になる場合があります。	기본값은 원본 유지입니다. 활성화하면 다음 RAR 조각을 읽을 때 읽은 조각을 삭제할 수 있습니다. 단일 파일은 해제 후 게임 매니페스트를 찾으면 삭제합니다. 정전, 취소, 검증 실패 시 삭제된 파일은 다시 받아야 할 수 있습니다.
+正在解压或下载游戏本体	Preparing game files	正在解壓或下載遊戲本體	ゲームファイルを準備中	게임 파일 준비 중
+本体中未找到可用的游戏 EXE，请选择文件或内置版本。	No usable game EXE was found. Choose your own file or a bundled version.	本體中找不到可用的遊戲 EXE，請選擇檔案或內建版本。	使用できるゲーム EXE が見つかりません。自分のファイルまたは同梱版を選択してください。	사용 가능한 게임 EXE가 없습니다. 파일 또는 내장 버전을 선택하세요.
+本次原包共 {0} 卷。	Source archive volumes: {0}.	本次原檔共 {0} 卷。	対象の元ファイル数：{0}。	원본 압축 파일 수: {0}개.
+检查通过：游戏清单、必要资源和 EXE 均符合要求。	Check passed. The manifest, required assets and EXE are valid.	檢查通過：遊戲清單、必要資源與 EXE 均符合要求。	チェックに合格しました。マニフェスト、必要なリソース、EXE を確認しました。	검사 통과: 게임 매니페스트, 필수 리소스 및 EXE를 확인했습니다.
+检查未通过：{0}	Check failed: {0}	檢查未通過：{0}	チェックに失敗しました：{0}	검사 실패: {0}
+资源文件格式无效：{0}	Invalid resource file format: {0}	資源檔格式無效：{0}	リソースの形式が無効です：{0}	리소스 파일 형식 오류: {0}
+EXE 格式无效：{0}	Invalid EXE format: {0}	EXE 格式無效：{0}	EXE の形式が無効です：{0}	EXE 형식 오류: {0}
+所选 EXE 与游戏清单不匹配。	The selected EXE does not match the game manifest.	所選 EXE 與遊戲清單不符。	選択した EXE がゲームのマニフェストと一致しません。	선택한 EXE가 게임 매니페스트와 일치하지 않습니다.
+无法访问游戏目录：{0}	Cannot access the game folder: {0}	無法存取遊戲目錄：{0}	ゲームフォルダーにアクセスできません：{0}	게임 폴더에 접근할 수 없습니다: {0}
+游戏清单未声明可用的 EXE。	The game manifest does not declare a usable EXE.	遊戲清單未宣告可用的 EXE。	ゲームのマニフェストに使用できる EXE がありません。	게임 매니페스트에 사용 가능한 EXE가 없습니다.
+检查中	Checking	檢查中	チェック中	검사 중
+缺少分卷主文件（part01.exe 或 part01.rar）。	First archive volume missing (part01.exe or part01.rar).	缺少分卷主檔。	最初の分割ファイルがありません。	첫 번째 분할 파일이 없습니다.
+请选择当前目录中的压缩包主文件。	Select an archive or first volume in this folder.	請選擇此目錄中的壓縮檔主檔。	このフォルダー内の先頭ファイルを選択してください。	이 폴더의 첫 번째 압축 파일을 선택하세요.
+GTA VI 专用	GTA VI only	GTA VI 專用	GTA VI 専用	GTA VI 전용
+CYBERLEEK · v1.0.2.1 专属	CYBERLEEK · v1.0.2.1 exclusive	CYBERLEEK · v1.0.2.1 專屬	CYBERLEEK · v1.0.2.1 専用	CYBERLEEK · v1.0.2.1 전용
+Xbox Series X|S 通用	Xbox Series X|S · General	Xbox Series X|S 通用	Xbox Series X|S 汎用	Xbox Series X|S 범용
+XCL存档	XCL saves	XCL存檔	XCL セーブ	XCL 저장 데이터
+已有存档	Saved game	已有存檔	セーブデータあり	저장 데이터 있음
+选择解压方式	Choose an extraction method	選擇解壓方式	展開方法を選択	압축 해제 방식 선택
+标准解压	Extract and keep originals	直接解壓	元ファイルを残して展開	원본 유지하고 압축 해제
+完整保留源归档，可重复解压。	Keep all volumes so you can extract again.	保留全部原卷，方便重新解壓。	すべての元ファイルを残し、再度展開できます。	다시 압축을 풀 수 있도록 원본을 모두 보관합니다.
+解压并删除源分卷	Delete as you extract	邊解壓邊刪除	展開しながら削除	해제하면서 삭제
+逐卷释放源归档占用的磁盘空间。	Free up space by deleting volumes already read.	刪除已讀原卷，逐步釋放空間。	読み取り済みの分割ファイルを削除して空き容量を増やします。	읽은 원본을 삭제하여 공간을 확보합니다.
+删除源卷不可撤销	Deleted volumes cannot be recovered	原卷刪除後無法復原	削除した元ファイルは復元できません	삭제한 원본은 복구할 수 없습니다
+分卷 RAR 可在读取下一卷时删除已完整读取的前序卷；单卷归档会在解压完成并检测到游戏清单后删除。若任务中断、发生磁盘读写错误或校验失败，重新解压前需补齐已删除的源卷。	When the next RAR volume is read, a fully read preceding volume may be deleted. A single archive is deleted after extraction and manifest detection. After an interruption, disk I/O error or validation failure, restore all deleted volumes before extracting again.	分卷 RAR 可在讀取下一卷時刪除已完整讀取的前一卷；單卷歸檔會在解壓完成並偵測到遊戲清單後刪除。若工作中斷、磁碟讀寫錯誤或驗證失敗，再次解壓前需補齊已刪除的來源分卷。	分割 RAR は次の巻を読む際に読み取り済みの前巻を削除する場合があります。単一アーカイブは展開とマニフェスト検出後に削除します。中断、ディスク I/O エラー、検証失敗の後は、削除された巻をそろえてから再展開してください。	분할 RAR은 다음 볼륨을 읽을 때 읽기가 끝난 이전 볼륨을 삭제할 수 있습니다. 단일 아카이브는 압축 해제 및 매니페스트 확인 후 삭제합니다. 중단, 디스크 입출력 오류 또는 검증 실패 후 다시 해제하려면 삭제한 볼륨을 모두 확보해야 합니다.
+解压目录	Extraction folder	解壓目錄	展開先フォルダー	압축 해제 폴더
+请选择解压目录	Choose an extraction folder	請選擇解壓目錄	展開先を選択してください	압축 해제 폴더를 선택하세요
+源归档将先下载到解压目录，再按所选方式解压。	Archives are downloaded to the extraction folder before the selected method is applied.	來源歸檔會先下載至解壓目錄，再依所選方式解壓。	展開先にダウンロードしてから、選択した方法で展開します。	압축 해제 폴더에 내려받은 뒤 선택한 방식으로 해제합니다.
+正在解压游戏本体	Extracting game files	正在解壓遊戲本體	ゲームファイルを展開中	게임 파일 압축 해제 중
+下载并检查	Download and check	下載並檢查	ダウンロードして確認	다운로드 후 검사
+检测到散装游戏本体。	Unpacked game files detected.	偵測到未壓縮的遊戲本體。	展開済みのゲームファイルを検出しました。	압축되지 않은 게임 파일을 찾았습니다.
+群友反馈	Community report	群友回報	コミュニティ報告	커뮤니티 제보
+游戏内	In-game	遊戲內	ゲーム内	게임 내
+默认无边框全屏 · 1920×1080	Borderless fullscreen by default · 1920×1080	預設無邊框全螢幕 · 1920×1080	既定はボーダーレス全画面 · 1920×1080	기본 테두리 없는 전체 화면 · 1920×1080
+测试硬件、场景和帧率统计方式未提供	Hardware, scene and FPS measurement method unspecified	未提供測試硬體、場景及幀率統計方式	テスト環境・場面・FPS 計測方法は未報告	테스트 하드웨어, 장면 및 FPS 측정 방법 미제공
+兼容启动器本机存档	Compatible with launcher save slots	相容啟動器本機存檔	ランチャーのローカルセーブに対応	런처 로컬 저장 슬롯 호환
+本机记录成就 ID 和完成进度。	Achievement IDs and progress are recorded locally.	本機記錄成就 ID 和完成進度。	実績 ID と達成率をローカルに記録します。	도전 과제 ID와 진행률을 로컬에 기록합니다.
+支持读取成就 ID 和进度。	Reads achievement IDs and progress.	支援讀取成就 ID 和進度。	実績 ID と進捗を読み取れます。	도전 과제 ID와 진행률을 읽습니다.
+正在检查下载源	Checking download source	正在檢查下載來源	ダウンロード元を確認中	다운로드 소스 확인 중
+从本体文件中识别游戏 EXE。	Find the game EXE in the game files.	從本體檔案中辨識遊戲 EXE。	ゲームファイル内の EXE を検出します。	게임 파일에서 EXE를 찾습니다.
+指定 EXE 来源，或选择内置版本。	Provide an EXE source or use a bundled version.	指定 EXE 來源，或選擇內建版本。	EXE の入手元を指定するか、同梱版を選択します。	EXE 위치를 지정하거나 내장 버전을 선택합니다.
+按当前项目内置的实际键位显示提示。	Shows the built-in key bindings used by this project.	按目前專案內建的實際鍵位顯示提示。	このプロジェクトで使用する標準キー割り当てを表示します。	현재 프로젝트에서 사용하는 기본 키 할당을 표시합니다.
+达成时间 · {0:g}	Unlocked · {0:g}	達成時間 · {0:g}	解除日時 · {0:g}	달성 시간 · {0:g}
+首次记录达成 · {0:g}	First recorded · {0:g}	首次記錄達成 · {0:g}	初回達成記録 · {0:g}	최초 달성 기록 · {0:g}
+达成时间未记录	Unlock time unavailable	未記錄達成時間	解除日時の記録なし	달성 시간 기록 없음
+尚未达成	Not yet unlocked	尚未達成	未解除	미달성
+有游玩信息	Play history	有遊玩資訊	プレイ履歴	플레이 기록
+有游玩信息和成就	Play history and achievements	有遊玩資訊和成就	プレイ履歴と実績	플레이 기록 및 도전 과제
+游戏图标	Game icon	遊戲圖示	ゲームアイコン	게임 아이콘
+更换游戏图标	Change game icon	更換遊戲圖示	ゲームアイコンを変更	게임 아이콘 변경
+仅移除启动器实例	Remove launcher instance only	僅移除啟動器實例	ランチャーの登録のみ削除	런처 인스턴스만 제거
+移除实例	Remove instance	移除實例	登録を削除	인스턴스 제거
+移除并删除	Remove and delete	移除並刪除	登録とファイルを削除	인스턴스 및 파일 삭제
+移除实例并删除游戏文件	Remove instance and delete game files	移除實例並刪除遊戲檔案	登録とゲームファイルを削除	인스턴스 및 게임 파일 삭제
+从游戏库移除「{0}」？游戏文件和存档将保留。	Remove “{0}” from the library? Game files and saves will be kept.	從遊戲庫移除「{0}」？遊戲檔案和存檔將保留。	「{0}」をライブラリから削除しますか？ゲームファイルとセーブデータは保持されます。	라이브러리에서 ‘{0}’을 제거할까요? 게임 파일과 저장 데이터는 유지됩니다.
+移除「{0}」并删除以下目录及其全部内容？目录外的 EXE、压缩包和启动器存档将保留。	Remove “{0}” and delete the folder below and everything in it? Executables, archives and launcher saves outside this folder will be kept.	移除「{0}」並刪除以下目錄及其全部內容？目錄外的 EXE、壓縮檔和啟動器存檔將保留。	「{0}」と以下のフォルダーの全内容を削除しますか？フォルダー外の実行ファイル、アーカイブ、セーブデータは保持されます。	‘{0}’과 아래 폴더의 모든 내용을 삭제할까요? 폴더 밖의 실행 파일, 압축 파일 및 저장 데이터는 유지됩니다.
+没有可单独删除的游戏本体目录。	No separate game folder is available to delete.	沒有可單獨刪除的遊戲本體目錄。	単独で削除できるゲームフォルダーがありません。	별도로 삭제할 게임 폴더가 없습니다.
+此目录包含启动器、用户数据或系统文件。	This location is protected from deletion.	此目錄包含啟動器、使用者資料或系統檔案。	この場所は削除から保護されています。	이 위치는 삭제할 수 없도록 보호됩니다.
+其他实例正在使用此目录中的游戏文件。	Another instance uses game files in this folder.	其他實例正在使用此目錄中的遊戲檔案。	別の登録でこのフォルダーのゲームファイルを使用しています。	다른 인스턴스에서 이 폴더의 게임 파일을 사용합니다.
+游戏会话仍在关闭，请稍后重试。	The game session is still closing. Try again shortly.	遊戲工作階段仍在關閉，請稍後重試。	ゲームセッションを終了しています。しばらくしてから再試行してください。	게임 세션을 종료하는 중입니다. 잠시 후 다시 시도하세요.
+配置启动器	Launcher configuration	設定啟動器	ランチャー設定	런처 설정
+独立优化	Optimized	獨立最佳化	個別最適化	개별 최적화
+独立优化配置需要 GTA VI 游戏本体。	This optimized profile requires GTA VI game files.	獨立最佳化設定需要 GTA VI 遊戲本體。	この最適化設定には GTA VI のゲームデータが必要です。	이 최적화 설정에는 GTA VI 게임 파일이 필요합니다.
+详细卡封面	Card cover	詳細卡封面	詳細カードの表紙	상세 카드 표지
+游戏默认封面	Default game cover	遊戲預設封面	ゲームの標準カバー	게임 기본 표지
+配置预设（可选）	Configuration preset (optional)	設定預設（選用）	設定プリセット（任意）	설정 프리셋(선택 사항)
+自动应用详细配置和大厅背景。	Apply game details and the home background automatically.	自動套用詳細設定和大廳背景。	詳細設定とホーム背景を自動で適用します。	상세 설정과 홈 배경을 자동으로 적용합니다.
+未命名游戏	Untitled game	未命名遊戲	名前のないゲーム	이름 없는 게임
+自定义封面	Custom cover	自訂封面	カスタムカバー	사용자 지정 표지
+选择封面图片	Choose a cover image	選擇封面圖片	カバー画像を選択	표지 이미지 선택
+大厅背景	Home background	大廳背景	ホーム背景	홈 배경
+选择背景	Choose background	選擇背景	背景を選択	배경 선택
+清除	Clear	清除	クリア	지우기
+完成	Done	完成	完了	완료
+使用首字	Use initial	使用首字	頭文字を使用	첫 글자 사용
+默认模拟器	Default emulator	預設模擬器	既定のエミュレーター	기본 에뮬레이터
+独立优化版本	Optimized build	獨立最佳化版本	最適化版	최적화 버전
+拖动 Logo 移动，拖动角点缩放。	Drag the logo to move it. Drag the corner to resize it.	拖曳 Logo 移動，拖曳角點縮放。	ロゴをドラッグして移動し、角をドラッグしてサイズを変更します。	로고를 끌어 이동하고 모서리를 끌어 크기를 조절하세요.
+来源已检查，入库后安装	Source checked. Install from the library.	來源已檢查，加入後即可安裝	ソースを確認しました。ライブラリでインストールできます。	소스를 확인했습니다. 라이브러리에서 설치하세요.
+检查通过	Check passed	檢查通過	確認完了	확인 완료
+找不到模拟器运行组件	Emulator runtime missing	找不到模擬器執行元件	エミュレーターが見つかりません	에뮬레이터를 찾을 수 없습니다
+游戏图标需要正方形图片	Choose a square game icon.	請選擇正方形遊戲圖示	正方形のアイコンを選択してください	정사각형 게임 아이콘을 선택하세요
+默认显示游戏图标和名称	The game symbol and name appear by default.	預設顯示遊戲圖示和名稱	既定ではゲーム記号と名前を表示します	기본으로 게임 기호와 이름을 표시합니다
+正在下载	Downloading	正在下載	ダウンロード中	다운로드 중
+输出分辨率	Output resolution	輸出解析度	出力解像度	출력 해상도
+跟随游戏	Game default	跟隨遊戲	ゲームの設定	게임 설정
+跟随驱动	Driver default	跟隨驅動程式	ドライバー設定	드라이버 설정
+停用	Off	停用	オフ	끄기
+启用	On	啟用	オン	켜기
+插帧 2×	2× frames	補幀 2×	2× 補間	2× 프레임 보간
+解压安装	Extract and install	解壓安裝	展開してインストール	압축 풀고 설치
+图片尺寸过大	Image dimensions are too large.	圖片尺寸過大	画像サイズが大きすぎます	이미지 크기가 너무 큽니다
+动图尺寸或帧数过大	Animation size or frame count is too large.	動圖尺寸或影格數過大	アニメーションのサイズまたはフレーム数が大きすぎます	애니메이션 크기 또는 프레임 수가 너무 큽니다
+运行环境	Runtime environment	執行環境	実行環境	실행 환경
+检测	Check	檢測	確認	검사
+正在安装或修复文件…	Installing or repairing files…	正在安裝或修復檔案…	ファイルをインストールまたは修復しています…	파일을 설치하거나 복구하는 중…
+检测发现问题，详情见日志。	Issue found. See the log for details.	檢測發現問題，詳情請見日誌。	問題が見つかりました。詳細はログを確認してください。	문제가 발견되었습니다. 자세한 내용은 로그를 확인하세요.
+修复完成，运行环境正常。	Repairs complete. The environment is ready.	修復完成，執行環境正常。	修復が完了し、実行環境が整いました。	복구가 완료되었습니다. 실행 환경이 정상입니다.
+检测完成，运行环境正常。	Check complete. The environment is ready.	檢測完成，執行環境正常。	確認が完了し、実行環境が整いました。	검사가 완료되었습니다. 실행 환경이 정상입니다.
+启动器与输入支持	Launcher and input support	啟動器與輸入支援	ランチャーと入力サポート	런처 및 입력 지원
+.NET 9 · 下载引擎运行时	.NET 9 · Transfer runtime	.NET 9 · 下載引擎執行階段	.NET 9 · 転送ランタイム	.NET 9 · 전송 런타임
+Python · 游戏会话服务	Python · Game sessions	Python · 遊戲工作階段服務	Python · ゲームセッション	Python · 게임 세션
+下载与解压引擎	Download and extraction engine	下載與解壓縮引擎	ダウンロード・展開エンジン	다운로드 및 압축 해제 엔진
+超分辨率与帧生成（可选）	Super resolution and frame generation (optional)	超解析度與畫格生成（選用）	超解像とフレーム生成（オプション）	초해상도 및 프레임 생성(선택 사항)
+当前实例的游戏文件	Selected instance’s game files	目前實例的遊戲檔案	選択中のゲームファイル	선택한 인스턴스의 게임 파일
+待检测	Not checked	待檢測	未確認	검사 전
+已就绪	Ready	已就緒	準備完了	준비됨
+需处理	Needs attention	需處理	要対応	조치 필요
+已修复	Repaired	已修復	修復済み	복구됨
+已跳过	Skipped	已略過	スキップ	건너뜀
+当前未选择已安装的游戏实例。	No installed game instance is selected.	目前未選擇已安裝的遊戲實例。	インストール済みのゲームが選択されていません。	설치된 게임 인스턴스를 선택하지 않았습니다.
+正在校验本地文件…	Verifying local files…	正在校驗本機檔案…	ローカルファイルを検証中…	로컬 파일 확인 중…
+检测完成 · 修复 {0} 个文件，{1} 项需处理	Checked · {0} files repaired, {1} items need attention	檢測完成 · 已修復 {0} 個檔案，{1} 項需處理	確認完了 · 修復 {0} ファイル、要対応 {1} 件	검사 완료 · 파일 {0}개 복구, {1}개 항목 조치 필요
+检测已取消	Check cancelled	檢測已取消	確認をキャンセルしました	검사가 취소됨
+组件路径指向了重解析点。	The component path contains a reparse point.	元件路徑含有重新剖析點。	コンポーネントのパスに再解析ポイントがあります。	구성 요소 경로에 재분석 지점이 있습니다.
+内置组件库缺失，请恢复启动器安装包。	Restore the offline component library from the launcher package.	內建元件庫遺失，請從啟動器安裝包還原。	ランチャーの配布パッケージから内蔵ライブラリを復元してください。	런처 배포 패키지에서 내장 구성 요소 라이브러리를 복원하세요.
+组件库与启动器版本不匹配或已损坏。	The component library is damaged or belongs to another launcher build.	元件庫與啟動器版本不符或已損毀。	ライブラリが破損しているか、ランチャーのバージョンと一致しません。	라이브러리가 손상되었거나 런처 버전과 일치하지 않습니다.
+组件校验失败，已保留原文件。	Verification failed. The original file was preserved.	元件校驗失敗，已保留原始檔案。	検証に失敗しました。元のファイルは保持されました。	검증에 실패했습니다. 원본 파일은 보존되었습니다.
+内置组件库未收录此版本。	This version is not in the offline library.	內建元件庫未收錄此版本。	このバージョンは内蔵ライブラリにありません。	내장 라이브러리에 이 버전이 없습니다.
+组件自检超时。	The component self-test timed out.	元件自我測試逾時。	コンポーネントの自己テストがタイムアウトしました。	구성 요소 자체 검사 시간이 초과되었습니다.
+已还原 {0} 个文件	Restored {0} files	已還原 {0} 個檔案	{0} 個のファイルを復元しました	파일 {0}개 복원됨
+选择导入方式	Choose an import method	選擇匯入方式	インポート方法を選択	가져오기 방법 선택
+请选择游戏本体目录。	Choose the game folder.	請選擇遊戲本體目錄。	ゲームフォルダーを選択してください。	게임 폴더를 선택하세요.
+请输入磁力链接。	Enter a magnet link.	請輸入磁力連結。	マグネットリンクを入力してください。	마그넷 링크를 입력하세요.
+请先确认删除源分卷的风险。	Acknowledge the risk of deleting source volumes first.	請先確認刪除原始分卷的風險。	元の分割ファイルを削除するリスクを確認してください。	원본 분할 파일 삭제 위험을 먼저 확인하세요.
+请输入游戏名称。	Enter a game name.	請輸入遊戲名稱。	ゲーム名を入力してください。	게임 이름을 입력하세요.
+检查配置	Check configuration	檢查設定	設定を確認	설정 검사
+待确认	Awaiting consent	待確認	同意待ち	동의 대기
+重新检查	Check again	重新檢查	再確認	다시 검사

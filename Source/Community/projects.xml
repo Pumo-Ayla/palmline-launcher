@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<projects>
+  <project id="cgbj" repo="codec-d/cool_fox" commit="f4b48ad766ddbec1a1867022cd42f7645b0dd55e" fetched="2026-11-26T07:45:00Z" label="CGBJ" name="cool_fox" platform="NVIDIA RTX" console="series-s" profile="cgbj" image="github-avatar.png" vendor="NVIDIA">
+    <performance source="PortWatch 核验" platform="NVIDIA" rate="≈ 25 FPS" config="Windows x64 · NVIDIA · 16 GB 显存" stability="作者评分 0.85">游戏内平均；仍有轻微画面异常</performance>
+  </project>
+  <project id="victory-nvidia" repo="trustno1-coder/VIctory-NVIDIA" commit="29d8dbf7d9892ceb8bec378a9dbc3c4f2931b745" release="v2026.11.27" sha256="277809efbaf39f53865f3e91bb85d579d11713f743f216822611f0a851ae55de" upstreamSha256="298eaf972f09da0f4a7a8e0f097f1a0f67a51c10c73b832b54faf6e2105c13cf" fetched="2026-11-27T17:12:08Z" label="VIctory-NVIDIA" name="VIctory-NVIDIA" platform="Windows x64 · Direct3D 12" console="series-x" profile="victory-nvidia" image="github-avatar.png" vendor="NVIDIA">
+    <performance source="GitHub README" platform="RTX 5070" rate="26–30 FPS" config="RTX 5070 · Series X · 2560×1440 · DLSS">Series X · 1440p · DLSS</performance>
+  </project>
+  <project id="xcl" repo="xcl-dev/xcl" commit="06f90c1986f43698d0405eff3c2ab0af230e1ed9" fetched="2026-11-27T13:22:55.662Z" label="XCL" name="Xbox Series X|S" platform="Windows x64 · Direct3D 12 · Shader Model 6.6" profile="xcl" image="github-avatar.png" vendor="Direct3D 12"/>
+</projects>

@@ -1,0 +1,91 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <TargetFramework Condition="'$(PortableBuild)'=='true'">net9.0-windows</TargetFramework>
+    <UseWindowsForms Condition="'$(PortableBuild)'=='true'">true</UseWindowsForms>
+    <AppHostRelativeDotNet Condition="'$(PortableBuild)'=='true'">Runtime\DotNet</AppHostRelativeDotNet>
+    <AppHostDotNetSearch Condition="'$(PortableBuild)'=='true'">AppRelative</AppHostDotNetSearch>
+    <Version>1.0.3</Version>
+    <ApplicationManifest>Launcher.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\Palmline.ico</ApplicationIcon>
+    <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseWPF>true</UseWPF>
+    <DefaultItemExcludes>$(DefaultItemExcludes);NativeConsole\**;Updater\**;Transfers\**;SmoothMotion\**</DefaultItemExcludes>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
+    <AssemblyName>Launcher</AssemblyName>
+    <AssemblyTitle>SRLauncher</AssemblyTitle>
+    <Product>Series Relay Launcher</Product>
+    <ComponentCatalogPath Condition="'$(ComponentCatalogPath)'==''">$(MSBuildProjectDirectory)\Assets\ComponentIndex.tsv</ComponentCatalogPath>
+    <ComponentLibraryPath Condition="'$(ComponentLibraryPath)'==''">$(MSBuildProjectDirectory)\..\Runtime\Components\Library.zip</ComponentLibraryPath>
+    <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="Transfers\Transfers.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" GlobalPropertiesToRemove="TargetFramework;RuntimeIdentifier;SelfContained;PortableBuild"/>
+    <EmbeddedResource Include="Assets\Notices\*.txt;Assets\Octicons-LICENSE.txt" LogicalName="Notices.%(Filename)%(Extension)"/>
+    <EmbeddedResource Include="Assets\SDL3\LICENSE.txt" LogicalName="Notices.SDL3.txt"/>
+    <Content Include="Assets\Fonts\MiSans-License.pdf" Link="Runtime\Notices\MiSans-License.pdf" CopyToOutputDirectory="PreserveNewest"/>
+    <ProjectReference Include="Updater\Palmline.Update.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" GlobalPropertiesToRemove="TargetFramework;RuntimeIdentifier;SelfContained;PortableBuild"/>
+    <EmbeddedResource Include="Updater\bin\$(Configuration)\net462\Palmline.Update.exe" LogicalName="Palmline.Update.exe"/>
+    <EmbeddedResource Include="Updater\App.config" LogicalName="Palmline.Update.exe.config"/>
+    <ProjectReference Include="NativeConsole\Palmline.Log.csproj" ReferenceOutputAssembly="false" Private="false"/>
+    <LogComponent Condition="'$(PortableBuild)'!='true'" Include="NativeConsole\bin\$(Configuration)\net48\Palmline.Log.exe"/>
+    <LogComponent Condition="'$(PortableBuild)'=='true'" Include="Palmline.Log.exe;Palmline.Log.dll;Palmline.Log.deps.json;Palmline.Log.runtimeconfig.json"/>
+    <LogPayload Condition="'$(PortableBuild)'!='true'" Include="@(LogComponent)"/>
+    <LogPayload Condition="'$(PortableBuild)'=='true'" Include="@(LogComponent->'NativeConsole\bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\%(Identity)')"/>
+    <EmbeddedResource Include="@(LogPayload)" LogicalName="Recovery.%(Filename)%(Extension)"/>
+    <Content Include="@(LogPayload)" Link="Input\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
+    <Reference Condition="'$(PortableBuild)'!='true'" Include="System.IO.Compression" />
+    <Reference Condition="'$(PortableBuild)'!='true'" Include="System.Runtime.Serialization" />
+    <Reference Condition="'$(PortableBuild)'!='true'" Include="System.Windows.Forms" />
+    <Reference Condition="'$(PortableBuild)'!='true'" Include="System.IO.Compression.FileSystem" />
+    <EmbeddedResource Include="Views\Home.xaml" LogicalName="Main.xaml" />
+    <EmbeddedResource Include="Assets\Strings.tsv" LogicalName="Strings.tsv" />
+    <EmbeddedResource Include="$(ComponentCatalogPath)" LogicalName="ComponentIndex.tsv" />
+    <Content Include="$(ComponentLibraryPath)" Link="Runtime\Components\Library.zip" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest"/>
+    <EmbeddedResource Include="Assets\GtaViChapters.tsv" LogicalName="GtaViChapters.tsv" />
+    <EmbeddedResource Include="Assets\GtaVi.bindings" LogicalName="GtaVi.bindings" />
+    <EmbeddedResource Include="..\XCL-VIctory-Lab\desktop\key_prompts.py" LogicalName="Palmline.KeyPrompts.py" />
+    <EmbeddedResource Include="Views\Controls.xaml" LogicalName="Controls.xaml" />
+    <EmbeddedResource Include="Assets\XboxControllerGen3.zip" LogicalName="XboxControllerGen3.zip" />
+    <EmbeddedResource Include="Assets\ControllerResolve.ps" LogicalName="ControllerResolve.ps" />
+    <Resource Include="Assets\Fonts\*.ttf" />
+    <Resource Include="$(ApplicationIcon)" />
+    <Resource Include="Assets\Fonts\MiSans-License.pdf" />
+    <Resource Include="Assets\LoadingPoster.jpg" />
+    <Resource Include="Assets\GameTitle.png" />
+    <Resource Include="Assets\GtaViBoxIllustration.png" />
+    <EmbeddedResource Include="Assets\GtaViAchievements.tsv" LogicalName="GtaViAchievements.tsv" />
+    <Resource Include="Assets\Achievements\*.png" />
+    <EmbeddedResource Include="Assets\SteamAchievement.wav" LogicalName="SteamAchievement.wav"/>
+    <EmbeddedResource Include="Assets\VI.png" LogicalName="AchievementVI.png" WithCulture="false"/>
+    <Reference Condition="'$(PortableBuild)'!='true'" Include="System.Drawing"/>
+    <Reference Condition="'$(PortableBuild)'!='true'" Include="Microsoft.VisualBasic"/>
+    <Resource Include="Assets\GtaViTile.png" />
+    <Resource Include="Assets\Octicons-LICENSE.txt" />
+    <Content Include="Assets\SDL3\SDL3.dll;Assets\SDL3\LICENSE.txt" Link="Input\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="CollectTransferFiles" DependsOnTargets="ResolveProjectReferences">
+    <ItemGroup><TransferFiles Include="Transfers\bin\$(Configuration)\net9.0\*.dll;Transfers\bin\$(Configuration)\net9.0\Relay.Transfer.exe;Transfers\bin\$(Configuration)\net9.0\Relay.Transfer.*.json"/></ItemGroup>
+    <Error Condition="!Exists('Transfers\bin\$(Configuration)\net9.0\Relay.Transfer.exe')" Text="Download engine build output is missing."/>
+  </Target>
+  <Target Name="CopyTransferFiles" AfterTargets="Build" DependsOnTargets="CollectTransferFiles">
+    <Copy SourceFiles="@(TransferFiles)" DestinationFolder="$(TargetDir)Runtime\Transfers" SkipUnchangedFiles="true"/>
+  </Target>
+  <Target Name="PublishTransferFiles" AfterTargets="Publish" DependsOnTargets="CollectTransferFiles">
+    <Copy SourceFiles="@(TransferFiles)" DestinationFolder="$(PublishDir)\Runtime\Transfers" SkipUnchangedFiles="true"/>
+  </Target>
+  <Target Name="InstallLauncher" DependsOnTargets="Build;CollectTransferFiles">
+    <Copy SourceFiles="@(TransferFiles)" DestinationFolder="$(MSBuildProjectDirectory)\..\Runtime\Transfers" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="Assets\Fonts\MiSans-License.pdf" DestinationFolder="$(MSBuildProjectDirectory)\..\Runtime\Notices" SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\.." SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(TargetDir)SRLauncher.exe" DestinationFolder="$(MSBuildProjectDirectory)\.." SkipUnchangedFiles="true"/>
+    <Copy SourceFiles="$(TargetDir)Input\Palmline.Log.exe;$(TargetDir)Input\SDL3.dll;$(TargetDir)Input\LICENSE.txt" DestinationFolder="$(MSBuildProjectDirectory)\..\Input" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CreateLauncherEntry" AfterTargets="Build" Condition="'$(PortableBuild)'!='true'">
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(TargetDir)SRLauncher.exe" SkipUnchangedFiles="true"/>
+  </Target>
+  <Target Name="PublishLauncherEntry" AfterTargets="Publish" Condition="'$(PortableBuild)'=='true'">
+    <Copy SourceFiles="$(PublishDir)\Launcher.exe" DestinationFiles="$(PublishDir)\SRLauncher.exe"/>
+  </Target>
+</Project>

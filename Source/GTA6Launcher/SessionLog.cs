@@ -1,0 +1,62 @@
+using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
+
+internal sealed class SessionLog : IDisposable
+{
+    readonly object gate = new object();
+    readonly StreamWriter writer;
+    bool closed;
+    public readonly string FileName;
+
+    public SessionLog(string root) {
+        string folder = Directory.CreateDirectory(Path.Combine(root, "Logs")).FullName;
+        FileName = Path.Combine(folder, "Launcher-" + DateTime.Now.ToString("yyyyMMdd-HHmmss-fff", CultureInfo.InvariantCulture)
+            + "-" + Guid.NewGuid().ToString("N").Substring(0, 8) + ".log");
+        writer = new StreamWriter(new FileStream(FileName, FileMode.CreateNew, FileAccess.Write, FileShare.Read),
+            new UTF8Encoding(false)) { AutoFlush = true };
+        Write("LAUNCHER", "Launcher started.");
+    }
+
+    public void Write(string source, string message) {
+        lock (gate) {
+            if (closed) return;
+            string prefix = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss.fff zzz", CultureInfo.InvariantCulture)
+                + " [" + source + "] ";
+            string entry = (message ?? "").Replace("\r\n", "\n").Replace('\r', '\n');
+            writer.WriteLine(prefix + entry.Replace("\n", Environment.NewLine + prefix));
+        }
+    }
+
+    public void Export(string destination) {
+        if (string.Equals(Path.GetFullPath(destination), FileName, StringComparison.OrdinalIgnoreCase)) return;
+        string temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try {
+            using (var input = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+                long remaining;
+                lock (gate) remaining = input.Length;
+                using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
+                    var buffer = new byte[65536];
+                    while (remaining > 0) {
+                        int count = input.Read(buffer, 0, (int)Math.Min(buffer.Length, remaining));
+                        if (count == 0) throw new EndOfStreamException();
+                        output.Write(buffer, 0, count);
+                        remaining -= count;
+                    }
+                }
+            }
+            if (File.Exists(destination)) File.Replace(temporary, destination, null);
+            else File.Move(temporary, destination);
+        } finally { File.Delete(temporary); }
+    }
+
+    public void Dispose() {
+        lock (gate) {
+            if (closed) return;
+            Write("LAUNCHER", "Launcher closed.");
+            closed = true;
+            writer.Dispose();
+        }
+    }
+}

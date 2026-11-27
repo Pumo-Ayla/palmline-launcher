@@ -1,2 +1,33 @@
-/dist/
-__pycache__/
+# Release assets belong on the GitHub Release. Track the ZIP checksum in Git.
+/Updates/*.zip
+/Updates/*.exe
+/Updates/*.exe.config
+/Emulators/*.zip
+/Emulators/*.partial
+/Build/
+
+# Binary inputs can be restored from the matching release.
+/Source/Runtime/
+/Source/OriginalGame/
+/Source/Media/LoadingScreens/
+/Source/Community/adapter-info.exe
+/Source/Community/*/runtime/
+/Source/Community/*/github-avatar.png
+
+# Generated and per-installation data.
+/Source/GTA6Launcher/.vs/
+/Source/XCL-VIctory-Lab/profiles/
+/Source/XCL-VIctory-Lab/runs/
+/Source/XCL-VIctory-Lab/desktop/*
+!/Source/XCL-VIctory-Lab/desktop/*.py
+!/Source/XCL-VIctory-Lab/desktop/build.ps1
+**/target/
+**/__pycache__/
+**/.launcher-update/
+**/GameSaves/
+**/XCL-data/
+*.pyc
+*.tmp
+*.TMP
+*.sav
+*.log

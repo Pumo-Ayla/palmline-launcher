@@ -1,0 +1,2 @@
+# Keep the source snapshot byte-for-byte, including scripts pinned by the component catalog.
+* -text
