@@ -15,11 +15,14 @@ if (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'rooftop.jpg') -PathType Lea
     $resources += "/resource:$PSScriptRoot\rooftop.jpg,rooftop.jpg"
 }
 
-$exe = Join-Path $output 'Palmline Launcher.exe'
+$exe = Join-Path $output 'Series Relay Launcher.exe'
 & (Join-Path $framework 'csc.exe') /nologo /target:winexe /platform:x64 /optimize+ /codepage:65001 @refs @resources '/reference:System.Xaml.dll' "/out:$exe" "$PSScriptRoot\DesktopLauncher.cs"
 if ($LASTEXITCODE) { throw "csc exited with $LASTEXITCODE" }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'session.py') -Destination $desktop -Force
 foreach ($name in 'launcher.py', 'prepare_startup.py') {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $lab -Force
+}
+foreach ($name in 'LICENSE', 'README.md') {
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $output -Force
 }
 Write-Output $exe

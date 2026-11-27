@@ -1,7 +1,7 @@
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-        Title="Grand Theft Auto VI · 游戏启动器" Width="1200" Height="708" MinWidth="820" MinHeight="590"
+        Title="Series Relay Launcher" Width="1200" Height="708" MinWidth="820" MinHeight="590"
         WindowStartupLocation="CenterScreen" WindowStyle="None" Background="#121625" Foreground="#F8F9FF"
         FontFamily="Segoe UI, Microsoft YaHei UI" UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
   <shell:WindowChrome.WindowChrome>

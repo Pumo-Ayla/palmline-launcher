@@ -1,6 +1,6 @@
-# Palmline Launcher 棕榈线启动器
+# Series Relay Launcher
 
-用于 Grand Theft Auto VI 兼容性实验的 Windows 桌面启动器。可选项目是本地 Z 集成版、ZETTROX 和 VIctory · Belobug AMD。打开窗口或切换项目会安排着色器预热，中文控制台显示进度。预热结束后可手动启动游戏。
+Series Relay Launcher 是面向 Xbox Series X|S 游戏模拟器的第三方 Windows 启动器。这个仓库里的版本用于 Grand Theft Auto VI 兼容性实验，可选择本地 Z 集成版、ZETTROX 或 VIctory · Belobug AMD。打开窗口或切换项目后，可在中文控制台查看着色器预热进度，预热结束后手动启动游戏。
 
 ## 构建
 
@@ -10,7 +10,7 @@
 .\build.ps1
 ```
 
-构建产物是 `dist\Palmline Launcher.exe` 和配套的 `dist\XCL-VIctory-Lab` 目录。若要自定义封面，可在构建前将自己的图片命名为 `rooftop.jpg`，放在构建脚本旁边。
+构建产物是 `dist\Series Relay Launcher.exe` 和配套的 `dist\XCL-VIctory-Lab` 目录。若要自定义封面，可在构建前将自己的图片命名为 `rooftop.jpg`，放在构建脚本旁边。
 
 ## 运行
 
@@ -23,3 +23,9 @@
 | `launcher.py`、`prepare_startup.py` | 匹配启动着色器，配置运行环境并调用预热工具 |
 
 相关上游项目包括 [ZETTROX](https://github.com/Zettrox/ztrx)、[VIctory · Belobug AMD](https://github.com/Belobug/VIctory-Belobug-AMD) 和 [VIctory](https://github.com/Marvisak/VIctory)。本启动器为独立社区项目。
+
+## 许可
+
+本仓库中由 Series Relay Launcher 项目原创且有权授权的代码和文档采用 **CC BY-NC 4.0（署名—非商业性使用 4.0 国际）**。可以为非商业目的分享和修改这些内容。分发时请保留署名及许可信息，附上许可链接，并注明所做的修改。商业使用需另行获得权利人授权。[许可全文](LICENSE) · [中文许可摘要](https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans)
+
+第三方模拟器、依赖、游戏文件、美术素材和商标的权利归各自权利人，使用和分发须遵循各自的许可。Xbox 和 Xbox Series X|S 是 Microsoft 的商标，在这里用于说明目标平台。
