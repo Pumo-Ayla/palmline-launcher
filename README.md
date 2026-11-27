@@ -62,11 +62,6 @@ Series Relay Launcher 是 Windows x64 上的游戏实例启动器。把已有的
 
 通常只需下载启动器全量包。需要单独部署引擎时，可下载[同版本模拟器包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.3/SR-Emulators-1.0.3.zip)。启动器会统计从本机版本到最新版本之间的**每一项**更新。全为普通更新时可以跳过，途中只要有关键更新，就会提示安装最新全量包。例如从 1.0.1 升级到 1.0.3，会同时识别 1.0.2 的关键更新与 1.0.3 的普通更新。[版本历史](Updates/history.json) · [旧版离线升级方法](docs/DEVELOPMENT.zh-CN.md#旧版离线升级)
 
-## 贡献者与许可
-
-| 贡献者 | 工作 |
-| --- | --- |
-| [Pumo-Ayla](https://github.com/Pumo-Ayla) | 项目维护、产品设计与发行 |
-| [<img src="https://avatars.githubusercontent.com/u/267193182?s=40" width="20" height="20" alt=""> OpenAI Codex](https://github.com/codex) | 开发协作与技术文档 |
+## 许可
 
 本项目原创且有权授权的代码和文档采用 [CC BY-NC 4.0](LICENSE)。模拟器、运行库、游戏素材和商标遵循各自权利人的许可。各引擎的来源、提交和随附许可可从[模拟器清单](Emulators/catalog.json)和[上游源码目录](Source/Community)查阅。
