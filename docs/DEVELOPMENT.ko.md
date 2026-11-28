@@ -41,10 +41,10 @@ VIctory-NVIDIA는 `preload.env` 에 지원되는 F1 메뉴 값을 반영한 뒤 
 저장소 루트에서 동일한 버전의 전체 ZIP으로 입력을 복원한 뒤 빌드 및 회귀 검사를 실행합니다.
 
 ```powershell
-py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.1.zip --portable
+py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.2.zip --portable
 dotnet build Source/GTA6Launcher/GTA6Launcher.csproj -c Release
 py -3 -m unittest discover -s Source/GTA6Launcher/Tools/tests -p test_cgbj_log.py
 py -3 Source/GTA6Launcher/Tools/tests/test_import_archive.py
 ```
 
-**1.0.4 이하에서 업그레이드하기**　이전 버전은 세 부분으로 된 버전 번호만 인식합니다. [오프라인 업그레이드 패키지](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip)를 별도의 임시 폴더에 풀고 내부 ZIP은 그대로 둡니다. 게임과 런처를 종료하고 `Upgrade-Launcher.exe`를 실행한 뒤 기존 런처 폴더를 입력합니다. 완료 후 원래 폴더에서 실행하면 게임 등록 정보, 설정, 저장 데이터가 유지됩니다.
+**1.0.4 이하에서 업그레이드하기**　이전 버전은 세 부분으로 된 버전 번호만 인식합니다. [오프라인 업그레이드 패키지](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2-offline.zip)를 별도의 임시 폴더에 풀고 내부 ZIP은 그대로 둡니다. 게임과 런처를 종료하고 `Upgrade-Launcher.exe`를 실행한 뒤 기존 런처 폴더를 입력합니다. 완료 후 원래 폴더에서 실행하면 게임 등록 정보, 설정, 저장 데이터가 유지됩니다.

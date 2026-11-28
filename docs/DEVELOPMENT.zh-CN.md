@@ -4,7 +4,7 @@
 
 [English](DEVELOPMENT.md) · 简体中文 · [繁體中文](DEVELOPMENT.zh-TW.md) · [日本語](DEVELOPMENT.ja.md) · [한국어](DEVELOPMENT.ko.md)
 
-本文对应启动器 **v1.0.4**。Windows 桌面端负责实例、输入配置和界面；Python 会话进程负责准备资源、启动引擎、转发日志。调试某个构建前，先用发行清单中的项目 ID 和提交号定位实际运行的引擎。
+本文对应启动器 **v1.0.4.2**。Windows 桌面端负责实例、输入配置和界面；Python 会话进程负责准备资源、启动引擎、转发日志。调试某个构建前，先用发行清单中的项目 ID 和提交号定位实际运行的引擎。
 
 | 要追踪的问题 | 从这里进入 |
 | --- | --- |
@@ -134,7 +134,7 @@ v1.0.4 的启用条件包括 **CGBJ**、游戏清单中的 **TitleId `7952987A`*
 Windows x64 构建环境需要 .NET 9 SDK、.NET Framework 4.8 和 4.6.2 targeting pack，以及 Python 3.11 或更高版本。发行包版本应与源码匹配。将全量 ZIP 放入 `Updates` 后，在仓库根目录执行以下命令。第一步按仓库中的 SHA-256 校验包，再恢复离线组件和引擎输入。
 
 ```powershell
-py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.1.zip --portable
+py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.2.zip --portable
 dotnet build Source/GTA6Launcher/GTA6Launcher.csproj -c Release
 py -3 -m unittest discover -s Source/GTA6Launcher/Tools/tests -p test_cgbj_log.py
 py -3 Source/GTA6Launcher/Tools/tests/test_import_archive.py
@@ -151,4 +151,4 @@ powershell -NoProfile -File Source/GTA6Launcher/Tools/tests/test_launcher_update
 
 ### 旧版离线升级
 
-**从 1.0.4 或更早版本原地升级**　旧版只识别三段版本号。下载[离线升级包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip)，解压到单独的临时文件夹，保留里面的启动器 ZIP 原样。关闭启动器和游戏，双击 `Upgrade-Launcher.exe`，输入原来放 `SRLauncher.exe` 或 `Launcher.exe` 的文件夹路径并回车。显示升级完成后，从原目录打开启动器。游戏实例、设置和存档会保留。
+**从 1.0.4 或更早版本原地升级**　旧版只识别三段版本号。下载[离线升级包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2-offline.zip)，解压到单独的临时文件夹，保留里面的启动器 ZIP 原样。关闭启动器和游戏，双击 `Upgrade-Launcher.exe`，输入原来放 `SRLauncher.exe` 或 `Launcher.exe` 的文件夹路径并回车。显示升级完成后，从原目录打开启动器。游戏实例、设置和存档会保留。

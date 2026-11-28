@@ -4,7 +4,7 @@
 
 Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已有的 Xbox Series 建置匯入遊戲庫後，你可以為每個執行個體選擇執行引擎、配置輸入，在大廳查看啟動狀態、遊玩記錄和成就。**內建預設適用於 CYBERLEEK · v1.0.2.1**。下文的專用鍵位、HUD 提示和成就目錄均以這個建置為準。
 
-**[下載 Windows 可攜版 v1.0.4.1](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip)** · [最新發行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新說明](../Updates/RELEASE.md) · [再開發說明](DEVELOPMENT.zh-TW.md)
+**[下載 Windows 可攜版 v1.0.4.2](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2.zip)** · [最新發行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新說明](../Updates/RELEASE.md) · [再開發說明](DEVELOPMENT.zh-TW.md)
 
 ## 支援的模擬器與相容層
 
@@ -96,6 +96,10 @@ Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已
 
 ## 查看成就與遊玩記錄
 
+按一下「成就紀錄」旁的格狀圖示即可切換至**成就總覽**。每個方塊代表一項成就，依數字 ID 排列。已解鎖的方塊會顯示獎盃色，其餘維持暗色。將游標移至方塊上可查看 ID、名稱和狀態，再按清單圖示即可返回卡片。
+
+在**設定 → 通知音效**中，可以逐項選擇音效，按**試聽**即可聆聽。成就進度更新預設為靜音，解鎖時會播放成就鈴音。安裝完成、開始預載、預載完成、遊戲啟動、操作確認和失敗也各有音效。關閉**播放通知音效**會保留各項選擇，下次開啟時繼續使用。控制器連線與中斷可分別設定提示音，通知會顯示對應的控制器名稱。
+
 展開大廳左下角的遊戲詳細資料卡，可以查看遊戲進度、遊玩時長、上次啟動時間和成就記錄。**單擊成就卡**可展開名稱、達成條件以及已記錄的首次達成時間。未完成的卡片顯示已記錄的進度，已完成的卡片帶勾。
 
 遊玩期間，**SR Achievement Event Monitoring System** 會讀取當前執行個體的本機執行事件。首次觀察到更高進度時顯示進度提示，達到 100% 時顯示完成通知。這個預設的目錄共 **55 項**。記錄歸屬於當前啟動器執行個體，顯示的是本機觀察到的進度。
@@ -118,13 +122,13 @@ Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已
 | 啟動按鈕顯示「管線預熱」 | 查看按鈕的預熱詳情。「快取中的著色器」是著色器數量，「已處理管線」是本輪已經處理和待處理的渲染管線數。二者計數對象不同。重複啟動仍可能有管線準備階段，請以本次進度為準。 |
 | 想調整畫質或插幀 | 開啟所選引擎的渲染設定。可用的超解析度、影格生成和倍率由引擎版本與顯卡共同決定。專案首頁記錄了各代硬體的限制，儲存庫內的引擎版本由發行清單固定。[VIctory-NVIDIA 上游說明](https://github.com/trustno1-coder/VIctory-NVIDIA) |
 | 啟動器提示缺少執行元件 | 開啟「設定 → 執行環境 → 檢測」。啟動器按內建元件索引校驗檔案，並嘗試從本機元件庫還原缺失或損壞的元件。若仍有錯誤，點右上角終端圖示查看實時日誌。 |
-| 回饋黑屏、卡在預熱或成就未記錄 | 在實時日誌中選擇「匯出目前記錄」。附上啟動器版本、執行個體預設、引擎、顯卡、出錯步驟和時間。預熱問題可同時附同一輪的 `prewarm.log`。分享前可遮去個人路徑和帳號資訊。 |
+| 回報黑畫面、預熱停滯或成就未記錄 | 以滑鼠右鍵按頂端的終端機圖示，選擇「匯出完整診斷記錄」，傳送產生的 `SR-Diagnostics-*.log`。檔案包含本次和上次工作階段、各次嘗試的引擎記錄、硬體與驅動程式，以及下載、元件和更新記錄。 |
 
 ## 下載與更新
 
-**全新安裝**　下載 [SRLauncher-1.0.4.1.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip)，完整解壓縮至可寫入的資料夾，執行 `SRLauncher.exe`。首次啟動使用英文。
+**全新安裝**　下載 [SRLauncher-1.0.4.2.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2.zip)，完整解壓縮至可寫入的資料夾，執行 `SRLauncher.exe`。首次啟動使用英文。
 
-**從 1.0.4 或更早版本升級**　舊版僅辨識三段版本號。下載[離線升級包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip)，解壓縮到另一個暫存資料夾，保留內層 ZIP。關閉遊戲與啟動器，執行 `Upgrade-Launcher.exe`，輸入原本存放 `SRLauncher.exe` 或 `Launcher.exe` 的資料夾。完成後從原資料夾啟動，遊戲實例、設定及存檔會保留。
+**從 1.0.4 或更早版本升級**　舊版僅辨識三段版本號。下載[離線升級包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2-offline.zip)，解壓縮到另一個暫存資料夾，保留內層 ZIP。關閉遊戲與啟動器，執行 `Upgrade-Launcher.exe`，輸入原本存放 `SRLauncher.exe` 或 `Launcher.exe` 的資料夾。完成後從原資料夾啟動，遊戲實例、設定及存檔會保留。
 
 **後續更新**　從 1.0.4.1 起，在啟動時及每次按下「檢查更新」時各查詢一次。下載和重試使用該次查詢結果，並驗證大小與 SHA-256。本次為一般更新，可略過。發行頁的 **Source code (zip)** 供再開發使用。
 

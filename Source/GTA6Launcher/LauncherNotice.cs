@@ -5,34 +5,40 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Threading;
 
-internal enum LauncherNoticeKind { Installed, Preloading, Ready, Started }
-
 sealed partial class AchievementToast {
     const int NoticeHeight=68, NoticeWidth=358;
-    static readonly string[,] noticeCopy={
-        {"安装完成","游戏已添加到游戏库"},
-        {"开始预载","正在准备着色器和渲染管线"},
-        {"预载完成","现在可以启动游戏"},
-        {"游戏启动成功","已显示第一帧画面"}
+    static readonly Dictionary<LauncherNoticeKind,string> noticeDetails=new Dictionary<LauncherNoticeKind,string>{
+        {LauncherNoticeKind.Installed,"游戏已添加到游戏库"},
+        {LauncherNoticeKind.Preloading,"正在准备着色器和渲染管线"},
+        {LauncherNoticeKind.Ready,"现在可以启动游戏"},
+        {LauncherNoticeKind.Started,"已显示第一帧画面"}
     };
     static readonly Dictionary<LauncherNoticeKind,Bitmap> noticeArt=new Dictionary<LauncherNoticeKind,Bitmap>();
     static Rectangle noticeMonitor;
     static int noticeInset;
     readonly LauncherNoticeKind? noticeKind;
 
-    AchievementToast(LauncherNoticeKind kind,double now) {
+    static bool IsControllerNotice(LauncherNoticeKind kind) {
+        return kind==LauncherNoticeKind.ControllerConnected || kind==LauncherNoticeKind.ControllerDisconnected;
+    }
+    static LauncherNoticeKind NoticeArtwork(LauncherNoticeKind kind) {
+        return IsControllerNotice(kind) ? LauncherNoticeKind.Preloading : kind;
+    }
+    AchievementToast(LauncherNoticeKind kind,double now,string deviceName) {
         noticeKind=kind; born=now; CardWidth=NoticeWidth;
-        if(!noticeArt.ContainsKey(kind)) {
-            using(var stream=typeof(AchievementToast).Assembly.GetManifestResourceStream("LauncherNotice."+kind+".png"))
-            using(var image=new Bitmap(stream)) noticeArt.Add(kind,new Bitmap(image));
+        var artwork=NoticeArtwork(kind);
+        if(!noticeArt.ContainsKey(artwork)) {
+            using(var stream=typeof(AchievementToast).Assembly.GetManifestResourceStream("LauncherNotice."+artwork+".png"))
+            using(var image=new Bitmap(stream)) noticeArt.Add(artwork,new Bitmap(image));
         }
         int lang=Math.Max(0,Array.IndexOf(languages,Ui.Language));
         if(lang==0) EnsureFonts();
         using(var family=lang==0 ? chineseFont.Families[0] : new FontFamily(fonts[lang]))
         using(var heading=lang==0 ? chineseHeading.Families[0] : new FontFamily(fonts[lang])) {
             var style=lang!=0 && heading.IsStyleAvailable(FontStyle.Bold) ? FontStyle.Bold : FontStyle.Regular;
-            titleLine=ShapeLine(Ui.Text(noticeCopy[(int)kind,0]),heading,TitleSize,style,219,false);
-            detailLine=ShapeLine(Ui.Text(noticeCopy[(int)kind,1]),family,DetailSize,FontStyle.Regular,219,false);
+            string detailText=IsControllerNotice(kind) ? deviceName ?? "未知手柄" : noticeDetails[kind];
+            titleLine=ShapeLine(Ui.Text(NotificationSoundSettings.EventLabels[kind]),heading,TitleSize,style,219,false);
+            detailLine=ShapeLine(Ui.Text(detailText),family,DetailSize,FontStyle.Regular,219,false);
         }
         FitText(titleLine,219,24);
         FitText(detailLine,219,16);
@@ -45,31 +51,58 @@ sealed partial class AchievementToast {
         g.ScaleTransform(scale,scale);
         g.InterpolationMode=InterpolationMode.HighQualityBicubic;
         g.SmoothingMode=SmoothingMode.AntiAlias;
-        g.DrawImage(noticeArt[noticeKind.Value],new Rectangle(0,0,CardWidth,NoticeHeight));
+        var kind=noticeKind.Value;
+        g.DrawImage(noticeArt[NoticeArtwork(kind)],new Rectangle(0,0,CardWidth,NoticeHeight));
         using(var title=new SolidBrush(Color.FromArgb(255,247,237)))
         using(var detail=new SolidBrush(Color.FromArgb(213,203,216))) {
             g.FillPath(title,titleLine); g.FillPath(detail,detailLine);
         }
-        if(noticeKind==LauncherNoticeKind.Preloading)
+        if(IsControllerNotice(kind)) PaintControllerBadge(g,kind==LauncherNoticeKind.ControllerConnected);
+        else if(kind==LauncherNoticeKind.Preloading)
             using(var pen=new Pen(Color.FromArgb(206,180,252),2))
                 g.DrawArc(pen,308,24,20,20,(float)(age*285-90),110);
     }
 
+    static void PaintControllerBadge(Graphics g,bool connected) {
+        var accent=connected ? Color.FromArgb(158,226,202) : Color.FromArgb(238,168,156);
+        using(var fill=new SolidBrush(Color.FromArgb(43,35,50)))
+        using(var pen=new Pen(accent,1.8f) { StartCap=LineCap.Round,EndCap=LineCap.Round,LineJoin=LineJoin.Round })
+        using(var pad=new GraphicsPath()) {
+            g.FillEllipse(fill,300,16,36,36);
+            pad.AddBezier(306,38,308,24,309,24,315,27);
+            pad.AddLine(315,27,321,27);
+            pad.AddBezier(321,27,327,24,328,24,330,38);
+            pad.AddBezier(330,38,330,44,326,43,322,37);
+            pad.AddLine(322,37,314,37);
+            pad.AddBezier(314,37,310,43,306,44,306,38);
+            g.DrawPath(pen,pad);
+            g.DrawLine(pen,311,32,315,32);
+            if(connected) g.DrawLine(pen,313,30,313,34);
+            g.DrawEllipse(pen,323,30,1.8f,1.8f);
+        }
+    }
+
     internal sealed class LauncherNotices : IDisposable {
-        readonly Queue<LauncherNoticeKind> pending=new Queue<LauncherNoticeKind>();
+        readonly Queue<(LauncherNoticeKind Kind,string DeviceName)> pending=new Queue<(LauncherNoticeKind,string)>();
         readonly DispatcherTimer timer=new DispatcherTimer();
         readonly Stopwatch clock=Stopwatch.StartNew();
         readonly IntPtr launcher;
         readonly Action<string> log;
+        readonly Action<LauncherNoticeKind> playSound;
+        bool preloadAnnounced;
         IntPtr game;
         AchievementToast current;
-        public LauncherNotices(IntPtr launcher,Action<string> log) {
-            this.launcher=launcher; this.log=log;
+        public LauncherNotices(IntPtr launcher,Action<string> log,Action<LauncherNoticeKind> playSound) {
+            this.launcher=launcher; this.log=log; this.playSound=playSound;
             timer.Interval=TimeSpan.FromMilliseconds(16); timer.Tick+=Tick;
         }
-        public void Show(LauncherNoticeKind kind,IntPtr gameWindow) {
+        public void Show(LauncherNoticeKind kind,IntPtr gameWindow,string deviceName=null) {
+            if(kind==LauncherNoticeKind.Preloading) {
+                if(preloadAnnounced) return;
+                preloadAnnounced=true;
+            }
             if(kind==LauncherNoticeKind.Started) game=gameWindow;
-            pending.Enqueue(kind);
+            pending.Enqueue((kind,deviceName));
             if(!timer.IsEnabled) { timer.Start(); Tick(this,EventArgs.Empty); }
         }
         void ReleaseCurrent() {
@@ -78,13 +111,14 @@ sealed partial class AchievementToast {
             current=null; noticeMonitor=Rectangle.Empty; noticeInset=0;
         }
         public void ResetSession() {
+            preloadAnnounced=false;
             game=IntPtr.Zero;
             int count=pending.Count;
             while(count-->0) {
-                var kind=pending.Dequeue();
-                if(kind==LauncherNoticeKind.Installed) pending.Enqueue(kind);
+                var item=pending.Dequeue();
+                if(item.Kind==LauncherNoticeKind.Installed || IsControllerNotice(item.Kind)) pending.Enqueue(item);
             }
-            if(current!=null && current.noticeKind!=LauncherNoticeKind.Installed) ReleaseCurrent();
+            if(current!=null && current.noticeKind!=LauncherNoticeKind.Installed && !IsControllerNotice(current.noticeKind.Value)) ReleaseCurrent();
             if(current==null && pending.Count==0) timer.Stop();
         }
         void Tick(object sender,EventArgs args) {
@@ -93,11 +127,13 @@ sealed partial class AchievementToast {
                 if(current!=null && now-current.born>=3) ReleaseCurrent();
                 if(current==null) {
                     if(pending.Count==0) { timer.Stop(); return; }
-                    current=new AchievementToast(pending.Dequeue(),now);
+                    var item=pending.Dequeue();
+                    current=new AchievementToast(item.Kind,now,item.DeviceName);
                 }
                 var previous=SetThreadDpiAwarenessContext(new IntPtr(-4));
                 try {
-                    var area=Backdrop.MonitorWorkArea(current.noticeKind==LauncherNoticeKind.Started && game!=IntPtr.Zero ? game : launcher);
+                    bool onGame=current.noticeKind==LauncherNoticeKind.Started || IsControllerNotice(current.noticeKind.Value);
+                    var area=Backdrop.MonitorWorkArea(onGame && game!=IntPtr.Zero ? game : launcher);
                     if(area.IsEmpty) return;
                     float scale=Math.Min(area.Width*.184f/NoticeWidth,area.Height*.072f/NoticeHeight);
                     int width=Math.Max(1,(int)Math.Round(NoticeWidth*scale));
@@ -112,7 +148,7 @@ sealed partial class AchievementToast {
                     int y=area.Height-margin-height+(int)Math.Round((height+margin)*(1-entrance));
                     noticeMonitor=area; noticeInset=(int)Math.Round((height+area.Height*.006)*entrance*(1-exit));
                     var row=new Row {Card=current,Bounds=new Rectangle(x,y,width,height),Reveal=Math.Min(height,area.Height-y),Alpha=255};
-                    Toast.Present(area,new[]{row},now);
+                    PresentWithSound(area,new[]{row},now,playSound);
                 } finally { if(previous!=IntPtr.Zero) SetThreadDpiAwarenessContext(previous); }
             } catch(Exception ex) {
                 timer.Stop(); pending.Clear(); ReleaseCurrent();

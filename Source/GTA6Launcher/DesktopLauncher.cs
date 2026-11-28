@@ -27,6 +27,7 @@ internal sealed partial class DesktopLauncher
     readonly RadioButton[] projects;
     readonly Dictionary<string, XElement> catalog;
     readonly ProjectDisplaySettings displaySettings;
+    readonly NotificationSounds notificationSounds;
     readonly ProjectHoverCard projectCard;
     readonly LaunchButton launchButton;
     readonly LauncherUpdateControls updates;
@@ -64,6 +65,7 @@ internal sealed partial class DesktopLauncher
             SetAchievementCase(false,false);
         caseSignature=null;
         Find<ItemsControl>("AchievementRows").ItemsSource=null;
+        Find<ItemsControl>("AchievementOverview").ItemsSource=null;
         Find<TextBlock>("CaseCount").Text="";
         foreach(string name in new[]{"SceneViewport","GameMark","CardArea"})
             Find<FrameworkElement>(name).Visibility=loaded ? Visibility.Visible : Visibility.Collapsed;
@@ -418,6 +420,7 @@ internal sealed partial class DesktopLauncher
             Application.Current.Resources.MergedDictionaries.Add((ResourceDictionary)XamlReader.Load(stream));
         }
         displaySettings = ProjectDisplaySettings.Load(DisplayPreferences);
+        notificationSounds=new NotificationSounds(displaySettings.Sounds,Append);
         Ui.Apply(displaySettings.Language);
         Application.Current.Resources["ImportPressDuration"]=new Duration(TimeSpan.FromMilliseconds(SystemParameters.ClientAreaAnimation ? 65 : 0));
         Application.Current.Resources["ImportHoverDuration"]=new Duration(TimeSpan.FromMilliseconds(SystemParameters.ClientAreaAnimation ? 125 : 0));
@@ -471,7 +474,7 @@ internal sealed partial class DesktopLauncher
         Find<Grid>("ImportRailSlot").SizeChanged+=delegate { PositionGameMark(false); };
         controller = new ControllerViewer(Find<Grid>("OrbitSurface"), Find<Viewport3D>("ControllerViewport"));
         inputMode = new InputModeButton(window, () => ShowController(!viewingController), SwitchControllerMode);
-        gamepad = new GamepadStatus(window, controller);
+        gamepad = new GamepadStatus(window, controller, (kind,name)=>Notify(kind,deviceName:name));
         bindings = new BindingWizard(window,controller,Path.Combine(Lab,"desktop","keyboard-slots"),
             delegate { gamepad.SetMode(inputMode.KeyboardMode,bindings.Configured); RefreshPromptPreparation(); });
         Find<Button>("ControllerBack").Click += delegate { if(!bindings.Back()) ShowController(false); };
@@ -510,6 +513,7 @@ internal sealed partial class DesktopLauncher
         Find<CheckBox>("ShowFps").Checked += delegate { SaveDisplaySettings(); };
         Find<CheckBox>("ShowFps").Unchecked += delegate { SaveDisplaySettings(); };
         Find<Button>("ShowSettings").Click += delegate { SettingsPanel(true); };
+        SetupNotificationSounds();
         AttachComponentCheck();
         Find<Button>("CloseSettings").Click += delegate { SettingsPanel(false); };
         Find<Border>("SettingsScrim").MouseLeftButtonDown += delegate(object sender, MouseButtonEventArgs e) {
@@ -558,6 +562,7 @@ internal sealed partial class DesktopLauncher
             notices?.Dispose();
             EndAchievementSession();
             historyTimer.Stop();
+            notificationSounds.Dispose();
             closed=true;
             cancelWarmup?.Set();
             CloseInput();
@@ -743,14 +748,17 @@ internal sealed partial class DesktopLauncher
         };
         menu.Items.Add(folder);
         var export=new MenuItem();
-        export.SetResourceReference(HeaderedItemsControl.HeaderProperty,"ui.导出当前日志");
+        export.SetResourceReference(HeaderedItemsControl.HeaderProperty,"ui.导出完整诊断日志");
         export.Click+=async delegate {
-            var save=new Microsoft.Win32.SaveFileDialog { Title=Ui.Text("导出当前日志"), DefaultExt=".log",
-                Filter="Log (*.log)|*.log", FileName=Path.GetFileName(sessionLog.FileName) };
+            var save=new Microsoft.Win32.SaveFileDialog { Title=Ui.Text("导出完整诊断日志"), DefaultExt=".log",
+                Filter="Log (*.log)|*.log", FileName="SR-Diagnostics-"+DateTime.Now.ToString("yyyyMMdd-HHmmss")+".log" };
             if(save.ShowDialog(window)!=true) return;
             string destination=save.FileName;
-            try { await System.Threading.Tasks.Task.Run(()=>sessionLog.Export(destination)); }
+            string context=DiagnosticContext(), assets=gameAssets, exe=gameExe;
+            export.IsEnabled=false;
+            try { await System.Threading.Tasks.Task.Run(()=>sessionLog.Export(destination,context,assets,exe)); }
             catch(Exception e) when(e is IOException || e is UnauthorizedAccessException) { LogActionFailed(e); }
+            finally { export.IsEnabled=true; }
         };
         menu.Items.Add(export);
     }
@@ -767,6 +775,7 @@ internal sealed partial class DesktopLauncher
         RefreshInstallAction();
     }
     void SetLaunchState(LaunchState state) {
+        if (launchButton.State != state) sessionLog.Write("STATE",launchButton.State+" -> "+state+"; engine="+running+"; instance="+sessionGame?.Id);
         bool wasTracking=historyTimer.IsEnabled;
         launchButton.Set(state);
         Find<Button>("RenderSettings").IsEnabled=CanOpenEmulatorSettings;
@@ -789,9 +798,11 @@ internal sealed partial class DesktopLauncher
     }
     void FailLaunch(LaunchState state,string reason) {
         notices?.ResetSession();
+        bool newFailure=!launchButton.Failed;
         launchButton.FailureReason=string.IsNullOrWhiteSpace(reason) ? Ui.Text("启动失败，请查看实时日志") : reason.Trim();
         Append("Launch failure: "+Ui.EnglishStatus(launchButton.FailureReason));
         SetLaunchState(state);
+        if(newFailure && !closed) notificationSounds.Play(LauncherNoticeKind.Failure);
     }
     void StartPreparedGame() {
         if(closed || checking || updates.Required || updates.Installing || SaveCardOpen || renderOpen || shaderOpen ||
@@ -804,6 +815,13 @@ internal sealed partial class DesktopLauncher
             string command=CurrentPlayCommand();
             if(PromptPayload(command)!=workerPromptPayload) { Schedule(launchWhenReady:true); return; }
             SetLaunchState(LaunchState.Starting);
+            sessionLog.Write("PLAY", DiagnosticContext()+"; inputCommand="+command);
+            if(running=="victory-nvidia") {
+                try {
+                    var settings=ReadVictoryMenu();
+                    sessionLog.Write("RENDER",string.Join("; ",new[]{VictoryNvidiaMenu.Type,VictoryNvidiaMenu.Frames,VictoryNvidiaMenu.Console,VictoryNvidiaMenu.Dlss}.Select(k=>k+"="+settings.Get(k))));
+                } catch(Exception ex) when(ex is IOException || ex is UnauthorizedAccessException) { Append("Read render settings for diagnostics: "+ex.Message); }
+            }
             AllowSetForegroundWindow(worker.Id);
             worker.StandardInput.WriteLine(command);
             worker.StandardInput.Flush();
@@ -861,6 +879,9 @@ internal sealed partial class DesktopLauncher
     void Append(string text) {
         sessionLog.Write("LAUNCHER",text);
     }
+    string DiagnosticContext() {
+        return $"instance={activeGame?.Id}; game={activeGame?.Name}; profile={activeGame?.LauncherProfile}; selected={selected}; worker={running}; workerInstance={sessionGame?.Id}; state={launchButton.State}; language={displaySettings.Language}; keyboard={inputMode.KeyboardMode}; keyPrompts={displaySettings.UseKeyPrompts}; DLSS={displaySettings.DlssSuperResolution}; quality={displaySettings.DlssQuality}; frameMultiplier={displaySettings.FrameMultiplier}; assets={gameAssets}; exe={gameExe}";
+    }
     void Dispatch(Action action) {
         if (!window.Dispatcher.HasShutdownStarted) window.Dispatcher.BeginInvoke(DispatcherPriority.Background, action);
     }
@@ -887,16 +908,16 @@ internal sealed partial class DesktopLauncher
     }
     AchievementToast.Session achievementSession;
     AchievementToast.LauncherNotices notices;
-    void Notify(LauncherNoticeKind kind,int gamePid=0) {
+    void Notify(LauncherNoticeKind kind,int gamePid=0,string deviceName=null) {
         if(closed) return;
         try {
-            if(notices==null) notices=new AchievementToast.LauncherNotices(new System.Windows.Interop.WindowInteropHelper(window).Handle,Append);
+            if(notices==null) notices=new AchievementToast.LauncherNotices(new System.Windows.Interop.WindowInteropHelper(window).Handle,Append,notificationSounds.Play);
             var gameWindow=IntPtr.Zero;
             if(gamePid>0) {
                 try { using(var game=Process.GetProcessById(gamePid)) gameWindow=game.MainWindowHandle; }
                 catch(ArgumentException) {} catch(InvalidOperationException) {}
             }
-            notices.Show(kind,gameWindow);
+            notices.Show(kind,gameWindow,deviceName);
         } catch(Exception ex) { Append("Launcher notification: "+ex.Message); }
     }
     void EndAchievementSession() { achievementSession?.Dispose(); achievementSession=null; }
@@ -911,6 +932,7 @@ internal sealed partial class DesktopLauncher
         Append("Selected emulator: "+ProjectName(running));
         string action=shaderActionGame==activeGame.Id && shaderActionProject==running ? nextShaderAction : "";
         workerShaderAction=action;
+        sessionLog.Write("SESSION",DiagnosticContext()+"; warmupAction="+(action.Length==0 ? "default" : action));
         nextShaderAction="";
         if(!ValidFiles(gameAssets,gameExe)) {
             FailLaunch(LaunchState.WarmupFailed,Ui.Text("请检查游戏本体目录与 EXE 是否匹配。")+"\n"+gameAssets+"\n"+gameExe);
@@ -920,7 +942,7 @@ internal sealed partial class DesktopLauncher
         bool clearing=action=="--clear-shaders";
         EndAchievementSession();
         if(!clearing && activeGame.GtaVi) {
-            try { achievementSession=new AchievementToast.Session(Lab,activeGame.Id,Append); }
+            try { achievementSession=new AchievementToast.Session(Lab,activeGame.Id,Append,notificationSounds.Play); }
             catch(Exception ex) { Append(AchievementToast.Session.SystemName+" initialization: "+ex.Message); }
         }
         var p=new Process();
@@ -946,7 +968,9 @@ internal sealed partial class DesktopLauncher
             string eventName="Local\\Palmline.Warmup."+Guid.NewGuid().ToString("N");
             cancelWarmup=new EventWaitHandle(false,EventResetMode.ManualReset,eventName);
             si.EnvironmentVariables["PALMLINE_WARMUP_EVENT"]=eventName;
+            sessionLog.Write("WORKER", $"Starting {si.FileName} {si.Arguments}; cwd={si.WorkingDirectory}");
             p.Start(); worker = p;
+            sessionLog.Write("WORKER", "PID="+p.Id);
             string lastStderr=null;
             p.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs e) {
                 if (!string.IsNullOrWhiteSpace(e.Data)) {

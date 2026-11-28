@@ -429,8 +429,20 @@
               <StackPanel Name="ShelfContent" Canvas.Left="18" Width="{Binding ActualWidth, ElementName=CaseSummary}">
                 <DockPanel Margin="0,0,0,5">
                   <TextBlock Name="CaseCount" DockPanel.Dock="Right" VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource sunsetType}"/>
-                  <TextBlock Text="{DynamicResource 'ui.成就记录'}" Foreground="#FFF7F5" FontSize="15" FontWeight="SemiBold"/>
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource 'ui.成就记录'}" Foreground="#FFF7F5" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <Button Name="AchievementViewToggle" Width="25" Height="24" Margin="5,0,0,0"
+                            Style="{StaticResource railAction}" FocusVisualStyle="{StaticResource navFocus}" Cursor="Hand"
+                            ToolTip="{DynamicResource 'ui.切换到成就总览'}" AutomationProperties.Name="{DynamicResource 'ui.切换到成就总览'}">
+                      <Grid Width="14" Height="14">
+                        <Path Name="OverviewGlyph" Fill="#EFDEEE" Data="M1,1 H6 V6 H1 Z M8,1 H13 V6 H8 Z M1,8 H6 V13 H1 Z M8,8 H13 V13 H8 Z"/>
+                        <Path Name="ListGlyph" Opacity="0" Stroke="#EFDEEE" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                              Data="M1.5,2.5 H2.5 M5.5,2.5 H12.5 M1.5,7 H2.5 M5.5,7 H12.5 M1.5,11.5 H2.5 M5.5,11.5 H12.5"/>
+                      </Grid>
+                    </Button>
+                  </StackPanel>
                 </DockPanel>
+                <Grid Name="AchievementViews" ClipToBounds="True">
                 <ItemsControl Name="AchievementRows" ItemTemplate="{StaticResource achievementTile}">
                   <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" HorizontalAlignment="Left"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
                   <ItemsControl.Template><ControlTemplate TargetType="ItemsControl">
@@ -439,6 +451,18 @@
                 </ScrollViewer>
                   </ControlTemplate></ItemsControl.Template>
                 </ItemsControl>
+                <ItemsControl Name="AchievementOverview" Visibility="Collapsed" Opacity="0" IsEnabled="False" VerticalAlignment="Top">
+                  <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel ItemWidth="19" ItemHeight="19" Margin="1,4,0,2"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate><DataTemplate>
+                    <Border Name="square" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="3" BorderThickness="1"
+                            Background="#393240" BorderBrush="#665B6C" ToolTip="{Binding Detail}" AutomationProperties.Name="{Binding Detail}"/>
+                    <DataTemplate.Triggers><DataTrigger Binding="{Binding Earned}" Value="True">
+                      <Setter TargetName="square" Property="Background" Value="{Binding Finish}"/>
+                      <Setter TargetName="square" Property="BorderBrush" Value="Transparent"/>
+                    </DataTrigger></DataTemplate.Triggers>
+                  </DataTemplate></ItemsControl.ItemTemplate>
+                </ItemsControl>
+                </Grid>
               </StackPanel>
             </Canvas>
             </StackPanel>
@@ -1470,6 +1494,8 @@
               </StackPanel>
               <RadioButton Name="SettingsGeneral" Content="{DynamicResource 'ui.启动器设置'}" GroupName="SettingsCategory"
                            IsChecked="True" Style="{StaticResource settingsTab}"/>
+              <RadioButton Name="SettingsSounds" Content="{DynamicResource 'ui.通知声音'}" GroupName="SettingsCategory" Margin="0,3,0,0"
+                           Style="{StaticResource settingsTab}"/>
               <RadioButton Name="SettingsAbout" Content="{DynamicResource 'ui.关于'}" GroupName="SettingsCategory" Margin="0,3,0,0"
                            Style="{StaticResource settingsTab}"/>
               <RadioButton Name="SettingsLicenses" Content="{DynamicResource 'ui.开源许可'}" GroupName="SettingsCategory" Margin="0,3,0,0" Style="{StaticResource settingsTab}"/>
@@ -1529,6 +1555,17 @@
                 </Grid>
               </Border>
               </StackPanel>
+            </ScrollViewer>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+                          Visibility="{Binding IsChecked,ElementName=SettingsSounds,Converter={StaticResource whenChecked}}">
+              <Border Style="{StaticResource settingsCard}" Margin="0,0,6,0" Padding="15,12">
+                <StackPanel>
+                  <TextBlock Text="{DynamicResource 'ui.通知声音'}" FontWeight="SemiBold" FontSize="17" Margin="0,0,0,9"/>
+                  <CheckBox Name="EnableNoticeSounds" Content="{DynamicResource 'ui.播放通知提示音'}" Style="{StaticResource settingsCheck}"/>
+                  <Border Margin="0,10,0,3" Height="1" Background="#FF3A373D"/>
+                  <StackPanel Name="NoticeSoundRows" IsEnabled="{Binding IsChecked,ElementName=EnableNoticeSounds}"/>
+                </StackPanel>
+              </Border>
             </ScrollViewer>
             <ScrollViewer Name="AboutPage" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                           Focusable="False" Visibility="{Binding IsChecked,ElementName=SettingsAbout,Converter={StaticResource whenChecked}}">

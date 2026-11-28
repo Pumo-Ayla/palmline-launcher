@@ -417,6 +417,8 @@ internal sealed partial class DesktopLauncher
         if(checking || playing || closed) return;
         bool magnet=Find<RadioButton>("MagnetSource").IsChecked==true;
         string assets,exe;
+        string source=Find<TextBox>(magnet ? "MagnetLink" : "AssetPath").Text;
+        sessionLog.Write("IMPORT", $"Check source={DiagnosticReport.Shareable(source)}; step={sourceStage}; archive={archiveInput}; extraction={ArchiveCommand(magnet)}; externalExe={SupplyExeSelected}; bundledExe={Find<RadioButton>("BuiltinExe").IsChecked==true}; exeSource={DiagnosticReport.Shareable(Find<TextBox>("ExePath").Text)}");
         var status=Find<TextBlock>("ImportStatus");
         var activity=Find<TextBlock>("CheckActivity");
         status.Text="";
@@ -438,14 +440,19 @@ internal sealed partial class DesktopLauncher
             await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
             if(closed) return;
             var files=await ResolveImportSource(magnet);
-            if(files==null || closed) return;
+            if(files==null || closed) {
+                sessionLog.Write("IMPORT",$"Awaiting selection; step={sourceStage}; archive={archiveInput}; firstVolume={archivePath}; volumes={volumeCount}");
+                return;
+            }
             assets=files.Item1; exe=files.Item2;
             activity.Text=Ui.Text("检查游戏文件与 EXE");
             if(checkedPlan==null) await Task.Run(()=>ValidateImportFiles(assets,exe));
             if(closed) return;
             verifiedFiles=Tuple.Create(assets,exe);
+            sessionLog.Write("IMPORT","Check passed; assets="+assets+"; exe="+exe+"; deferred="+(checkedPlan!=null));
             status.Text=Ui.Text(checkedPlan==null ? "检查通过：游戏清单、必要资源和 EXE 均符合要求。" : "来源已检查，入库后安装");
         } catch(OperationCanceledException) {
+            sessionLog.Write("IMPORT","Check cancelled.");
             status.Text=Ui.Text("下载已取消");
         } catch(Exception e) {
             importActionFailed=true;

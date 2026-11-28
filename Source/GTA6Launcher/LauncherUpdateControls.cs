@@ -260,6 +260,7 @@ internal sealed class LauncherUpdateControls
     async Task CheckAsync()
     {
         if (closed || checker != null || downloader != null || Installing) return;
+        log("Update check started; installed="+installed);
         try {
             checker = LauncherUpdate.StartAgent(root, "check", installed);
             Refresh();
@@ -290,6 +291,7 @@ internal sealed class LauncherUpdateControls
                 }
             }
             if (notice == "无法检查更新，请稍后重试") notice = null;
+            log("Update check: "+line+(counts==null ? "" : "; "+counts));
         } catch (Exception e) {
             if (!closed) { notice = "无法检查更新，请稍后重试"; log(e.Message); }
         } finally {
@@ -322,6 +324,7 @@ internal sealed class LauncherUpdateControls
         try {
             notice = null;
             downloader = LauncherUpdate.StartAgent(root, "download", version);
+            log("Update download started: "+version);
             await downloader.StandardInput.WriteLineAsync(checkedRelease);
             downloader.StandardInput.Close();
             Progress(0);
@@ -335,6 +338,7 @@ internal sealed class LauncherUpdateControls
             if (closed) return;
             ReadCached();
             if (downloader.ExitCode != 0 || cached != version) throw new IOException("Launcher package download or verification failed.");
+            log("Update package verified: "+cached);
             notice = null;
         } catch (Exception e) {
             if (!closed) { notice = "下载失败，点击下载图标重试"; log(e.Message); }

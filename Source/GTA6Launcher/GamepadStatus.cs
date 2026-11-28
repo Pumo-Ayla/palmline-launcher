@@ -25,8 +25,9 @@ internal sealed class GamepadStatus
     string lastHelp;
     bool live, keyboard, configured;
 
-    public GamepadStatus(Window owner, ControllerViewer controller) {
+    public GamepadStatus(Window owner, ControllerViewer controller, Action<LauncherNoticeKind,string> notify) {
         window=owner; viewer=controller;
+        input.ConnectionChanged+=(connected,name)=>notify(connected ? LauncherNoticeKind.ControllerConnected : LauncherNoticeKind.ControllerDisconnected,name);
         page=(Grid)owner.FindName("ControllerHost");
         rail=(Button)owner.FindName("ControllerArea");
         light=(Ellipse)owner.FindName("ControllerLight");
@@ -57,28 +58,26 @@ internal sealed class GamepadStatus
     }
     void Schedule() {
         timer.Stop();
+        live=!keyboard && page.IsVisible && window.WindowState!=WindowState.Minimized;
         if(keyboard) {
-            live=false;
             light.Fill=configured ? Brushes.LightGreen : Brushes.SandyBrown;
             AutomationProperties.SetItemStatus(rail,Ui.Text(configured ? "已配置键鼠映射" : "暂未配置"));
-            return;
         }
-        live=page.IsVisible && window.WindowState!=WindowState.Minimized;
-        if(!live) {
+        if(!keyboard && !live) {
             input.ClosePad();
             shownDevice=0;
             viewer.ResetView();
             viewer.Sync(new PadState(),input.Orientation.Pose);
         }
-        if(!window.IsLoaded || window.WindowState==WindowState.Minimized) return;
+        if(!window.IsLoaded) return;
         discovery.Reset();
         Refresh();
         timer.Interval=TimeSpan.FromMilliseconds(live ? 16 : 1100);
         timer.Start();
     }
     void Refresh() {
-        if(keyboard) return;
         input.Pump();
+        if(keyboard || window.WindowState==WindowState.Minimized) return;
         if(!discovery.IsRunning || discovery.ElapsedMilliseconds>=950) {
             count=input.Discover(live);
             discovery.Restart();
