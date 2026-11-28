@@ -1,4 +1,4 @@
-# Series Relay Launcher 개발자 안내서
+# Series Relay Launcher 후속 개발 안내
 
 [English](DEVELOPMENT.md) · [简体中文](DEVELOPMENT.zh-CN.md) · [繁體中文](DEVELOPMENT.zh-TW.md) · [日本語](DEVELOPMENT.ja.md) · 한국어 · [사용자 안내서](GUIDE.ko.md)
 

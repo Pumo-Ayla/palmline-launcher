@@ -1,4 +1,4 @@
-# Series Relay Launcher 開發者指南
+# Series Relay Launcher 再開發說明
 
 [使用者指南](GUIDE.zh-TW.md) · [引擎版本清單](../Emulators/catalog.json) · [發行歷史](../Updates/history.json)
 

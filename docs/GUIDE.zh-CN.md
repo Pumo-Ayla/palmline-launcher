@@ -4,7 +4,7 @@
 
 Series Relay Launcher 是 Windows x64 上的游戏实例启动器。把已有的 Xbox Series 构建导入游戏库后，你可以为每个实例选择运行引擎、配置输入，在大厅查看启动状态、游玩记录和成就。**内置预设适配 CYBERLEEK · v1.0.2.1**。下文的专用键位、HUD 提示和成就目录均以这个构建为准。
 
-**[下载 Windows 便携版 v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [最新发行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新说明](../Updates/RELEASE.md) · [开发者指南](DEVELOPMENT.zh-CN.md)
+**[下载 Windows 便携版 v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [最新发行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新说明](../Updates/RELEASE.md) · [再开发说明](DEVELOPMENT.zh-CN.md)
 
 ## 支持的模拟器与兼容层
 
@@ -28,7 +28,7 @@ Series Relay Launcher 是 Windows x64 上的游戏实例启动器。把已有的
 2. 点击左侧 **＋**，选择「本地目录导入」或「磁力链接导入」。如果你持有 **CYBERLEEK · v1.0.2.1**，可同时选中下方的同名预设。它会填好实例名称、图标、详情卡和大厅外观。
 3. 点击右下角「下一步」。左侧三点图标代表正在配置的新实例。在这一页勾选预设后，仍需选择一种导入来源。根据手中已有的文件，按下面对应的步骤继续。
 
-![本地目录导入和内置预设已选中的来源页面](media/import-source.png)
+![本地目录导入和内置预设已选中的来源页面](media/zh-CN/import-source.png)
 
 | 手头的文件 | 导入时怎么选 |
 | --- | --- |
@@ -70,7 +70,7 @@ Series Relay Launcher 是 Windows x64 上的游戏实例启动器。把已有的
 
 在左下角**长按输入图标**切换到键鼠模式，再**单击**打开「键鼠映射」。使用内置键位时，选中带 VI 标识的预设即可。想改键时，点配置槽的 **＋**，跟随手柄上高亮的按钮逐项录入。录入鼠标键时，把指针放在白色输入框内。完成最后一项后保存，可在配置槽之间切换。
 
-![键鼠映射页的配置槽、键盘视图和实际键位开关](media/keyboard-mapping.png)
+![键鼠映射页的配置槽、键盘视图和实际键位开关](media/zh-CN/keyboard-mapping.png)
 
 内置键位按步行和驾驶分层。按 **F6** 切换两层，避免同一个按键在错误的场景触发。
 
@@ -100,7 +100,7 @@ Series Relay Launcher 是 Windows x64 上的游戏实例启动器。把已有的
 
 游玩期间，**SR Achievement Event Monitoring System** 会读取当前实例的本地运行事件。首次观察到更高进度时显示进度提示，达到 100% 时显示完成通知。这个预设的目录共 **55 项**。记录归属于当前启动器实例，显示的是本机观察到的进度。
 
-![成就浮层动效示例，「仿若天堂」达成后显示完成勾](media/achievement-unlock.webp)
+![成就浮层动效示例，「仿若天堂」达成后显示完成勾](media/zh-CN/achievement-unlock.webp)
 
 ## 引擎、预热与故障排查
 

@@ -4,7 +4,7 @@
 
 Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已有的 Xbox Series 建置匯入遊戲庫後，你可以為每個執行個體選擇執行引擎、配置輸入，在大廳查看啟動狀態、遊玩記錄和成就。**內建預設適用於 CYBERLEEK · v1.0.2.1**。下文的專用鍵位、HUD 提示和成就目錄均以這個建置為準。
 
-**[下載 Windows 可攜版 v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [最新發行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新說明](../Updates/RELEASE.md) · [開發者指南](DEVELOPMENT.zh-TW.md)
+**[下載 Windows 可攜版 v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [最新發行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新說明](../Updates/RELEASE.md) · [再開發說明](DEVELOPMENT.zh-TW.md)
 
 ## 支援的模擬器與相容層
 
@@ -28,7 +28,7 @@ Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已
 2. 點選左側 **＋**，選擇「本機目錄匯入」或「磁力連結匯入」。如果你持有 **CYBERLEEK · v1.0.2.1**，可同時選取下方的同名預設。它會填好執行個體名稱、圖示、詳細資料卡和大廳外觀。
 3. 點選右下角「下一步」。左側三點圖示代表正在配置的新執行個體。在這一頁勾選預設後，仍需選擇一種匯入來源。根據手中已有的檔案，按下面對應的步驟繼續。
 
-![本機目錄匯入和內建預設已選取的來源頁面](media/import-source.png)
+![本機目錄匯入和內建預設已選取的來源頁面](media/zh-TW/import-source.png)
 
 | 手頭的檔案 | 匯入時怎么選 |
 | --- | --- |
@@ -70,7 +70,7 @@ Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已
 
 在左下角**長按輸入圖示**切換到鍵鼠模式，再**單擊**開啟「鍵鼠對應」。使用內建鍵位時，選取帶 VI 標識的預設即可。想改鍵時，點配置槽的 **＋**，跟隨控制器上高亮的按鈕逐項輸入。輸入滑鼠鍵時，把指針放在白色輸入框內。完成最後一項後保存，可在配置槽之間切換。
 
-![鍵鼠對應頁的配置槽、鍵盤視圖和實際鍵位開關](media/keyboard-mapping.png)
+![鍵鼠對應頁的配置槽、鍵盤視圖和實際鍵位開關](media/zh-TW/keyboard-mapping.png)
 
 內建鍵位按步行和駕駛分層。按 **F6** 切換兩層，避免同一個按鍵在錯誤的場景觸發。
 
@@ -100,7 +100,7 @@ Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已
 
 遊玩期間，**SR Achievement Event Monitoring System** 會讀取當前執行個體的本機執行事件。首次觀察到更高進度時顯示進度提示，達到 100% 時顯示完成通知。這個預設的目錄共 **55 項**。記錄歸屬於當前啟動器執行個體，顯示的是本機觀察到的進度。
 
-![成就浮層動效示例，「仿若天堂」達成後顯示完成勾](media/achievement-unlock.webp)
+![成就浮層動效示例，「宛如樂園」達成後顯示完成勾](media/zh-TW/achievement-unlock.webp)
 
 ## 引擎、預熱與故障排查
 

@@ -4,7 +4,7 @@ English · [简体中文](docs/GUIDE.zh-CN.md) · [繁體中文](docs/GUIDE.zh-T
 
 A portable Windows x64 launcher for managing Xbox Series game instances. Import your own game files, choose a compatibility layer, configure controls, and keep saves, play history and local achievements in your library.
 
-**[Download the complete Windows build · v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [Release notes](Updates/RELEASE.md) · [Developer guide](docs/DEVELOPMENT.md)
+**[Download the complete Windows build · v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [Release notes](Updates/RELEASE.md) · [Further Development Notes](docs/DEVELOPMENT.md)
 
 ## Supported emulators and compatibility layers
 
@@ -31,7 +31,7 @@ The project card shows whether the selected layer supports achievements. Its ups
 3. Under **Load game files**, select **Import from folder** for a local installation or a directory of archives, or **Import via magnet link** for a torrent. If your files match **CYBERLEEK · v1.0.2.1**, you can also select that preset below the two source cards. Click **Next**.
 4. Follow the path below that matches your files. Keep the launcher directory, the folder containing your game or source volumes, and the destination for newly extracted files distinct when choosing paths.
 
-![The import screen with a local source and the built-in preset selected](docs/media/import-source.png)
+![The import screen with a local source and the built-in preset selected](docs/media/en/import-source.png)
 
 ### A. I already have an extracted game folder
 
@@ -75,7 +75,7 @@ Long-press the **input icon** at the bottom left to switch between controller an
 
 The custom wizard presents 18 controls, including face buttons, triggers, shoulders and stick clicks. Press the keyboard key for the highlighted control, or press the mouse button inside the white capture field. Check the captured value and advance. Click the value to record it again. WASD is reserved for movement. Save the final control, then select your profile. The keyboard view lets you inspect the active bindings.
 
-![Controller, keyboard and mouse views in the mapping screen](docs/media/keyboard-mapping.png)
+![Keyboard and mouse mapping with the built-in profile and bound-key prompts enabled](docs/media/en/keyboard-mapping.png)
 
 **To change what appears on the game HUD**, select the matching optimized instance, CGBJ, keyboard mode and a complete mapping. Enable **Show bound keys in game** on the mapping page. Wait for key prompt preparation before playing. Supported button artwork becomes a keycap, and supported text prompts use the same action binding. For example, aiming can display RMB. Close the game before changing this option or the active mapping. Each supported resource is prepared in a session copy.
 
@@ -105,7 +105,7 @@ In controller mode, click the input icon to open the live input test. Press butt
 
 The displayed story percentage comes from readable save data, while achievement percentages come from recorded runtime events. Restoring a save or switching instances can give the two views different histories.
 
-![An achievement notification entering its completed state](docs/media/achievement-unlock.webp)
+![An achievement notification entering its completed state](docs/media/en/achievement-unlock.webp)
 
 ## Rendering, warmup and troubleshooting
 

@@ -1,8 +1,8 @@
-# Series Relay Launcher developer guide
+# Series Relay Launcher Further Development Notes
 
 English · [简体中文](DEVELOPMENT.zh-CN.md) · [繁體中文](DEVELOPMENT.zh-TW.md) · [日本語](DEVELOPMENT.ja.md) · [한국어](DEVELOPMENT.ko.md) · [User guide](../README.md)
 
-This guide describes **v1.0.4**. The WPF process owns the library, presentation and user decisions. The transfer helper inspects and materializes sources. A Python session worker prepares the selected engine, watches its output and reports lifecycle events. A separate update agent can replace a closed launcher. In a report, include the launcher version, title ID, engine ID, pinned revision and run directory. A display name alone cannot identify a session.
+These notes cover the code paths, data contracts and regression tests for extending **v1.0.4**. The WPF process owns the library, presentation and user decisions. The transfer helper inspects and materializes sources. A Python session worker prepares the selected engine, watches its output and reports lifecycle events. A separate update agent can replace a closed launcher. In a report, include the launcher version, title ID, engine ID, pinned revision and run directory. A display name alone cannot identify a session.
 
 ## Import from a folder, archive or magnet
 
