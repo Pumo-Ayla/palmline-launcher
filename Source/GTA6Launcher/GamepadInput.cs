@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -56,13 +57,15 @@ internal sealed class SensorOrientation
 
 internal sealed class GamepadInput : IDisposable
 {
-    const uint GamepadSubsystem=0x2000, SensorEvent=0x659;
+    const uint GamepadSubsystem=0x2000, GamepadAdded=0x653, GamepadRemoved=0x654, SensorEvent=0x659;
     const int Accel=1, Gyro=2;
     const string Library="SDL3.dll";
     static IntPtr module;
     bool initialized;
     IntPtr pad;
     uint instance;
+    readonly Dictionary<uint,string> connectedPads=new Dictionary<uint,string>();
+    public event Action<bool,string> ConnectionChanged;
     public bool Available { get { return initialized; } }
     public string Name { get; private set; }
     public uint DeviceId { get { return instance; } }
@@ -93,10 +96,9 @@ internal sealed class GamepadInput : IDisposable
     [DllImport(Library)] static extern IntPtr SDL_OpenGamepad(uint id);
     [DllImport(Library)] static extern void SDL_CloseGamepad(IntPtr handle);
     [DllImport(Library)] static extern byte SDL_GamepadConnected(IntPtr handle);
-    [DllImport(Library)] static extern IntPtr SDL_GetGamepadName(IntPtr handle);
-    [DllImport(Library)] static extern IntPtr SDL_GetJoystickName(IntPtr handle);
-    [DllImport(Library)] static extern IntPtr SDL_GetGamepadJoystick(IntPtr handle);
-    [DllImport(Library)] static extern int SDL_GetRealGamepadType(IntPtr handle);
+    [DllImport(Library)] static extern IntPtr SDL_GetGamepadNameForID(uint id);
+    [DllImport(Library)] static extern IntPtr SDL_GetJoystickNameForID(uint id);
+    [DllImport(Library)] static extern int SDL_GetRealGamepadTypeForID(uint id);
     [DllImport(Library)] static extern byte SDL_GamepadHasButton(IntPtr handle,int button);
     [DllImport(Library)] static extern byte SDL_GetGamepadButton(IntPtr handle,int button);
     [DllImport(Library)] static extern short SDL_GetGamepadAxis(IntPtr handle,int axis);
@@ -111,12 +113,21 @@ internal sealed class GamepadInput : IDisposable
         if(module==IntPtr.Zero) return;
         SDL_SetHint("SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS","1");
         initialized=SDL_InitSubSystem(GamepadSubsystem)!=0;
+        // SDL queues add events for pads present at initialization. Remember them before subscribing.
+        Pump();
     }
     public void Pump() {
         if(!initialized) return;
         Event ev;
         while(SDL_PollEvent(out ev)!=0) {
-            if(GyroEnabled && ev.Type==SensorEvent && ev.Device==instance)
+            if(ev.Type==GamepadAdded && !connectedPads.ContainsKey(ev.Device)) {
+                string name=DeviceName(ev.Device);
+                connectedPads.Add(ev.Device,name);
+                ConnectionChanged?.Invoke(true,name);
+            } else if(ev.Type==GamepadRemoved && connectedPads.TryGetValue(ev.Device,out var removed)) {
+                connectedPads.Remove(ev.Device);
+                ConnectionChanged?.Invoke(false,removed);
+            } else if(GyroEnabled && ev.Type==SensorEvent && ev.Device==instance)
                 Orientation.Sample(ev.Sensor,ev.SensorTime!=0 ? ev.SensorTime : ev.Time,ev.X,ev.Y,ev.Z);
         }
         if(pad!=IntPtr.Zero && SDL_GamepadConnected(pad)==0) ClosePad();
@@ -133,8 +144,7 @@ internal sealed class GamepadInput : IDisposable
                     pad=SDL_OpenGamepad(id);
                     if(pad==IntPtr.Zero) continue;
                     instance=id;
-                    var rawName=ReadUtf8(SDL_GetJoystickName(SDL_GetGamepadJoystick(pad)));
-                    Name=ModelName(rawName,ReadUtf8(SDL_GetGamepadName(pad)),SDL_GetRealGamepadType(pad));
+                    Name=DeviceName(id);
                     reportsPaddles=false;
                     for(int button=16;button<=19;button++) reportsPaddles |= SDL_GamepadHasButton(pad,button)!=0;
                     GyroEnabled=SDL_GamepadHasSensor(pad,Gyro)!=0 && SDL_SetGamepadSensorEnabled(pad,Gyro,1)!=0;
@@ -143,6 +153,9 @@ internal sealed class GamepadInput : IDisposable
             }
             return count;
         } finally { SDL_free(list); }
+    }
+    static string DeviceName(uint id) {
+        return ModelName(ReadUtf8(SDL_GetJoystickNameForID(id)),ReadUtf8(SDL_GetGamepadNameForID(id)),SDL_GetRealGamepadTypeForID(id));
     }
     internal static string ModelName(string device,string mapped,int type) {
         bool xbox=type==2 || type==3;

@@ -19,7 +19,7 @@ sealed partial class AchievementToast {
     static readonly Dictionary<string,Bitmap> artwork=new Dictionary<string,Bitmap>();
     static readonly Dictionary<string,AchievementJournal.Entry> catalog=AchievementJournal.Catalog.ToDictionary(e=>e.Id);
     static readonly List<GCHandle> fontData=new List<GCHandle>();
-    static System.Media.SoundPlayer chime;
+    int soundedPercent=-1;
     static bool ready;
     static Stream Resource(string name) {
         return System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Launcher;component/Assets/"+name)).Stream;
@@ -49,8 +49,7 @@ sealed partial class AchievementToast {
         using(var source=new Bitmap(stream)) logo=new Bitmap(source);
         logo.MakeTransparent(logo.GetPixel(0,0));
         foreach(var id in catalog.Keys) artwork[id]=LoadBitmap("Achievements/"+id+".png");
-        chime=new System.Media.SoundPlayer(typeof(AchievementToast).Assembly.GetManifestResourceStream("SteamAchievement.wav"));
-        chime.Load(); ready=true;
+        ready=true;
     }
     Image icon, lockedIcon;
     static Bitmap Grayscale(Image source) {
@@ -357,11 +356,11 @@ sealed partial class AchievementToast {
             lastPercent=card.percent;
             lastAlpha=row.Alpha;
         }
-        public static void Present(Rectangle area,Row[] rows,double now) {
-            if(rows.Length==0 || area.IsEmpty) return;
+        public static bool Present(Rectangle area,Row[] rows,double now) {
+            if(rows.Length==0 || area.IsEmpty) return false;
             var batch=BeginDeferWindowPos(rows.Length);
             foreach(var row in rows) {
-                if(batch==IntPtr.Zero) return;
+                if(batch==IntPtr.Zero) return false;
                 var r=row.Bounds;
                 int width=Math.Min(r.Width,area.Width-r.X);
                 var size=width>0 && row.Reveal>0 ? new Size(width,row.Reveal) : Size.Empty;
@@ -371,7 +370,7 @@ sealed partial class AchievementToast {
                 batch=DeferWindowPos(batch,row.Card.window.Handle,new IntPtr(-1),area.Left+r.X,area.Top+r.Y,
                     Math.Max(1,size.Width),Math.Max(1,size.Height),flags);
             }
-            if(batch==IntPtr.Zero || !EndDeferWindowPos(batch)) return;
+            return batch!=IntPtr.Zero && EndDeferWindowPos(batch);
         }
         public void Dispose() {
             DestroyHandle();
@@ -464,7 +463,6 @@ sealed partial class AchievementToast {
                 fadeStart=now;
             }
         }
-        if(progress==100) chime.Play();
         lastEntrance=now;
 
 
@@ -480,16 +478,27 @@ sealed partial class AchievementToast {
         }
 
     }
+    static void PresentWithSound(Rectangle area,Row[] rows,double now,Action<LauncherNoticeKind> playSound) {
+        if(!Toast.Present(area,rows,now)) return;
+        foreach(var row in rows) {
+            var card=row.Card;
+            if(row.Reveal<=0 || row.Bounds.X>=area.Width || row.Alpha==0 || card.soundedPercent==card.percent) continue;
+            card.soundedPercent=card.percent;
+            playSound(card.noticeKind ?? (card.percent==100 ? LauncherNoticeKind.Unlocked : LauncherNoticeKind.Progress));
+        }
+    }
     internal sealed class Session : IDisposable {
         internal const string SystemName = "SR Achievement Event Monitoring System";
         readonly System.Windows.Threading.DispatcherTimer timer=new System.Windows.Threading.DispatcherTimer();
         readonly Stopwatch clock=new Stopwatch();
         readonly Dictionary<string,int> highest;
         readonly Action<string> log;
+        readonly Action<LauncherNoticeKind> playSound;
         IntPtr gameWindow;
         int pid;
-        public Session(string lab,string instance,Action<string> log) {
+        public Session(string lab,string instance,Action<string> log,Action<LauncherNoticeKind> playSound) {
             this.log=log;
+            this.playSound=playSound;
             Preload();
             highest=AchievementJournal.Read(lab,instance);
             lastEntrance=double.NegativeInfinity;
@@ -534,7 +543,7 @@ sealed partial class AchievementToast {
                     var previousDpi=SetThreadDpiAwarenessContext(new IntPtr(-4));
                     try {
                         var area=Backdrop.MonitorWorkArea(gameWindow);
-                        if(!area.IsEmpty) Toast.Present(area,Rows(area.Width,area.Height,now,area==noticeMonitor ? noticeInset : 0).ToArray(),now);
+                        if(!area.IsEmpty) PresentWithSound(area,Rows(area.Width,area.Height,now,area==noticeMonitor ? noticeInset : 0).ToArray(),now,playSound);
                     } finally {
                         if(previousDpi!=IntPtr.Zero) SetThreadDpiAwarenessContext(previousDpi);
                     }

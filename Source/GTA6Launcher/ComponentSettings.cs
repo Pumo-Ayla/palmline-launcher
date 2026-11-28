@@ -91,11 +91,12 @@ internal sealed partial class DesktopLauncher
                 try {
                     if(group.Files.Length==0) throw new InvalidDataException(Ui.Text("内置组件库未收录此版本。"));
                     foreach(var file in group.Files) {
-                        try { if(library.Ensure(file,token,ReportRestore)) repaired=true; }
+                        try { if(library.Ensure(file,token,ReportRestore)) { repaired=true; Append("Component restored: "+file.Path); } }
                         catch(Exception e) when(ComponentError(e)) { ReportError(file.Path,e); }
                     }
                     if(errors==before) TestComponentHost(group.Id,token);
                 } catch(Exception e) when(ComponentError(e)) { ReportError(group.Id,e); }
+                Append($"Component check: {group.Id}, files={group.Files.Length}, errors={errors-before}");
             }
         }
         token.ThrowIfCancellationRequested();

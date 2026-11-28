@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <TargetFramework Condition="'$(PortableBuild)'=='true'">net9.0-windows</TargetFramework>
     <UseWindowsForms Condition="'$(PortableBuild)'=='true'">true</UseWindowsForms>
     <AppHostRelativeDotNet Condition="'$(PortableBuild)'=='true'">Runtime\DotNet</AppHostRelativeDotNet>
     <AppHostDotNetSearch Condition="'$(PortableBuild)'=='true'">AppRelative</AppHostDotNetSearch>
-    <Version>1.0.4.1</Version>
+    <Version>1.0.4.2</Version>
     <ApplicationManifest>Launcher.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\Palmline.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
@@ -59,6 +59,7 @@
     <EmbeddedResource Include="Assets\GtaViAchievements.tsv" LogicalName="GtaViAchievements.tsv" />
     <Resource Include="Assets\Achievements\*.png" />
     <EmbeddedResource Include="Assets\SteamAchievement.wav" LogicalName="SteamAchievement.wav"/>
+    <EmbeddedResource Include="Assets\NotificationSounds\*.wav" LogicalName="Notification.%(Filename)%(Extension)"/>
     <EmbeddedResource Include="Assets\VI.png" LogicalName="AchievementVI.png" WithCulture="false"/>
     <Reference Condition="'$(PortableBuild)'!='true'" Include="System.Drawing"/>
     <Reference Condition="'$(PortableBuild)'!='true'" Include="Microsoft.VisualBasic"/>

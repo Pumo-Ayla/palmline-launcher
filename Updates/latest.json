@@ -1,17 +1,17 @@
 {
-  "tag": "v1.0.4.1",
-  "version": "1.0.4.1",
+  "tag": "v1.0.4.2",
+  "version": "1.0.4.2",
   "minimumLauncherVersion": "1.0.2",
   "package": {
-    "name": "SRLauncher-1.0.4.1.zip",
-    "size": 746367962,
-    "sha256": "ac18b9dfea7ef791b424d2e97dc3f1e9c3accb5ba864752335758e681018f48e",
-    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip"
+    "name": "SRLauncher-1.0.4.2.zip",
+    "size": 746721397,
+    "sha256": "0864c0bab13cc209d9975e21fd40a76c0b62df4afa17c73ec9f36a9e7b0082cf",
+    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2.zip"
   },
   "offline": {
-    "name": "SRLauncher-1.0.4.1-offline.zip",
-    "size": 746400647,
-    "sha256": "0cce689869373f0abf18cd912c62bed638b2989420fff0537cfd557afe1cf13b",
-    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip"
+    "name": "SRLauncher-1.0.4.2-offline.zip",
+    "size": 746754081,
+    "sha256": "58082e3c16573cbe665a527d5613920b892f44fa892319065f4244f306575fb0",
+    "url": "https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2-offline.zip"
   }
 }

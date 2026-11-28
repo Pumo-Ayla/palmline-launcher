@@ -16,7 +16,8 @@ internal sealed class SessionLog : IDisposable
             + "-" + Guid.NewGuid().ToString("N").Substring(0, 8) + ".log");
         writer = new StreamWriter(new FileStream(FileName, FileMode.CreateNew, FileAccess.Write, FileShare.Read),
             new UTF8Encoding(false)) { AutoFlush = true };
-        Write("LAUNCHER", "Launcher started.");
+        Write("LAUNCHER", "Launcher started. Build " + typeof(SessionLog).Assembly.GetName().Version
+            + "; process=" + System.Diagnostics.Process.GetCurrentProcess().Id + "; root=" + root);
     }
 
     public void Write(string source, string message) {
@@ -30,22 +31,18 @@ internal sealed class SessionLog : IDisposable
     }
 
     public void Export(string destination) {
-        if (string.Equals(Path.GetFullPath(destination), FileName, StringComparison.OrdinalIgnoreCase)) return;
+        Export(destination, "");
+    }
+
+    public void Export(string destination, string context, string assets=null, string exe=null) {
+        var report = new DiagnosticReport(FileName, destination);
         string temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
         try {
-            using (var input = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-                long remaining;
-                lock (gate) remaining = input.Length;
-                using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None)) {
-                    var buffer = new byte[65536];
-                    while (remaining > 0) {
-                        int count = input.Read(buffer, 0, (int)Math.Min(buffer.Length, remaining));
-                        if (count == 0) throw new EndOfStreamException();
-                        output.Write(buffer, 0, count);
-                        remaining -= count;
-                    }
-                }
-            }
+            long length;
+            lock (gate) length = new FileInfo(FileName).Length;
+            using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            using (var text = new StreamWriter(output, new UTF8Encoding(false)))
+                report.Write(text, length, context, assets, exe);
             if (File.Exists(destination)) File.Replace(temporary, destination, null);
             else File.Move(temporary, destination);
         } finally { File.Delete(temporary); }

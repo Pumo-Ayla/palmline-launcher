@@ -5,7 +5,7 @@
     <AppHostRelativeDotNet Condition="'$(PortableBuild)'=='true'">..\Runtime\DotNet</AppHostRelativeDotNet>
     <AppHostDotNetSearch Condition="'$(PortableBuild)'=='true'">AppRelative</AppHostDotNetSearch>
     <OutputType>Exe</OutputType>
-    <Version>1.0.4.1</Version>
+    <Version>1.0.4.2</Version>
     <PlatformTarget>x64</PlatformTarget>
     <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
   </PropertyGroup>

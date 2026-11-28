@@ -2,7 +2,7 @@
 
 English · [简体中文](DEVELOPMENT.zh-CN.md) · [繁體中文](DEVELOPMENT.zh-TW.md) · [日本語](DEVELOPMENT.ja.md) · [한국어](DEVELOPMENT.ko.md) · [User guide](../README.md)
 
-These notes cover the code paths, data contracts and regression tests for extending **v1.0.4**. The WPF process owns the library, presentation and user decisions. The transfer helper inspects and materializes sources. A Python session worker prepares the selected engine, watches its output and reports lifecycle events. A separate update agent can replace a closed launcher. In a report, include the launcher version, title ID, engine ID, pinned revision and run directory. A display name alone cannot identify a session.
+These notes cover the code paths, data contracts and regression tests for extending **v1.0.4.2**. The WPF process owns the library, presentation and user decisions. The transfer helper inspects and materializes sources. A Python session worker prepares the selected engine, watches its output and reports lifecycle events. A separate update agent can replace a closed launcher. In a report, include the launcher version, title ID, engine ID, pinned revision and run directory. A display name alone cannot identify a session.
 
 ## Import from a folder, archive or magnet
 
@@ -95,7 +95,7 @@ Enablement requires a recognized title (`7952987A`), CGBJ, keyboard mode, a conf
 Use Windows x64, .NET 9 SDK, .NET Framework 4.8 and 4.6.2 targeting packs, and Python 3.11 or later. Place the matching complete release ZIP in `Updates`. Run from the repository root.
 
 ```powershell
-py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.1.zip --portable
+py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.2.zip --portable
 dotnet build Source/GTA6Launcher/GTA6Launcher.csproj -c Release
 py -3 -m unittest discover -s Source/GTA6Launcher/Tools/tests -p test_cgbj_log.py
 py -3 Source/GTA6Launcher/Tools/tests/test_import_archive.py
@@ -112,4 +112,4 @@ The restore script verifies the release digest. Without `--portable` it restores
 
 ### Offline upgrade
 
-**Upgrading 1.0.4 or earlier.** The existing updater recognizes three-part tags and cannot discover this four-part version. Download [SRLauncher-1.0.4.1-offline.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip) and extract it into a temporary folder. Leave the full launcher ZIP inside it packed. Close the game and launcher, run `Upgrade-Launcher.exe` and enter the existing folder that contains `SRLauncher.exe` or `Launcher.exe`. When the tool reports completion, reopen the launcher from that original folder. Your registered games, settings and saves are preserved.
+**Upgrading 1.0.4 or earlier.** The existing updater recognizes three-part tags and cannot discover this four-part version. Download [SRLauncher-1.0.4.2-offline.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2-offline.zip) and extract it into a temporary folder. Leave the full launcher ZIP inside it packed. Close the game and launcher, run `Upgrade-Launcher.exe` and enter the existing folder that contains `SRLauncher.exe` or `Launcher.exe`. When the tool reports completion, reopen the launcher from that original folder. Your registered games, settings and saves are preserved.

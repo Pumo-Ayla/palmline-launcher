@@ -4,7 +4,7 @@ English · [简体中文](docs/GUIDE.zh-CN.md) · [繁體中文](docs/GUIDE.zh-T
 
 A portable Windows x64 launcher for managing Xbox Series game instances. Import your own game files, choose a compatibility layer, configure controls, and keep saves, play history and local achievements in your library.
 
-**[Download the complete Windows build · v1.0.4.1](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip)** · [Release notes](Updates/RELEASE.md) · [Further Development Notes](docs/DEVELOPMENT.md)
+**[Download the complete Windows build · v1.0.4.2](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2.zip)** · [Release notes](Updates/RELEASE.md) · [Further Development Notes](docs/DEVELOPMENT.md)
 
 ## Supported emulators and compatibility layers
 
@@ -15,6 +15,8 @@ A portable Windows x64 launcher for managing Xbox Series game instances. Import 
 | XCL (Xbox Series X\|S) | General XCL profile | General launch path, XCL shader preparation and native-format save management. Title compatibility depends on the engine. |
 
 The project card shows whether the selected layer supports achievements. Its upstream repository, pinned revision and distribution are listed in the [engine catalog](Emulators/catalog.json).
+
+Compatibility layers proposed for testing go in the [candidate directory](Emulators/Candidates/).
 
 ## Independently optimized titles
 
@@ -101,6 +103,10 @@ In controller mode, click the input icon to open the live input test. Press butt
 
 ## Achievements
 
+Click the grid icon beside **Achievements** to see one square per achievement, ordered by numeric ID. Each unlocked square uses its trophy color. A dark square is still locked, including achievements with partial progress. Hover over a square for its ID, name and status. Click the list icon to return to the cards.
+
+Open **Settings → Notification sounds** to preview a sound or choose **Silent** for each event. Progress updates are silent by default. Unlocks use the achievement chime. Installation, preload start and completion, game startup, confirmation prompts and failures each have their own sound. The master switch mutes all cues and remembers your selections. Controller connection and disconnection each have a separate cue. Each popup shows the controller name.
+
 **SR Achievement Event Monitoring System** records supported events for the current instance. The optimized catalog contains **55 entries**. Click a card to expand its condition and recorded completion time. Increasing progress can trigger a notification. Completion adds a check mark. An achievement-service query alone leaves progress unchanged.
 
 The displayed story percentage comes from readable save data, while achievement percentages come from recorded runtime events. Restoring a save or switching instances can give the two views different histories.
@@ -113,13 +119,13 @@ The displayed story percentage comes from readable save data, while achievement 
 - **Understanding warmup.** Cached shaders count shader programs. Processed pipelines count combinations of shaders and rendering state on this run's worklist. A nonzero shader cache and a fresh pipeline counter can appear together. VIctory-NVIDIA starts its native preload with the selected rendering settings. Check the stage and `prewarm.log` before deciding to clear a cache.
 - **Upscaling and frame generation.** The VIctory-NVIDIA settings expose the console profile, DLSS mode and frame generation choices according to the detected capabilities. Changing one can reduce the permitted multiplier. Generated display frames and native game frames are different measurements. The pinned engine version is in the [catalog](Emulators/catalog.json).
 - **Runtime environment.** Open **Settings → Runtime environment → Check**. The launcher verifies indexed components and can restore missing or damaged files from its bundled library. The checks cover the launcher, helper runtimes, transfer engine and selected engine builds. Manage GPU drivers separately.
-- **Collecting a useful report.** Open **Live log** with the terminal icon and export the current log. Include the launcher version, preset, engine, GPU, stage, timestamp and exact error. Include the same run's `prewarm.log` for preload trouble. Remove private paths before sharing.
+- **Reporting a problem.** Right-click the terminal icon and choose **Export full diagnostic log**. Send the resulting `SR-Diagnostics-*.log`. It includes the current and previous launcher sessions, the engine logs for their recorded attempts, hardware and drivers, and download, component and update diagnostics.
 
 ## Updates and downloads
 
-**Fresh installation.** Download [SRLauncher-1.0.4.1.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip), extract the entire ZIP into a writable folder and open `SRLauncher.exe`. A clean installation opens in English.
+**Fresh installation.** Download [SRLauncher-1.0.4.2.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2.zip), extract the entire ZIP into a writable folder and open `SRLauncher.exe`. A clean installation opens in English.
 
-**Upgrading 1.0.4 or earlier.** The existing updater recognizes three-part tags and cannot discover this four-part version. Download [SRLauncher-1.0.4.1-offline.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip) and extract it into a temporary folder. Leave the full launcher ZIP inside it packed. Close the game and launcher, run `Upgrade-Launcher.exe` and enter the existing folder that contains `SRLauncher.exe` or `Launcher.exe`. When the tool reports completion, reopen the launcher from that original folder. Your registered games, settings and saves are preserved.
+**Upgrading 1.0.4 or earlier.** The existing updater recognizes three-part tags and cannot discover this four-part version. Download [SRLauncher-1.0.4.2-offline.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.2/SRLauncher-1.0.4.2-offline.zip) and extract it into a temporary folder. Leave the full launcher ZIP inside it packed. Close the game and launcher, run `Upgrade-Launcher.exe` and enter the existing folder that contains `SRLauncher.exe` or `Launcher.exe`. When the tool reports completion, reopen the launcher from that original folder. Your registered games, settings and saves are preserved.
 
 **Updates from 1.0.4.1 onward.** The launcher checks once at startup and once per click on **Check for updates** in Settings. Downloads and retries use the verified release information from that check. The launcher verifies the downloaded package size and SHA-256. This release is optional.
 

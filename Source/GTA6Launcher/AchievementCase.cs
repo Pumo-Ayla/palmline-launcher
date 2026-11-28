@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ internal sealed partial class DesktopLauncher
     readonly Stopwatch caseMotionTime=new Stopwatch();
     int caseReadRevision;
     string caseSignature;
+    bool showingAchievementOverview;
 
     void SetupAchievementCase() {
         var cover=Find<System.Windows.Shapes.Rectangle>("CoverPrint");
@@ -53,7 +55,42 @@ internal sealed partial class DesktopLauncher
         dock.MouseEnter+=delegate { if(caseExpanded) SetCoverZoom(true); };
         dock.MouseLeave+=delegate { if(caseExpanded) SetCoverZoom(false); };
         Find<Button>("CaseToggle").Click+=delegate { SetAchievementCase(!caseExpanded,true); };
+        Find<Button>("AchievementViewToggle").Click+=delegate { SwitchAchievementView(); };
         window.Closed+=delegate { StopCaseMotion(); };
+    }
+
+    void SwitchAchievementView() {
+        showingAchievementOverview=!showingAchievementOverview;
+        bool overview=showingAchievementOverview;
+        var frame=Find<Grid>("AchievementViews");
+        var list=Find<ItemsControl>("AchievementRows");
+        var matrix=Find<ItemsControl>("AchievementOverview");
+        var incoming=overview ? matrix : list;
+        var outgoing=overview ? list : matrix;
+        var toggle=Find<Button>("AchievementViewToggle");
+        string action=overview ? "ui.切换到成就列表" : "ui.切换到成就总览";
+        toggle.SetResourceReference(FrameworkElement.ToolTipProperty,action);
+        toggle.SetResourceReference(AutomationProperties.NameProperty,action);
+        var gridGlyph=Find<UIElement>("OverviewGlyph");
+        var listGlyph=Find<UIElement>("ListGlyph");
+        ControllerMotion.Fade(gridGlyph,gridGlyph.Opacity,overview ? 0 : 1,150);
+        ControllerMotion.Fade(listGlyph,listGlyph.Opacity,overview ? 1 : 0,150);
+
+        double from=frame.ActualHeight;
+        incoming.Visibility=Visibility.Visible;
+        outgoing.IsEnabled=false;
+        incoming.IsEnabled=true;
+        // Keep the header and cover moving with the shelf when the two views have different heights.
+        if(SystemParameters.ClientAreaAnimation && frame.ActualWidth>0) {
+            incoming.Measure(new Size(frame.ActualWidth,double.PositiveInfinity));
+            frame.BeginAnimation(FrameworkElement.HeightProperty,new DoubleAnimation(from,incoming.DesiredSize.Height,TimeSpan.FromMilliseconds(210)) {
+                EasingFunction=new CubicEase { EasingMode=EasingMode.EaseOut },FillBehavior=FillBehavior.Stop
+            });
+        } else frame.BeginAnimation(FrameworkElement.HeightProperty,null);
+        ControllerMotion.Fade(incoming,incoming.Opacity,1,200);
+        ControllerMotion.Fade(outgoing,outgoing.Opacity,0,140,delegate {
+            if(showingAchievementOverview==overview) outgoing.Visibility=Visibility.Collapsed;
+        });
     }
 
     void SetCoverZoom(bool hovered) {
@@ -211,6 +248,7 @@ internal sealed partial class DesktopLauncher
                 if(closed || revision!=caseReadRevision) return;
                 Find<TextBlock>("CaseCount").Text=Ui.Text("成就记录读取失败");
                 Find<ItemsControl>("AchievementRows").ItemsSource=null;
+                Find<ItemsControl>("AchievementOverview").ItemsSource=null;
                 caseSignature=null;
                 Append(ex.Message);
             });
@@ -234,15 +272,22 @@ internal sealed partial class DesktopLauncher
         int unlocked=entries.Count(row=>row.Percent==100);
         Find<TextBlock>("CaseCount").Text=catalog.Length==0 ? "—" :
             Ui.Format("已解锁 {0}/{1} · {2:0.##}%",unlocked,catalog.Length,100m*unlocked/catalog.Length);
+        Find<ItemsControl>("AchievementOverview").ItemsSource=catalog
+            .OrderBy(entry=>int.Parse(entry.Id,CultureInfo.InvariantCulture))
+            .Select(entry=> {
+                observed.Progress.TryGetValue(entry.Id,out int percent);
+                bool earned=percent==100;
+                string status=earned ? Ui.Text("已解锁") : percent>0 ? Ui.Format("{0}%",percent) : Ui.Text("尚未达成");
+                return new {
+                    Earned=earned, Finish=earned ? AchievementFinish(entry.Id,out _) : null,
+                    Detail="#"+entry.Id+" · "+entry.Name+" · "+status
+                };
+            }).ToArray();
         Find<ItemsControl>("AchievementRows").ItemsSource=entries.Select(row=> {
             bool earned=row.Percent==100;
             string status=earned ? Ui.Text("已解锁") : Ui.Format("{0}%",row.Percent);
             var cover=new Lazy<Brush>(()=>AchievementCover(row.Item.Id,earned));
-            GtaViTrophyPalette.ForAchievement(row.Item.Id,out int metal,out int highlight);
-            Color Rgb(int v) => Color.FromRgb((byte)(v>>16),(byte)(v>>8),(byte)v);
-            var tone=Rgb(metal);
-            var finish=new LinearGradientBrush(tone,Rgb(highlight),18);
-            finish.Freeze();
+            var finish=AchievementFinish(row.Item.Id,out var tone);
             // Dim the same metal tone on records that are still in progress.
             var background=earned ? tone : Color.FromRgb((byte)(34+tone.R*.16),(byte)(33+tone.G*.16),(byte)(37+tone.B*.16));
             var surface=new SolidColorBrush(background);
@@ -253,6 +298,15 @@ internal sealed partial class DesktopLauncher
                 Description=row.Item.Description,Completion=row.Completion ?? Ui.Text(earned ? "达成时间未记录" : "尚未达成"),
                 ProgressArc=earned ? null : AchievementArc(row.Percent),Detail=row.Item.Name+" · "+status };
         }).ToArray();
+    }
+
+    static LinearGradientBrush AchievementFinish(string id,out Color tone) {
+        GtaViTrophyPalette.ForAchievement(id,out int metal,out int highlight);
+        Color Rgb(int value) => Color.FromRgb((byte)(value>>16),(byte)(value>>8),(byte)value);
+        tone=Rgb(metal);
+        var finish=new LinearGradientBrush(tone,Rgb(highlight),18);
+        finish.Freeze();
+        return finish;
     }
 
     static Brush AchievementCover(string id,bool earned) {

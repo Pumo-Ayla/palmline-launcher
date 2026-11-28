@@ -17,12 +17,14 @@ internal sealed class ProjectDisplaySettings
     public bool UseKeyPrompts { get; set; }
     public bool RepositoryNoticeSeen { get; set; }
     public int FrameMultiplier { get; set; }
+    public NotificationSoundSettings Sounds { get; }=new NotificationSoundSettings();
 
     public static ProjectDisplaySettings Load(string path) {
         var settings = new ProjectDisplaySettings();
         try {
             if (File.Exists(path)) {
                 var xml = XElement.Load(path);
+                settings.Sounds.Read(xml.Element("notificationSounds"));
                 settings.Language=Ui.Normalize((string)xml.Attribute("language"));
                 var name=((string)xml.Attribute("launcherName"))?.Trim();
                 if(!string.IsNullOrEmpty(name) && name!=FullLauncherName) settings.LauncherName=name;
@@ -53,7 +55,8 @@ internal sealed class ProjectDisplaySettings
                 LauncherName==DefaultLauncherName ? null : new XAttribute("launcherName",LauncherName),
                 new XAttribute("dlssSuperResolution", DlssSuperResolution),
                 new XAttribute("dlssQuality",DlssQuality),
-                new XAttribute("useKeyPrompts",UseKeyPrompts),new XAttribute("dlssFrameMultiplier",FrameMultiplier)).Save(temporary);
+                new XAttribute("useKeyPrompts",UseKeyPrompts),new XAttribute("dlssFrameMultiplier",FrameMultiplier),
+                Sounds.ToXml()).Save(temporary);
             if (File.Exists(path)) File.Replace(temporary, path, null);
             else File.Move(temporary, path);
         } finally { if (File.Exists(temporary)) File.Delete(temporary); }

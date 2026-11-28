@@ -38,6 +38,7 @@ internal sealed partial class DesktopLauncher
         confirm.Background=new SolidColorBrush(folder!=null ? Color.FromRgb(144,65,76) : Color.FromRgb(87,72,102));
         Find<Grid>("LauncherContent").IsEnabled=false;
         SetImportVisible("RemovalOverlay",true);
+        notificationSounds.Play(action==null ? LauncherNoticeKind.Failure : LauncherNoticeKind.Confirmation);
         ControllerMotion.Reveal(Find<Border>("RemovalCard"),.97,1.008,0,195,.75);
         (action==null ? confirm : Find<Button>("CancelRemoval")).Focus();
         return reply.Task;

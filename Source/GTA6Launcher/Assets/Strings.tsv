@@ -11,6 +11,7 @@ Grand Theft Auto VI · 游戏启动器	Grand Theft Auto VI Launcher	Grand Theft 
 开启后预载键位提示，游戏退出后可更改。	Preloads your key prompts when enabled. You can change this after the game closes.	開啟後預載鍵位提示，遊戲結束後可更改。	有効にするとキー表示を事前に読み込みます。ゲーム終了後に変更できます。	켜면 키 안내를 미리 불러옵니다. 게임을 종료한 후 변경할 수 있습니다.
 打开日志目录	Open log folder	開啟記錄資料夾	ログフォルダーを開く	로그 폴더 열기
 导出当前日志	Export current log	匯出目前記錄	現在のログをエクスポート	현재 로그 내보내기
+导出完整诊断日志	Export full diagnostic log	匯出完整診斷記錄	完全な診断ログをエクスポート	전체 진단 로그 내보내기
 无法打开日志控制台。	Could not open the log console.	無法開啟記錄主控台。	ログコンソールを開けません。	로그 콘솔을 열 수 없습니다.
 启动器设置	Launcher settings	啟動器設定	ランチャー設定	런처 설정
 最小化	Minimize	最小化	最小化	최소화
@@ -154,6 +155,9 @@ Xbox 键	Xbox button	Xbox 鍵	Xbox ボタン	Xbox 버튼
 已配置键鼠映射	Keyboard & mouse profile ready	已設定鍵鼠對應	キー割り当て設定済み	키보드·마우스 매핑 설정됨
 手柄输入不可用	Controller input unavailable	控制器輸入無法使用	コントローラー入力を使用できません	컨트롤러 입력을 사용할 수 없음
 手柄已连接	Controller connected	已連接控制器	コントローラー接続済み	컨트롤러 연결됨
+手柄已断开	Controller disconnected	控制器已中斷連線	コントローラーの接続が切れました	컨트롤러 연결 끊김
+设备连接音	Device connect	裝置連線音	デバイス接続音	장치 연결음
+设备断开音	Device disconnect	裝置斷線音	デバイス切断音	장치 연결 해제음
 未检测到手柄	No controller detected	未偵測到控制器	コントローラーが見つかりません	컨트롤러가 감지되지 않음
 XBOX手柄	Xbox controller	Xbox 控制器	Xbox コントローラー	Xbox 컨트롤러
 未知手柄	Unknown controller	未知控制器	不明なコントローラー	알 수 없는 컨트롤러
@@ -376,6 +380,8 @@ CGBJ · 预热详情	CGBJ · Warm-up details	CGBJ · 預熱詳情	CGBJ · ウォ
 展开成就	Show achievements	展開成就	実績を開く	도전 과제 펼치기
 收起成就	Hide achievements	收起成就	実績を閉じる	도전 과제 접기
 成就记录	Achievements	成就紀錄	実績	도전 과제
+切换到成就总览	Switch to achievement overview	切換至成就總覽	実績の概要に切り替え	도전 과제 한눈에 보기로 전환
+切换到成就列表	Switch to achievement list	切換至成就清單	実績リストに切り替え	도전 과제 목록으로 전환
 已解锁 {0}/{1} · {2:0.##}%	{0}/{1} unlocked · {2:0.##}%	已解鎖 {0}/{1} · {2:0.##}%	{0}/{1} 解除 · {2:0.##}%	{0}/{1} 달성 · {2:0.##}%
 已解锁	Unlocked	已解鎖	解除済み	달성
 尚无本地记录	No local record	尚無本機紀錄	ローカル記録なし	로컬 기록 없음
@@ -594,3 +600,18 @@ Python · 游戏会话服务	Python · Game sessions	Python · 遊戲工作階�
 现在可以启动游戏	Ready to launch	現在可以啟動遊戲	ゲームを起動できます	이제 게임을 시작할 수 있습니다
 游戏启动成功	Game started	遊戲啟動成功	ゲーム起動完了	게임 시작 완료
 已显示第一帧画面	First frame displayed	已顯示第一個畫格	最初のフレームを表示しました	첫 프레임을 표시했습니다
+通知声音	Notification sounds	通知音效	通知音	알림 소리
+播放通知提示音	Play notification sounds	播放通知音效	通知音を鳴らす	알림 소리 재생
+试听	Preview	試聽	試聴	미리 듣기
+成就进度更新	Achievement progress	成就進度更新	実績の進捗	도전 과제 진행
+成就解锁	Achievement unlocked	成就解鎖	実績解除	도전 과제 달성
+操作确认	Confirmation prompt	操作確認	操作の確認	작업 확인
+操作失败	Operation failed	操作失敗	操作失敗	작업 실패
+静音	Silent	靜音	無音	무음
+轻触音	Tap	輕觸音	タップ	탭
+和弦音	Soft chord	和弦音	和音	화음
+上行双音	Rising pair	上行雙音	上昇音	올라가는 두 음
+脉冲音	Pulse	脈衝音	パルス	펄스
+轻叩音	Double knock	輕叩音	ノック	두드림
+下行双音	Falling pair	下行雙音	下降音	내려가는 두 음
+成就铃音	Achievement chime	成就鈴音	実績チャイム	도전 과제 차임

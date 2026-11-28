@@ -81,16 +81,31 @@ internal sealed partial class DesktopLauncher
             RedirectStandardOutput=true,RedirectStandardError=true,StandardOutputEncoding=Encoding.UTF8,StandardErrorEncoding=Encoding.UTF8
         };
         UseBundledTransferRuntime(info);
+        string operation=Guid.NewGuid().ToString("N").Substring(0,8);
+        var elapsed=Stopwatch.StartNew();
+        sessionLog.Write("TRANSFER", $"{operation} start {command}; input={DiagnosticReport.Shareable(input)}; destination={DiagnosticReport.Shareable(destination)}; host={info.FileName}; DOTNET_ROOT_X64={info.EnvironmentVariables["DOTNET_ROOT_X64"]}");
         using(var process=Process.Start(info)) {
             transfer=process;
             cancel.Visibility=Visibility.Visible;
             cancel.IsEnabled=true;
             try {
                 var errors=process.StandardError.ReadToEndAsync();
-                foreach(string value in new[]{input,destination})
-                    process.StandardInput.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes(value)));
+                try {
+                    foreach(string value in new[]{input,destination})
+                        process.StandardInput.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes(value)));
+                } catch(IOException ex) { sessionLog.Write("TRANSFER",operation+" stdin: "+ex.Message); }
                 string line,result=null;
+                string lastProgress=null;
+                long progressLoggedAt=-30;
                 while((line=await process.StandardOutput.ReadLineAsync())!=null) {
+                    if(line.StartsWith("BYTES ",StringComparison.Ordinal) || line.StartsWith("PROGRESS ",StringComparison.Ordinal)) {
+                        lastProgress=line;
+                        long seconds=elapsed.ElapsedMilliseconds/1000;
+                        if(seconds-progressLoggedAt>=30) {
+                            sessionLog.Write("TRANSFER",operation+" "+line); progressLoggedAt=seconds;
+                        }
+                    }
+                    else sessionLog.Write("TRANSFER",operation+" "+DiagnosticReport.Shareable(line));
                     if(!closed && line=="EXTRACT") {
                         bar.IsIndeterminate=true;
                         InstallProgressUpdate("正在解压游戏本体",true);
@@ -110,6 +125,8 @@ internal sealed partial class DesktopLauncher
                 }
                 string error=(await errors).Trim();
                 await Task.Run(()=>process.WaitForExit());
+                sessionLog.Write("TRANSFER", $"{operation} exit=0x{process.ExitCode:X8}; elapsedMs={elapsed.ElapsedMilliseconds}; lastProgress={lastProgress}");
+                if(error.Length>0) sessionLog.Write("TRANSFER",operation+" stderr: "+DiagnosticReport.Shareable(error));
                 if(process.ExitCode==2 || closed) throw new OperationCanceledException();
                 if(process.ExitCode!=0 || string.IsNullOrEmpty(result)) {
                     if(error=="METADATA_TIMEOUT") error=Ui.Text("60 秒内未取得元数据，请确认有在线来源后重试。");
