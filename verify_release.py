@@ -31,7 +31,7 @@ def main():
     for path in source.rglob("*"):
         check_name(path.relative_to(source).as_posix())
     version = ET.parse(source / "GTA6Launcher/GTA6Launcher.csproj").findtext("./PropertyGroup/Version")
-    package = ROOT / "Updates" / f"Launcher-{version}.zip"
+    package = ROOT / "Updates" / f"SRLauncher-{version}.zip"
     with package.open("rb") as stream:
         digest = hashlib.file_digest(stream, "sha256").hexdigest()
     if Path(str(package) + ".sha256").read_text("ascii").strip() != f"{digest}  {package.name}":

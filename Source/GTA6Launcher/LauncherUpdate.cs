@@ -51,7 +51,7 @@ internal static class LauncherUpdate
         using (var host = Process.GetCurrentProcess())
         return Process.Start(new ProcessStartInfo {
             FileName = agent, WorkingDirectory = state, UseShellExecute = false, CreateNoWindow = true,
-            RedirectStandardOutput = command != "recover", RedirectStandardInput = command == "install",
+            RedirectStandardOutput = command != "recover", RedirectStandardInput = command == "install" || command == "download",
             Arguments = command + " " + host.Id + " " + version
         });
     }

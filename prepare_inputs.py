@@ -16,7 +16,7 @@ def digest(path):
 def restore(package, portable):
     root = Path(__file__).resolve().parent / "Source"
     version = ET.parse(root / "GTA6Launcher/GTA6Launcher.csproj").findtext("./PropertyGroup/Version")
-    name = f"Launcher-{version}.zip"
+    name = f"SRLauncher-{version}.zip"
     if package.name != name:
         raise ValueError(f"Expected {name}")
     checksum = Path(__file__).resolve().parent / "Updates" / (name + ".sha256")

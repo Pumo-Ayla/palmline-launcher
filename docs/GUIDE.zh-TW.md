@@ -4,7 +4,7 @@
 
 Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已有的 Xbox Series 建置匯入遊戲庫後，你可以為每個執行個體選擇執行引擎、配置輸入，在大廳查看啟動狀態、遊玩記錄和成就。**內建預設適用於 CYBERLEEK · v1.0.2.1**。下文的專用鍵位、HUD 提示和成就目錄均以這個建置為準。
 
-**[下載 Windows 可攜版 v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [最新發行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新說明](../Updates/RELEASE.md) · [再開發說明](DEVELOPMENT.zh-TW.md)
+**[下載 Windows 可攜版 v1.0.4.1](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip)** · [最新發行版](https://github.com/Pumo-Ayla/series-relay-launcher/releases/latest) · [逐版更新說明](../Updates/RELEASE.md) · [再開發說明](DEVELOPMENT.zh-TW.md)
 
 ## 支援的模擬器與相容層
 
@@ -122,7 +122,11 @@ Series Relay Launcher 是 Windows x64 上的遊戲執行個體啟動器。把已
 
 ## 下載與更新
 
-通常只需下載啟動器全量包。需要單獨部署引擎時，可下載[同版本模擬器包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/SR-Emulators-1.0.4.zip)。啟動器會統計從本機版本到最新版本之間的**每一項**更新。全為普通更新時可以跳過，途中只要有關鍵更新，就會提示安裝最新全量包。例如從 1.0.1 升級到 1.0.4，會識別 1.0.2 的一次關鍵更新，以及 1.0.3、1.0.4 的兩次普通更新。[版本歷史](../Updates/history.json) · [舊版離線升級方法](DEVELOPMENT.zh-TW.md#舊版離線升級)
+**全新安裝**　下載 [SRLauncher-1.0.4.1.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip)，完整解壓縮至可寫入的資料夾，執行 `SRLauncher.exe`。首次啟動使用英文。
+
+**從 1.0.4 或更早版本升級**　舊版僅辨識三段版本號。下載[離線升級包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip)，解壓縮到另一個暫存資料夾，保留內層 ZIP。關閉遊戲與啟動器，執行 `Upgrade-Launcher.exe`，輸入原本存放 `SRLauncher.exe` 或 `Launcher.exe` 的資料夾。完成後從原資料夾啟動，遊戲實例、設定及存檔會保留。
+
+**後續更新**　從 1.0.4.1 起，在啟動時及每次按下「檢查更新」時各查詢一次。下載和重試使用該次查詢結果，並驗證大小與 SHA-256。本次為一般更新，可略過。發行頁的 **Source code (zip)** 供再開發使用。
 
 ## 許可
 

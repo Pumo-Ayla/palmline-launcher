@@ -56,6 +56,12 @@ internal sealed partial class DesktopLauncher
         return path.Substring(path.LastIndexOf('/')+1);
     }
 
+    void UseBundledTransferRuntime(ProcessStartInfo start) {
+        string runtime = Path.Combine(root, "Runtime", "DotNet");
+        if (File.Exists(Path.Combine(runtime, "dotnet.exe")))
+            start.EnvironmentVariables["DOTNET_ROOT_X64"] = runtime;
+    }
+
     async Task<string> TransferOperation(string command,string input,string destination,string stage) {
         if(closed) throw new OperationCanceledException();
         var activity=Find<TextBlock>("CheckActivity");
@@ -74,6 +80,7 @@ internal sealed partial class DesktopLauncher
             UseShellExecute=false,CreateNoWindow=true,RedirectStandardInput=true,
             RedirectStandardOutput=true,RedirectStandardError=true,StandardOutputEncoding=Encoding.UTF8,StandardErrorEncoding=Encoding.UTF8
         };
+        UseBundledTransferRuntime(info);
         using(var process=Process.Start(info)) {
             transfer=process;
             cancel.Visibility=Visibility.Visible;

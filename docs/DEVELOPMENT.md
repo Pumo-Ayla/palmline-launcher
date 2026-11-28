@@ -95,7 +95,7 @@ Enablement requires a recognized title (`7952987A`), CGBJ, keyboard mode, a conf
 Use Windows x64, .NET 9 SDK, .NET Framework 4.8 and 4.6.2 targeting packs, and Python 3.11 or later. Place the matching complete release ZIP in `Updates`. Run from the repository root.
 
 ```powershell
-py -3 prepare_inputs.py Updates/Launcher-1.0.4.zip --portable
+py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.1.zip --portable
 dotnet build Source/GTA6Launcher/GTA6Launcher.csproj -c Release
 py -3 -m unittest discover -s Source/GTA6Launcher/Tools/tests -p test_cgbj_log.py
 py -3 Source/GTA6Launcher/Tools/tests/test_import_archive.py
@@ -107,11 +107,9 @@ The restore script verifies the release digest. Without `--portable` it restores
 ## Ship a full update
 
 1. Increment the launcher and log console project versions. Append exactly one row to [history.json](../Updates/history.json) with its version, `normal` or `critical` classification and human-readable change notes.
-2. From a clean staging tree, use `py -3 Source/GTA6Launcher/Tools/package_portable.py --runtime-from Source/Runtime --output-dir Build`. Use the release's versioned outer directory. Copy the resulting full ZIP into `Updates` as `Launcher-X.Y.Z.zip`. Write its SHA-256 in ASCII as lowercase hex, two spaces and the file name. Synchronize `Assets/ComponentIndex.tsv` from the package's `Sources/Launcher.zip`.
-3. Copy the built update helper and config as `Upgrade-Launcher.exe` and `Upgrade-Launcher.exe.config`. Run `py -3 prepare_release_assets.py` and `py -3 verify_release.py`. Publish clean source, catalogs and checksums to Git. Attach the full ZIP, standalone engines ZIP, both checksums, helper and config to the matching GitHub Release.
-4. Use the generated [RELEASE.md](../Updates/RELEASE.md) as the body. Preserve the cumulative history block and minimum-version marker. Check all six asset sizes and digests before promoting the release to Latest. Re-read Latest through the public endpoint after promotion.
-5. Check three paths for 1.0.4: installed 1.0.1 → one critical and two ordinary updates; 1.0.3 → one ordinary update; 1.0.4 → current. The update agent selects the full launcher asset for the tag, verifies its digest and ZIP root, stages managed files and journals replacement operations. Rollback uses the saved originals if installation is interrupted. [Release parser](../Source/GTA6Launcher/Updater/ReleasePackage.cs) · [Package installer](../Source/GTA6Launcher/Updater/PackageInstall.cs)
+2. From a clean staging tree, use `py -3 Source/GTA6Launcher/Tools/package_portable.py --runtime-from Source/Runtime --output-dir Build`. Use the release's versioned outer directory. Copy the resulting full ZIP into `Updates` as `SRLauncher-<version>.zip`. Write its SHA-256 in ASCII as lowercase hex, two spaces and the file name. Synchronize `Assets/ComponentIndex.tsv` from the package's `Sources/Launcher.zip`.
+3. Put the full ZIP, its SHA-256 file, the matching `Upgrade-Launcher.exe` and `Upgrade-Launcher.exe.config` into `Updates/`. Run `py -3 prepare_release_assets.py` and `py -3 verify_release.py`. Attach only the full and offline ZIPs to the tagged release. GitHub generates the source archive. Use `Updates/RELEASE.md` as the release body so update clients can count intermediate critical and normal releases.
 
 ### Offline upgrade
 
-Close the launcher and game. Put the full ZIP, its `.sha256`, `Upgrade-Launcher.exe` and `Upgrade-Launcher.exe.config` in one directory. Run the helper and select the older launcher's installation directory. It verifies the ZIP before upgrading in place. Start the upgraded launcher with `SRLauncher.exe`.
+**Upgrading 1.0.4 or earlier.** The existing updater recognizes three-part tags and cannot discover this four-part version. Download [SRLauncher-1.0.4.1-offline.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip) and extract it into a temporary folder. Leave the full launcher ZIP inside it packed. Close the game and launcher, run `Upgrade-Launcher.exe` and enter the existing folder that contains `SRLauncher.exe` or `Launcher.exe`. When the tool reports completion, reopen the launcher from that original folder. Your registered games, settings and saves are preserved.

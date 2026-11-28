@@ -182,7 +182,7 @@ if __name__ == "__main__":
         if not options.crt and not options.runtime_from:
             parser.error("supply --crt or --runtime-from")
         assemble(options)
-    output = RELEASE.parent / (RELEASE.name + ".zip")
+    output = RELEASE.parent / f"SRLauncher-{VERSION}.zip"
     temporary = output.with_suffix(".zip.partial")
     archive(files(RELEASE), RELEASE, temporary, RELEASE.name)
     temporary.replace(output)

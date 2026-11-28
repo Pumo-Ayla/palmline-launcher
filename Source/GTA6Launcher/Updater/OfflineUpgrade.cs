@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -23,12 +24,13 @@ internal static class OfflineUpgrade
             var installed = AssemblyName.GetAssemblyName(File.Exists(dll) ? dll : exe);
             if (installed.Name != "Launcher") throw new InvalidDataException("Unrecognized launcher installation.");
 
-            string[] archives = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "Launcher-*.zip");
+            string[] archives = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.zip")
+                .Where(path => ReleasePackage.ReadVersion(Path.GetFileNameWithoutExtension(path)) != null).ToArray();
             if (archives.Length != 1) throw new InvalidDataException("Place one full Launcher ZIP and its .sha256 file next to the upgrade tool.");
             string archive = archives[0], name = Path.GetFileName(archive);
             var version = ReleasePackage.ReadVersion(Path.GetFileNameWithoutExtension(name));
             if (version == null || version <= installed.Version)
-                throw new InvalidDataException("The package must be newer than the installed version " + installed.Version.ToString(3) + ".");
+                throw new InvalidDataException("The package must be newer than the installed version " + UpdateIdentity.DisplayVersion(installed.Version) + ".");
             var checksum = Regex.Match(File.ReadAllText(archive + ".sha256").Trim(),
                 @"\A([a-fA-F0-9]{64})  " + Regex.Escape(name) + @"\z");
             if (!checksum.Success) throw new InvalidDataException("Invalid package checksum file.");
@@ -48,7 +50,7 @@ internal static class OfflineUpgrade
                         try {
                             var installer = new PackageInstall(root);
                             installer.Recover();
-                            Console.WriteLine("Verifying and installing " + version.ToString(3) + "…");
+                            Console.WriteLine("Verifying and installing " + UpdateIdentity.DisplayVersion(version) + "…");
                             try { installer.ApplyPackage(version, checksum.Groups[1].Value, archive); }
                             finally { if (!File.Exists(Path.Combine(state, "transaction"))) installer.CleanScratch(); }
                             foreach (string cached in new[] { "ready", "ready.tmp", "download.part", "package.zip" })

@@ -4,7 +4,7 @@ English · [简体中文](docs/GUIDE.zh-CN.md) · [繁體中文](docs/GUIDE.zh-T
 
 A portable Windows x64 launcher for managing Xbox Series game instances. Import your own game files, choose a compatibility layer, configure controls, and keep saves, play history and local achievements in your library.
 
-**[Download the complete Windows build · v1.0.4](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip)** · [Release notes](Updates/RELEASE.md) · [Further Development Notes](docs/DEVELOPMENT.md)
+**[Download the complete Windows build · v1.0.4.1](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip)** · [Release notes](Updates/RELEASE.md) · [Further Development Notes](docs/DEVELOPMENT.md)
 
 ## Supported emulators and compatibility layers
 
@@ -117,9 +117,13 @@ The displayed story percentage comes from readable save data, while achievement 
 
 ## Updates and downloads
 
-The standard installation and the in-place updater use the **complete launcher ZIP**. The [standalone engine package](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/SR-Emulators-1.0.4.zip) is for separate runtime deployment. A clean install starts in English. Local settings, saves, game files and compiled caches belong to the installation.
+**Fresh installation.** Download [SRLauncher-1.0.4.1.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip), extract the entire ZIP into a writable folder and open `SRLauncher.exe`. A clean installation opens in English.
 
-The updater counts every release newer than the installed version. From 1.0.3 to 1.0.4 there is one optional update. From 1.0.1 to 1.0.4 the history contains one critical and two ordinary updates, so the critical upgrade prompt applies. Both paths target the same 1.0.4 package. [Version history](Updates/history.json) · [Offline upgrade instructions](docs/DEVELOPMENT.md#offline-upgrade)
+**Upgrading 1.0.4 or earlier.** The existing updater recognizes three-part tags and cannot discover this four-part version. Download [SRLauncher-1.0.4.1-offline.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip) and extract it into a temporary folder. Leave the full launcher ZIP inside it packed. Close the game and launcher, run `Upgrade-Launcher.exe` and enter the existing folder that contains `SRLauncher.exe` or `Launcher.exe`. When the tool reports completion, reopen the launcher from that original folder. Your registered games, settings and saves are preserved.
+
+**Updates from 1.0.4.1 onward.** The launcher checks once at startup and once per click on **Check for updates** in Settings. Downloads and retries use the verified release information from that check. The launcher verifies the downloaded package size and SHA-256. This release is optional.
+
+**Source code (zip)** on the release page contains the tagged source tree for rebuilding. [Further Development Notes](docs/DEVELOPMENT.md)
 
 ## License
 

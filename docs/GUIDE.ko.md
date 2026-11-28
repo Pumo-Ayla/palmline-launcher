@@ -2,7 +2,7 @@
 
 [English](../README.md) · [简体中文](GUIDE.zh-CN.md) · [繁體中文](GUIDE.zh-TW.md) · [日本語](GUIDE.ja.md) · 한국어
 
-Windows x64용 포터블 런처입니다. 보유한 게임 파일을 라이브러리에 등록하고 인스턴스별로 실행 환경, 입력, 저장 데이터 및 플레이 기록을 관리합니다. [v1.0.4 다운로드](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4/Launcher-1.0.4.zip) · [후속 개발 안내](DEVELOPMENT.ko.md)
+Windows x64용 포터블 런처입니다. 보유한 게임 파일을 라이브러리에 등록하고 인스턴스별로 실행 환경, 입력, 저장 데이터 및 플레이 기록을 관리합니다. [v1.0.4.1 다운로드](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip) · [후속 개발 안내](DEVELOPMENT.ko.md)
 
 ## 지원 에뮬레이터와 호환 계층
 
@@ -68,4 +68,8 @@ Windows x64용 포터블 런처입니다. 보유한 게임 파일을 라이브�
 
 파이프라인 준비 중에는 버튼에서 캐시된 셰이더 수와 이번 작업에서 처리한 파이프라인 수를 따로 확인합니다. VIctory-NVIDIA의 프레임 생성 방식과 배수는 GPU 및 활성 렌더링 옵션에 따라 달라집니다. 필수 구성 요소 오류는 설정의 런타임 환경 검사로 확인하고 내장 라이브러리에서 복구할 수 있습니다. 문제를 보고할 때는 버전, 엔진, GPU, 실패 시각과 해당 세션의 로그를 함께 제공합니다.
 
-1.0.4는 일반 업데이트입니다. 1.0.3에서 시작하면 일반 업데이트 한 건, 1.0.1에서 시작하면 중요 한 건과 일반 두 건을 계산합니다. 두 경로 모두 같은 최신 전체 패키지를 사용합니다. [버전 기록](../Updates/history.json) · [엔진 목록](../Emulators/catalog.json) · [라이선스](../LICENSE)
+**새로 설치하기**　[SRLauncher-1.0.4.1.zip](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1.zip) 전체를 쓰기 가능한 폴더에 압축 해제한 뒤 `SRLauncher.exe`를 실행합니다. 초기 언어는 영어입니다.
+
+**1.0.4 이하에서 업그레이드하기**　이전 버전은 세 부분으로 된 버전 번호만 인식합니다. [오프라인 업그레이드 패키지](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip)를 별도의 임시 폴더에 풀고 내부 ZIP은 그대로 둡니다. 게임과 런처를 종료하고 `Upgrade-Launcher.exe`를 실행한 뒤 기존 런처 폴더를 입력합니다. 완료 후 원래 폴더에서 실행하면 게임 등록 정보, 설정, 저장 데이터가 유지됩니다.
+
+**이후 업데이트**　1.0.4.1부터는 실행할 때 한 번, 설정에서 업데이트 확인을 누를 때마다 한 번 확인합니다. 다운로드와 재시도에는 확인한 정보를 사용하며 크기와 SHA-256을 검증합니다. 이번 업데이트는 선택 사항입니다. **Source code (zip)** 은 개발용입니다.

@@ -41,10 +41,10 @@ VIctory-NVIDIA は `preload.env` と対応する F1 の値を統合してネイ�
 リポジトリ直下で同一版 ZIP から依存ファイルを復元し、ビルド・回帰テストを行います。
 
 ```powershell
-py -3 prepare_inputs.py Updates/Launcher-1.0.4.zip --portable
+py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.1.zip --portable
 dotnet build Source/GTA6Launcher/GTA6Launcher.csproj -c Release
 py -3 -m unittest discover -s Source/GTA6Launcher/Tools/tests -p test_cgbj_log.py
 py -3 Source/GTA6Launcher/Tools/tests/test_import_archive.py
 ```
 
-リリース時は `history.json` に分類を追加し、完全版とエンジン ZIP、各チェックサム、更新ヘルパーと設定の 6 添付を検証します。1.0.1 → 1.0.4 は重要 1 件・通常 2 件、1.0.3 → 1.0.4 は通常 1 件です。更新器は管理対象のファイルをステージングして置換前にトランザクションを記録します。中断時はバックアップを使って回復します。[ビルド・公開手順](DEVELOPMENT.md#ship-a-full-update) · [トランザクション](../Source/GTA6Launcher/Updater/PackageInstall.cs)
+**1.0.4 以前からの更新**　旧版は 3 区切りのバージョン番号のみ認識します。[オフライン更新パッケージ](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip) を別の作業フォルダーに展開し、中の ZIP はそのままにします。ゲームとランチャーを閉じ、`Upgrade-Launcher.exe` を実行して既存のランチャーのフォルダーを入力します。完了後は元の場所から起動します。登録内容、設定、セーブは保持されます。

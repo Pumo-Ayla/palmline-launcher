@@ -99,15 +99,17 @@ internal static class Program
                     var asset = ReleasePackage.Check(client, version);
                     Console.WriteLine(asset == null ? "CURRENT" : "AVAILABLE " + asset.Version +
                         (asset.MinimumLauncher == null ? "" : " " + asset.MinimumLauncher));
-                    if (asset != null && asset.HasHistory)
-                        Console.WriteLine("COUNTS " + asset.NormalUpdates + " " + asset.CriticalUpdates);
+                    if (asset != null) {
+                        Console.WriteLine(asset.HasHistory ? "COUNTS " + asset.NormalUpdates + " " + asset.CriticalUpdates : "NOCOUNTS");
+                        Console.WriteLine(asset.Snapshot);
+                    }
                 }
                 return 0;
             }
             using (var access = File.Open(Path.Combine(state, "update.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None)) {
                 if (args[0] == "download") {
                     using (var client = ReleasePackage.Client()) {
-                        var asset = ReleasePackage.Check(client, Installed(root));
+                        var asset = ReleasePackage.FromSnapshot(Console.ReadLine(), Installed(root));
                         if (asset == null || asset.Version != version) throw new IOException("Release changed. Check for updates again.");
                         ReleasePackage.Download(client, state, asset, percent => Console.WriteLine("PROGRESS " + percent));
                     }

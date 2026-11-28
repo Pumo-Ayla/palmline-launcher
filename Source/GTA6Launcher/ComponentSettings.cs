@@ -127,6 +127,7 @@ internal sealed partial class DesktopLauncher
             UseShellExecute=false,CreateNoWindow=true,WorkingDirectory=Path.GetDirectoryName(path),
             RedirectStandardError=true,RedirectStandardOutput=true
         };
+        if (group == "transfer") UseBundledTransferRuntime(start);
         start.EnvironmentVariables["DOTNET_DISABLE_GUI_ERRORS"]="1";
         using(var probe=Process.Start(start)) {
             probe.BeginOutputReadLine();

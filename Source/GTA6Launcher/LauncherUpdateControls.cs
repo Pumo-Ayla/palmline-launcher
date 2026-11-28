@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using System.Windows.Threading;
 
 internal sealed class LauncherUpdateControls
 {
@@ -28,7 +27,7 @@ internal sealed class LauncherUpdateControls
         Color = Color.FromRgb(76, 171, 255), BlurRadius = 11, ShadowDepth = 0, Opacity = .48
     };
     readonly PathGeometry arc = new PathGeometry();
-    readonly DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(10) };
+    string checkedRelease;
     readonly Version installed = Assembly.GetExecutingAssembly().GetName().Version;
     Version offered, cached;
     Version minimum;
@@ -80,11 +79,9 @@ internal sealed class LauncherUpdateControls
         action.IsEnabledChanged += delegate { Hover(action.IsMouseOver); };
         action.GotKeyboardFocus += delegate { RefreshBusy(); };
         check.Click += async delegate { await CheckAsync(); };
-        timer.Tick += async delegate { await CheckAsync(); };
         window.ContentRendered += FirstRender;
         window.Closed += delegate {
             closed = true;
-            timer.Stop();
             Stop(checker);
             Stop(downloader);
         };
@@ -94,7 +91,6 @@ internal sealed class LauncherUpdateControls
     {
         window.ContentRendered -= FirstRender;
         ReadCached();
-        timer.Start();
         try { await CheckAsync(); }
         finally { firstCheck.TrySetResult(true); }
     }
@@ -102,8 +98,7 @@ internal sealed class LauncherUpdateControls
     async Task UpdateAsync() {
         if (Installing || downloader != null) return;
         if (ReadyToInstall) await InstallAsync();
-        else if (offered != null && (!Required || offered >= minimum)) await DownloadAsync(offered);
-        else await CheckAsync();
+        else if (CanDownload) await DownloadAsync(offered);
     }
 
     void RememberMinimum(Version value) {
@@ -136,6 +131,8 @@ internal sealed class LauncherUpdateControls
         catch (InvalidOperationException) { }
         catch (System.ComponentModel.Win32Exception) { }
     }
+
+    bool CanDownload => offered != null && checkedRelease != null && (!Required || offered >= minimum);
 
     bool ReadyToInstall { get { return cached != null && (!Required || cached >= minimum) && (offered == null || cached >= offered); } }
 
@@ -228,7 +225,7 @@ internal sealed class LauncherUpdateControls
         bool ready = ReadyToInstall;
         Reveal(Required || offered != null || ready || loading);
         bool busy=playing() || importing();
-        action.IsEnabled = !Installing && !(ready && busy);
+        action.IsEnabled = !Installing && !loading && checker == null && (ready ? !busy : CanDownload);
         action.Opacity = ready && (busy || sessionBusy) ? .62 : 1;
         downloadGlyph.Visibility = !loading && !ready ? Visibility.Visible : Visibility.Collapsed;
         installGlyph.Visibility = !loading && ready ? Visibility.Visible : Visibility.Collapsed;
@@ -239,50 +236,53 @@ internal sealed class LauncherUpdateControls
             : ready && playing() ? Ui.Text("退出游戏后可安装更新")
             : ready && importing() ? Ui.Text("导入结束后可安装更新")
             : ready && sessionBusy ? Ui.Text("游戏或预热正在运行，请稍后点击安装")
-            : ready ? Ui.Format("安装 {0} 并重启启动器", cached.ToString(3))
-            : Required ? Ui.Format("需要启动器 {0} 或更高版本才能启动游戏",minimum.ToString(3))
-            : offered != null ? Ui.Format("下载启动器更新 {0}", offered.ToString(3)) : "";
+            : ready ? Ui.Format("安装 {0} 并重启启动器", UpdateIdentity.DisplayVersion(cached))
+            : Required ? Ui.Format("需要启动器 {0} 或更高版本才能启动游戏",UpdateIdentity.DisplayVersion(minimum))
+            : offered != null ? Ui.Format("下载启动器更新 {0}", UpdateIdentity.DisplayVersion(offered)) : "";
         if(Required) {
             criticalLabel.Text=Installing ? Ui.Text("正在重启启动器") : loading ? Ui.Format("正在下载更新 · {0}%",percent) :
                 Ui.Text(ready ? "安装更新并重启" : "需要关键更新");
             criticalGlyph.Data=ready ? restartIcon : downloadIcon;
             critical.ToolTip=notice!=null ? Ui.Text(notice) : hint;
             AutomationProperties.SetName(critical,criticalLabel.Text);
-            critical.IsEnabled=!Installing && !loading && !(ready && busy);
+            critical.IsEnabled=action.IsEnabled;
         }
         action.ToolTip = hint;
         AutomationProperties.SetName(action, hint);
-        check.IsEnabled = checker == null && !Installing;
+        check.IsEnabled = checker == null && !loading && !Installing;
         status.Text = checker != null && !loading && !Installing ? Ui.Text("正在检查更新…")
             : notice != null ? Ui.Text(notice) : hint.Length != 0 ? hint : Ui.Text("当前没有可用更新");
         if (offered != null && hasUpdateCounts && checker == null && !loading && !Installing && notice == null)
             status.Text += Environment.NewLine + Ui.Format("从 {0} 到 {1}：普通更新 {2} 个，关键更新 {3} 个",
-                installed.ToString(3), offered.ToString(3), normalUpdates, criticalUpdates);
+                UpdateIdentity.DisplayVersion(installed), UpdateIdentity.DisplayVersion(offered), normalUpdates, criticalUpdates);
     }
 
     async Task CheckAsync()
     {
-        if (closed || checker != null || Installing) return;
+        if (closed || checker != null || downloader != null || Installing) return;
         try {
             checker = LauncherUpdate.StartAgent(root, "check", installed);
             Refresh();
             string line = await checker.StandardOutput.ReadLineAsync();
             string counts = await checker.StandardOutput.ReadLineAsync();
+            string snapshot = await checker.StandardOutput.ReadLineAsync();
             await Task.Run((Action)checker.WaitForExit);
             if (closed) return;
             Version v;
-            if (checker.ExitCode == 0 && line == "CURRENT") { offered = null; hasUpdateCounts = false; }
+            if (checker.ExitCode == 0 && line == "CURRENT") { offered = null; checkedRelease = null; hasUpdateCounts = false; }
             else {
                 var fields=(line ?? "").Split(' ');
                 if(checker.ExitCode!=0 || fields.Length<2 || fields.Length>3 || fields[0]!="AVAILABLE" ||
                     !Version.TryParse(fields[1],out v) || v<=installed) throw new IOException("GitHub release check failed.");
                 var totals=(counts ?? "").Split(' ');
-                if(counts!=null && (totals.Length!=3 || totals[0]!="COUNTS" ||
+                if(counts!="NOCOUNTS" && (totals.Length!=3 || totals[0]!="COUNTS" ||
                     !int.TryParse(totals[1],out normalUpdates) || normalUpdates<0 ||
                     !int.TryParse(totals[2],out criticalUpdates) || criticalUpdates<0))
                     throw new IOException("Invalid update counts.");
-                hasUpdateCounts=counts!=null;
+                if (string.IsNullOrWhiteSpace(snapshot)) throw new IOException("Missing checked release metadata.");
+                hasUpdateCounts=counts!="NOCOUNTS";
                 offered=v;
+                checkedRelease=snapshot;
                 if(fields.Length==3) {
                     Version floor;
                     if(!Version.TryParse(fields[2],out floor) || floor>v) throw new IOException("Invalid minimum launcher version.");
@@ -322,6 +322,8 @@ internal sealed class LauncherUpdateControls
         try {
             notice = null;
             downloader = LauncherUpdate.StartAgent(root, "download", version);
+            await downloader.StandardInput.WriteLineAsync(checkedRelease);
+            downloader.StandardInput.Close();
             Progress(0);
             string line;
             while ((line = await downloader.StandardOutput.ReadLineAsync()) != null) {

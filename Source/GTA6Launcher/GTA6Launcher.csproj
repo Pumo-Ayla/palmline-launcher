@@ -5,7 +5,7 @@
     <UseWindowsForms Condition="'$(PortableBuild)'=='true'">true</UseWindowsForms>
     <AppHostRelativeDotNet Condition="'$(PortableBuild)'=='true'">Runtime\DotNet</AppHostRelativeDotNet>
     <AppHostDotNetSearch Condition="'$(PortableBuild)'=='true'">AppRelative</AppHostDotNetSearch>
-    <Version>1.0.4</Version>
+    <Version>1.0.4.1</Version>
     <ApplicationManifest>Launcher.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\Palmline.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>

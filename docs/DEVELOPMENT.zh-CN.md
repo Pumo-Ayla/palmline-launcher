@@ -134,7 +134,7 @@ v1.0.4 的启用条件包括 **CGBJ**、游戏清单中的 **TitleId `7952987A`*
 Windows x64 构建环境需要 .NET 9 SDK、.NET Framework 4.8 和 4.6.2 targeting pack，以及 Python 3.11 或更高版本。发行包版本应与源码匹配。将全量 ZIP 放入 `Updates` 后，在仓库根目录执行以下命令。第一步按仓库中的 SHA-256 校验包，再恢复离线组件和引擎输入。
 
 ```powershell
-py -3 prepare_inputs.py Updates/Launcher-1.0.4.zip --portable
+py -3 prepare_inputs.py Updates/SRLauncher-1.0.4.1.zip --portable
 dotnet build Source/GTA6Launcher/GTA6Launcher.csproj -c Release
 py -3 -m unittest discover -s Source/GTA6Launcher/Tools/tests -p test_cgbj_log.py
 py -3 Source/GTA6Launcher/Tools/tests/test_import_archive.py
@@ -146,14 +146,9 @@ powershell -NoProfile -File Source/GTA6Launcher/Tools/tests/test_launcher_update
 ## 发布与版本检查
 
 1. 递增启动器和日志控制台的版本。在 [history.json](../Updates/history.json) 追加版本号、`normal` 或 `critical` 及用户能读懂的变更说明。
-2. 恢复便携版输入后，在空输出目录制作完整发行包。命令为 `py -3 Source/GTA6Launcher/Tools/package_portable.py --runtime-from Source/Runtime --output-dir Build`。文件名用 `Launcher-X.Y.Z.zip`，校验文件用 ASCII，内容为小写 SHA-256、两个空格和文件名。同步包内 `Sources/Launcher.zip` 中的 `GTA6Launcher/Assets/ComponentIndex.tsv`。
-3. 将全量 ZIP、校验文件、同一构建的升级工具及配置放入 `Updates`。升级工具的发布名称为 `Upgrade-Launcher.exe` 和 `Upgrade-Launcher.exe.config`。运行 `py -3 prepare_release_assets.py` 生成模拟器独立包、清单及发行说明，再运行 `py -3 verify_release.py` 检查包完整性和用户数据隔离。
-4. 在官方仓库创建对应标签的 GitHub Release，以生成的 [RELEASE.md](../Updates/RELEASE.md) 为正文，保留末尾的完整历史和最低支持版本标记。上传对应版本的启动器全量 ZIP、模拟器 ZIP、两者的 SHA-256 及离线升级工具和配置，并将发行版设为 Latest。Git 中保留源码、清单和校验文件，大型二进制随 Release 分发。
-
-客户端按版本号筛选「本地版本之后、目标版本及之前」的记录，分别统计普通与关键更新。1.0.1 → 1.0.3 会跨过一次关键更新和一次普通更新，1.0.2 → 1.0.3 只有一次普通更新。两种路径使用同一份最新全量包。[更新器实现](../Source/GTA6Launcher/LauncherUpdate.cs) · [热更新清单](../Updates/latest.json)
+2. 恢复便携版输入后，在空输出目录制作完整发行包。命令为 `py -3 Source/GTA6Launcher/Tools/package_portable.py --runtime-from Source/Runtime --output-dir Build`。文件名用 `SRLauncher-<version>.zip`，校验文件用 ASCII，内容为小写 SHA-256、两个空格和文件名。同步包内 `Sources/Launcher.zip` 中的 `GTA6Launcher/Assets/ComponentIndex.tsv`。
+3. 将全量 ZIP、校验文件、匹配的 `Upgrade-Launcher.exe` 和 `Upgrade-Launcher.exe.config` 放入 `Updates/`。执行 `py -3 prepare_release_assets.py` 和 `py -3 verify_release.py`。向对应标签仅上传启动器全量包和离线升级包，源码由 GitHub 归档。使用 `Updates/RELEASE.md` 作为发布正文，保留可解析的逐版更新历史。
 
 ### 旧版离线升级
 
-验证 1.0.4 发布时应覆盖三组版本。1.0.1 到 1.0.4 跨过一个关键更新和两个普通更新，1.0.3 到 1.0.4 只有一个普通更新，1.0.4 自查应为当前版本。在线更新器校验资产来源、摘要和 ZIP 根目录，暂存受管文件，在替换前写入事务日志。失败时使用回滚副本恢复。可先用临时旧版安装及测试存档验证交接与用户数据保留，再检查公开 Latest 返回值。[发行解析](../Source/GTA6Launcher/Updater/ReleasePackage.cs) · [事务安装](../Source/GTA6Launcher/Updater/PackageInstall.cs)
-
-对于 1.0.0 和 1.0.1 便携版，先关闭游戏与启动器。将全量 ZIP、对应的 `.sha256`、`Upgrade-Launcher.exe` 及其 `.config` 放在同一目录，运行升级工具并指定旧 `Launcher.exe` 所在目录。工具校验摘要后就地升级，保留本地游戏、存档和配置。升级完成后使用 `SRLauncher.exe` 启动。
+**从 1.0.4 或更早版本原地升级**　旧版只识别三段版本号。下载[离线升级包](https://github.com/Pumo-Ayla/series-relay-launcher/releases/download/v1.0.4.1/SRLauncher-1.0.4.1-offline.zip)，解压到单独的临时文件夹，保留里面的启动器 ZIP 原样。关闭启动器和游戏，双击 `Upgrade-Launcher.exe`，输入原来放 `SRLauncher.exe` 或 `Launcher.exe` 的文件夹路径并回车。显示升级完成后，从原目录打开启动器。游戏实例、设置和存档会保留。

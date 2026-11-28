@@ -85,7 +85,7 @@ internal sealed class PackageInstall
             if (!Names.Equals(actual, expectedHash)) throw new InvalidDataException("Cached package SHA-256 mismatch.");
             input.Position = 0;
             using (var zip = new ZipArchive(input, ZipArchiveMode.Read)) {
-                string prefix = zip.GetEntry("Launcher.exe") != null ? "" : "Launcher " + version.ToString(3) + "/";
+                string prefix = zip.GetEntry("Launcher.exe") != null ? "" : "Launcher " + UpdateIdentity.DisplayVersion(version) + "/";
                 long expanded = 0;
                 if (zip.Entries.Count > 100000) throw new InvalidDataException("Too many ZIP entries.");
                 foreach (var entry in zip.Entries) {

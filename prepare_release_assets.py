@@ -3,9 +3,8 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-import shutil
 import xml.etree.ElementTree as ET
-from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
+from zipfile import ZIP_STORED, ZipFile
 
 
 ROOT = Path(__file__).resolve().parent
@@ -26,7 +25,7 @@ def catalog(path, data):
 def release_notes(updates, version):
     history = json.loads((updates / "history.json").read_text(encoding="utf-8"))
     versions = [tuple(map(int, row["version"].split("."))) for row in history]
-    if (not versions or versions != sorted(set(versions)) or any(len(v) != 3 for v in versions)
+    if (not versions or versions != sorted(set(versions)) or any(len(v) not in (3, 4) or (len(v) == 4 and not v[-1]) for v in versions)
             or history[-1]["version"] != version):
         raise ValueError("Release history must be ordered, unique and end at this release")
     if any(row["type"] not in ("normal", "critical") or not row["notes"].strip() for row in history):
@@ -38,7 +37,7 @@ def release_notes(updates, version):
              "## 版本历史", "", "| 版本 | 更新类型 | 更新说明 |", "| --- | --- | --- |"]
     for row in reversed(history):
         lines.append(f"| {row['version']} | {titles[row['type']]} | {row['notes']} |")
-    lines.extend(["", "完整安装或升级请使用 `Launcher-" + version + ".zip`。独立模拟器包为 `SR-Emulators-" + version + ".zip`。", ""])
+    lines.extend(["", "全新安装请解压 `SRLauncher-" + version + ".zip` 并运行 `SRLauncher.exe`。", "", "从 1.0.4 或更早版本升级，请将 `SRLauncher-" + version + "-offline.zip` 解压到单独的临时文件夹。关闭旧启动器和游戏，运行包内的 `Upgrade-Launcher.exe`，输入旧启动器所在目录。完成后从原目录启动。", "", "GitHub 的 Source code (zip) 用于再开发。", ""])
     if minimum:
         lines.append(f"<!-- min-launcher-version: {minimum} -->")
     lines.extend(["<!-- sr-update-history-v1", *(r["version"] + " " + r["type"] for r in history), "-->", ""])
@@ -50,40 +49,21 @@ def prepare():
     version = ET.parse(ROOT / "Source/GTA6Launcher/GTA6Launcher.csproj").findtext("./PropertyGroup/Version")
     updates = ROOT / "Updates"
     minimum = release_notes(updates, version)
-    package = updates / f"Launcher-{version}.zip"
+    package = updates / f"SRLauncher-{version}.zip"
     details = asset(package, version)
     if (updates / (package.name + ".sha256")).read_text("ascii").strip() != f"{details['sha256']}  {package.name}":
         raise ValueError("Full package SHA-256 mismatch")
-    engines = ROOT / "Emulators"
-    engines.mkdir(exist_ok=True)
-    target = engines / f"SR-Emulators-{version}.zip"
-    partial = target.with_suffix(".partial")
-    prefix = f"Launcher {version}/"
+    offline = updates / f"SRLauncher-{version}-offline.zip"
+    partial = offline.with_suffix(".partial")
     try:
-        with ZipFile(package) as src, ZipFile(partial, "w", ZIP_DEFLATED, compresslevel=3) as out:
-            projects = ET.fromstring(src.read(prefix + "Community/projects.xml"))
-            snapshots = {f"Sources/{node.attrib['id']}.zip" for node in projects}
-            names = set()
-            for entry in src.infolist():
-                name = entry.filename.removeprefix(prefix)
-                if entry.is_dir() or not (name.startswith("Community/") or name in snapshots):
-                    continue
-                names.add(name)
-                meta = type(entry)(name, entry.date_time)
-                meta.compress_type = ZIP_STORED if name.endswith((".zip", ".png")) else ZIP_DEFLATED
-                with src.open(entry) as inp, out.open(meta, "w") as dest:
-                    shutil.copyfileobj(inp, dest, 1 << 20)
-            if not snapshots.issubset(names):
-                raise ValueError("Missing emulator source archive")
-        partial.replace(target)
+        with ZipFile(partial, "w", ZIP_STORED) as out:
+            for file in (package, updates / (package.name + ".sha256"), updates / "Upgrade-Launcher.exe", updates / "Upgrade-Launcher.exe.config"):
+                out.write(file, file.name)
+        partial.replace(offline)
     finally:
         partial.unlink(missing_ok=True)
-    emulator_asset = asset(target, version)
-    (engines / (target.name + ".sha256")).write_text(f"{emulator_asset['sha256']}  {target.name}\n", encoding="ascii")
-    catalog(engines / "catalog.json", {"version": version, "package": emulator_asset, "projects": [
-        {key: node.attrib[key] for key in ("id", "name", "repo", "commit")} for node in projects]})
     catalog(updates / "latest.json", {"tag": f"v{version}", "version": version,
-        "minimumLauncherVersion": minimum, "package": details})
+        "minimumLauncherVersion": minimum, "package": details, "offline": asset(offline, version)})
 
 
 if __name__ == "__main__":

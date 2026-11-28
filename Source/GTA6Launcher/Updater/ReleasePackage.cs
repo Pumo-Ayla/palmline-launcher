@@ -20,6 +20,7 @@ internal sealed class ReleaseAsset
     internal Version MinimumLauncher;
     internal int NormalUpdates, CriticalUpdates;
     internal bool HasHistory;
+    internal string Snapshot;
 }
 
 [DataContract]
@@ -48,26 +49,32 @@ internal static class ReleasePackage
 
     internal static Version ReadVersion(string tag)
     {
-        var match = Regex.Match(tag ?? "", @"^(?:launcher[ ._-]+)?v?(\d+\.\d+\.\d+)$",
+        var match = Regex.Match(tag ?? "", @"^(?:(?:sr)?launcher[ ._-]+)?v?(\d+\.\d+\.\d+(?:\.\d+)?)$",
             RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         Version version;
         if (!match.Success || !Version.TryParse(match.Groups[1].Value, out version)) return null;
-        return new Version(version.Major, version.Minor, version.Build, 0);
+        return new Version(version.Major, version.Minor, version.Build, Math.Max(0, version.Revision));
     }
 
     internal static ReleaseAsset Check(HttpClient client, Version installed)
     {
-        GitHubRelease release;
         using (var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(25)))
         using (var response = client.GetAsync(Endpoint, timeout.Token).GetAwaiter().GetResult()) {
             if (response.StatusCode == HttpStatusCode.NotFound) return null;
             response.EnsureSuccessStatusCode();
-            using (var json = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult())
-                release = (GitHubRelease)new DataContractJsonSerializer(typeof(GitHubRelease)).ReadObject(json);
+            return FromSnapshot(Convert.ToBase64String(response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult()), installed);
         }
+    }
+
+    internal static ReleaseAsset FromSnapshot(string snapshot, Version installed)
+    {
+        if (string.IsNullOrEmpty(snapshot)) throw new InvalidDataException("No checked release available.");
+        GitHubRelease release;
+        using (var json = new MemoryStream(Convert.FromBase64String(snapshot)))
+            release = (GitHubRelease)new DataContractJsonSerializer(typeof(GitHubRelease)).ReadObject(json);
         var version = ReadVersion(release.tag_name);
         if (release.draft || release.prerelease || version == null || version <= installed) return null;
-        string pattern = @"^Launcher[ ._-]+v?" + Regex.Escape(version.ToString(3)) + @"\.zip$";
+        string pattern = @"^(?:SR)?Launcher[ ._-]+v?" + Regex.Escape(UpdateIdentity.DisplayVersion(version)) + @"\.zip$";
         var asset = (release.assets ?? new ReleaseAsset[0]).SingleOrDefault(a =>
             Regex.IsMatch(a.name ?? "", pattern, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant));
         if (asset == null) return null;
@@ -81,7 +88,8 @@ internal static class ReleasePackage
             throw new InvalidDataException("Invalid release asset metadata.");
 
         asset.Version = version;
-        var floor = Regex.Match(release.body ?? "", @"(?im)^[ \t]*<!--[ \t]*min-launcher-version:[ \t]*(\d+\.\d+\.\d+)[ \t]*-->[ \t]*\r?$");
+        asset.Snapshot = snapshot;
+        var floor = Regex.Match(release.body ?? "", @"(?im)^[ \t]*<!--[ \t]*min-launcher-version:[ \t]*(\d+\.\d+\.\d+(?:\.\d+)?)[ \t]*-->[ \t]*\r?$");
         if (floor.Success) {
             var minimum = ReadVersion(floor.Groups[1].Value);
             if (minimum != null && minimum <= version) asset.MinimumLauncher = minimum;
@@ -108,7 +116,7 @@ internal static class ReleasePackage
         foreach (var raw in notes.Substring(start, end - start).Split('\n')) {
             var row = raw.Trim();
             if (row.Length == 0) continue;
-            var fields = Regex.Match(row, @"^(\d+\.\d+\.\d+) (normal|critical)$");
+            var fields = Regex.Match(row, @"^(\d+\.\d+\.\d+(?:\.\d+)?) (normal|critical)$");
             var version = fields.Success ? ReadVersion(fields.Groups[1].Value) : null;
             if (version == null || (previous != null && version <= previous) || version > asset.Version)
                 throw new InvalidDataException("Invalid or unordered update history: " + row);

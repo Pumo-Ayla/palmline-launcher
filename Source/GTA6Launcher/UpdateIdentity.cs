@@ -10,6 +10,8 @@ internal static class UpdateIdentity
     internal const string Repository = "Pumo-Ayla/series-relay-launcher";
     internal const string StateDirectory = ".launcher-update";
 
+    internal static string DisplayVersion(Version version) => version.ToString(version.Revision > 0 ? 4 : 3);
+
     internal static Version Ready(string state, out string hash)
     {
         hash = null;
